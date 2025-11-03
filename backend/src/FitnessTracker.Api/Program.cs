@@ -24,7 +24,6 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 // Add business services
 builder.Services.AddScoped<ICalorieCalculationService, CalorieCalculationService>();
-builder.Services.AddScoped<IStatisticsService, FitnessTracker.Infrastructure.Services.StatisticsService>();
 
 // Add JWT authentication
 var jwtKey = builder.Configuration["Jwt:SecretKey"];

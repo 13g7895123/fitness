@@ -121,12 +121,12 @@
 
 #### 前端實作
 
-- [ ] T052 [P] [US1] 建立 Statistics Store（Pinia）於 frontend/src/stores/statistics.ts
-- [ ] T053 [P] [US1] 建立週統計 API 服務於 frontend/src/services/statisticsService.ts
-- [ ] T054 [P] [US1] 建立週統計卡片元件於 frontend/src/components/workout/WeeklySummaryCard.vue（顯示總時間、卡路里、天數）
-- [ ] T055 [P] [US1] 建立週比較元件於 frontend/src/components/workout/WeeklyComparisonCard.vue（顯示增減百分比）
-- [ ] T056 [P] [US1] 建立每日統計長條圖元件於 frontend/src/components/charts/DailyBarChart.vue
-- [ ] T057 [US1] 實作首頁 Home.vue 於 frontend/src/views/Home.vue（整合週統計、週比較、圖表元件）
+- [x] T052 [P] [US1] 建立 Statistics Store（Pinia）於 frontend/src/stores/statistics.ts
+- [x] T053 [P] [US1] 建立週統計 API 服務於 frontend/src/services/statisticsService.ts
+- [x] T054 [P] [US1] 建立週統計卡片元件於 frontend/src/components/workout/WeeklySummaryCard.vue（顯示總時間、卡路里、天數）
+- [x] T055 [P] [US1] 建立週比較元件於 frontend/src/components/workout/WeeklyComparisonCard.vue（顯示增減百分比）
+- [x] T056 [P] [US1] 建立每日統計長條圖元件於 frontend/src/components/charts/DailyBarChart.vue
+- [x] T057 [US1] 實作首頁 Home.vue 於 frontend/src/views/Home.vue（整合週統計、週比較、圖表元件）
 - [ ] T058 [US1] 新增首頁 Loading 與空資料狀態於 frontend/src/views/Home.vue
 - [ ] T059 [US1] 新增首頁繁體中文文案於 frontend/src/i18n/zh-TW.json（週統計、比較相關文字）
 

@@ -235,27 +235,27 @@
 
 #### 後端實作
 
-- [ ] T106 [P] [US4] 建立 WorkoutGoalDto 於 backend/src/FitnessTracker.Shared/Dtos/Goals/WorkoutGoalDto.cs
-- [ ] T107 [P] [US4] 建立 CreateWorkoutGoalDto 於 backend/src/FitnessTracker.Shared/Dtos/Goals/CreateWorkoutGoalDto.cs
-- [ ] T108 [P] [US4] 建立 WorkoutGoalValidator 於 backend/src/FitnessTracker.Core/Validators/WorkoutGoalValidator.cs（至少設定時長或卡路里一項）
-- [ ] T109 [US4] 建立 WorkoutGoal 儲存庫介面於 backend/src/FitnessTracker.Core/Interfaces/IWorkoutGoalRepository.cs
-- [ ] T110 [US4] 實作 WorkoutGoal 儲存庫於 backend/src/FitnessTracker.Infrastructure/Repositories/WorkoutGoalRepository.cs
-- [ ] T111 [US4] 建立 GoalService 處理目標 CRUD 與進度計算於 backend/src/FitnessTracker.Core/Services/GoalService.cs
-- [ ] T112 [US4] 建立 GoalsController 於 backend/src/FitnessTracker.Api/Controllers/GoalsController.cs（實作 POST, GET, PUT, PATCH /api/v1/goals）
+- [x] T106 [P] [US4] 建立 WorkoutGoalDto 於 backend/src/FitnessTracker.Shared/Dtos/Goals/WorkoutGoalDto.cs
+- [x] T107 [P] [US4] 建立 CreateWorkoutGoalDto 於 backend/src/FitnessTracker.Shared/Dtos/Goals/CreateWorkoutGoalDto.cs
+- [x] T108 [P] [US4] 建立 WorkoutGoalValidator 於 backend/src/FitnessTracker.Core/Validators/WorkoutGoalValidator.cs（至少設定時長或卡路里一項）
+- [x] T109 [US4] 建立 WorkoutGoal 儲存庫介面於 backend/src/FitnessTracker.Core/Interfaces/IWorkoutGoalRepository.cs
+- [x] T110 [US4] 實作 WorkoutGoal 儲存庫於 backend/src/FitnessTracker.Infrastructure/Repositories/WorkoutGoalRepository.cs
+- [x] T111 [US4] 建立 GoalService 處理目標 CRUD 與進度計算於 backend/src/FitnessTracker.Core/Services/GoalService.cs
+- [x] T112 [US4] 建立 GoalsController 於 backend/src/FitnessTracker.Api/Controllers/GoalsController.cs（實作 POST, GET, PUT, PATCH /api/v1/goals）
 - [ ] T113 [US4] 修改 StatisticsService 加入目標進度計算於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs
 
 #### 前端實作
 
-- [ ] T114 [P] [US4] 建立 Goals Store（Pinia）於 frontend/src/stores/goals.ts
-- [ ] T115 [P] [US4] 建立 GoalService API 服務於 frontend/src/services/goalService.ts
-- [ ] T116 [P] [US4] 建立目標設定表單元件於 frontend/src/components/goals/GoalForm.vue（每週時長、卡路里、開始/結束日期）
-- [ ] T117 [P] [US4] 建立目標進度條元件於 frontend/src/components/goals/GoalProgressBar.vue（顯示達成百分比）
-- [ ] T118 [P] [US4] 建立目標達成徽章元件於 frontend/src/components/goals/AchievementBadge.vue（達成時顯示祝賀）
-- [ ] T119 [US4] 建立 Goals 頁面於 frontend/src/views/Goals.vue（目標設定、修改、查看進度）
+- [x] T114 [P] [US4] 建立 Goals Store（Pinia）於 frontend/src/stores/goals.ts
+- [x] T115 [P] [US4] 建立 GoalService API 服務於 frontend/src/services/goalService.ts
+- [x] T116 [P] [US4] 建立目標設定表單元件於 frontend/src/components/goals/GoalForm.vue（每週時長、卡路里、開始/結束日期）
+- [x] T117 [P] [US4] 建立目標進度條元件於 frontend/src/components/goals/GoalProgressBar.vue（顯示達成百分比）
+- [x] T118 [P] [US4] 建立目標達成徽章元件於 frontend/src/components/goals/AchievementBadge.vue（達成時顯示祝賀）
+- [x] T119 [US4] 建立 Goals 頁面於 frontend/src/views/Goals.vue（目標設定、修改、查看進度）
 - [ ] T120 [US4] 整合目標進度至首頁於 frontend/src/views/Home.vue（週統計卡片顯示進度條）
-- [ ] T121 [US4] 新增路由設定於 frontend/src/router/index.ts（/goals）
+- [x] T121 [US4] 新增路由設定於 frontend/src/router/index.ts（/goals）
 - [ ] T122 [US4] 新增導航選單項目於 frontend/src/App.vue（目標設定連結）
-- [ ] T123 [US4] 新增目標相關繁體中文文案於 frontend/src/i18n/zh-TW.json
+- [x] T123 [US4] 新增目標相關繁體中文文案於 frontend/src/i18n/zh-TW.json
 
 **檢查點**: 所有使用者故事 1-4 應都能獨立運作
 

@@ -3,6 +3,7 @@ import { setupAuthGuard } from './guards/authGuard'
 
 const Home = () => import('@/views/Home.vue')
 const WorkoutDetail = () => import('@/views/WorkoutDetail.vue')
+const Goals = () => import('@/views/Goals.vue')
 
 const routes: RouteRecordRaw[] = [
   {
@@ -20,6 +21,15 @@ const routes: RouteRecordRaw[] = [
     component: WorkoutDetail,
     meta: {
       title: '每日訓練詳情',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/goals',
+    name: 'Goals',
+    component: Goals,
+    meta: {
+      title: '運動目標',
       requiresAuth: true
     }
   },

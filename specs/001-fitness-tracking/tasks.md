@@ -69,10 +69,10 @@
 - [x] T023 建立 AuthController 處理 LINE Login callback 於 backend/src/FitnessTracker.Api/Controllers/AuthController.cs
 - [x] T024 實作 JWT Authentication Middleware 於 backend/src/FitnessTracker.Api/Middleware/GlobalExceptionMiddleware.cs
 - [x] T025 設定 ASP.NET Core Authentication 於 backend/src/FitnessTracker.Api/Program.cs
-- [ ] T026 建立前端 Auth Store（Pinia）於 frontend/src/stores/auth.ts
-- [ ] T027 建立前端 LINE Login 服務於 frontend/src/services/authService.ts
-- [ ] T028 建立前端 Axios 實例（攔截器加入 JWT Token）於 frontend/src/services/api.ts
-- [ ] T029 建立前端 Auth 導航守衛於 frontend/src/router/guards/authGuard.ts
+- [x] T026 建立前端 Auth Store（Pinia）於 frontend/src/stores/auth.ts
+- [x] T027 建立前端 LINE Login 服務於 frontend/src/services/authService.ts
+- [x] T028 建立前端 Axios 實例（攔截器加入 JWT Token）於 frontend/src/services/api.ts
+- [x] T029 建立前端 Auth 導航守衛於 frontend/src/router/guards/authGuard.ts
 
 ### 共用服務與基礎設施
 
@@ -83,10 +83,10 @@
 - [x] T034 [P] 建立統一 API 回應格式（ApiResponse, ApiError）於 backend/src/FitnessTracker.Shared/Dtos/Common/
 - [x] T035 [P] 設定 CORS 政策於 backend/src/FitnessTracker.Api/Program.cs
 - [ ] T036 [P] 後端日誌最佳化與監控（預留）
-- [ ] T037 [P] 建立前端 Vuetify 設定（繁體中文 locale）於 frontend/src/plugins/vuetify.ts
-- [ ] T038 [P] 建立前端 Vue I18n 設定於 frontend/src/i18n/index.ts 與 frontend/src/i18n/zh-TW.json
-- [ ] T039 [P] 建立前端錯誤處理服務（顯示友善繁體中文訊息）於 frontend/src/utils/errorHandler.ts
-- [ ] T040 [P] 建立前端共用元件（Loading, ErrorMessage, SuccessMessage）於 frontend/src/components/common/
+- [x] T037 [P] 建立前端 Vuetify 設定（繁體中文 locale）於 frontend/src/plugins/vuetify.ts
+- [x] T038 [P] 建立前端 Vue I18n 設定於 frontend/src/i18n/index.ts 與 frontend/src/i18n/zh-TW.json
+- [x] T039 [P] 建立前端錯誤處理服務（顯示友善繁體中文訊息）於 frontend/src/utils/errorHandler.ts
+- [x] T040 [P] 建立前端共用元件（Loading, ErrorMessage, SuccessMessage）於 frontend/src/components/common/
 
 **檢查點**: 基礎設施就緒 - 使用者故事實作現可開始並行進行
 
@@ -112,11 +112,11 @@
 
 #### 後端實作
 
-- [ ] T046 [P] [US1] 建立 WeeklySummaryDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/WeeklySummaryDto.cs
-- [ ] T047 [P] [US1] 建立 DailyBreakdownDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/DailyBreakdownDto.cs
-- [ ] T048 [US1] 建立統計服務介面 IStatisticsService 於 backend/src/FitnessTracker.Core/Interfaces/IStatisticsService.cs
-- [ ] T049 [US1] 實作週統計計算邏輯於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs（包含週一至週日統計、上週比較）
-- [ ] T050 [US1] 建立 StatisticsController 於 backend/src/FitnessTracker.Api/Controllers/StatisticsController.cs（實作 GET /api/v1/statistics/weekly）
+- [x] T046 [P] [US1] 建立 WeeklySummaryDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/WeeklySummaryDto.cs
+- [x] T047 [P] [US1] 建立 DailyBreakdownDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/DailyBreakdownDto.cs
+- [x] T048 [US1] 建立統計服務介面 IStatisticsService 於 backend/src/FitnessTracker.Core/Interfaces/IStatisticsService.cs
+- [x] T049 [US1] 實作週統計計算邏輯於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs（包含週一至週日統計、上週比較）
+- [x] T050 [US1] 建立 StatisticsController 於 backend/src/FitnessTracker.Api/Controllers/StatisticsController.cs（實作 GET /api/v1/statistics/weekly）
 - [ ] T051 [US1] 新增統計查詢效能最佳化（AsNoTracking, 索引驗證）於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs
 
 #### 前端實作

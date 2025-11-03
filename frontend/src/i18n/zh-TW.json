@@ -26,7 +26,14 @@
     "reset": "重置",
     "logout": "登出",
     "login": "登入",
-    "profile": "個人資料"
+    "profile": "個人資料",
+    "quickAction": "快速操作",
+    "optional": "可選",
+    "confirmDelete": "確認刪除此項目？",
+    "inactive": "已停用",
+    "maxLength": "最多 {max} 字",
+    "minuteAbbr": "分",
+    "loadError": "加載失敗，請重試"
   },
   "auth": {
     "login": "登入",
@@ -42,9 +49,18 @@
   "workout": {
     "workoutRecord": "健身紀錄",
     "exercise": "運動項目",
-    "duration": "時間",
-    "calories": "卡路里",
+    "equipment": "器材",
+    "date": "運動日期",
+    "duration": "運動時間",
+    "durationHint": "1-480 分鐘",
+    "durationMinError": "運動時間最少 1 分鐘",
+    "durationMaxError": "運動時間最多 480 分鐘",
+    "calories": "消耗卡路里",
+    "caloriesHint": "自動計算或手動輸入",
+    "caloriesMinError": "卡路里最少 1",
+    "caloriesMaxError": "卡路里最多 5000",
     "weight": "體重",
+    "weightUnit": "公斤",
     "notes": "備註",
     "addRecord": "新增紀錄",
     "editRecord": "編輯紀錄",
@@ -53,10 +69,19 @@
     "recordAdded": "紀錄已新增",
     "recordUpdated": "紀錄已更新",
     "durationMinutes": "分鐘",
+    "minutes": "分鐘",
     "caloriesBurned": "卡路里消耗",
     "enterDuration": "請輸入運動時間（1-480 分鐘）",
     "enterCalories": "請輸入卡路里（1-5000）",
-    "enterWeight": "請輸入體重（公斤）"
+    "enterWeight": "請輸入體重（公斤）",
+    "noExerciseFound": "未找到相符的運動項目",
+    "dayTotal": "本日統計",
+    "caloriesShort": "卡路里",
+    "records": "筆紀錄",
+    "noRecords": "今日尚無運動紀錄",
+    "addFirstWorkout": "立即新增您的第一筆運動紀錄吧！",
+    "selectDate": "選擇日期",
+    "noEquipment": "未指定器材"
   },
   "statistics": {
     "weekly": "週統計",
@@ -68,9 +93,15 @@
     "compared": "相比上週",
     "increase": "增加",
     "decrease": "減少",
-    "noData": "暫無資料",
+    "noData": "暫無資料，請開始記錄健身計劃",
     "trendsAnalysis": "趨勢分析",
-    "dailyBreakdown": "每日明細"
+    "dailyBreakdown": "每日明細",
+    "weeklyTotalTime": "本週總運動時間",
+    "weeklyTotalCalories": "本週總消耗卡路里",
+    "weeklyWorkoutDays": "本週運動天數",
+    "timeChange": "時間變化",
+    "caloriesChange": "卡路里變化",
+    "workoutDaysChange": "運動天數變化"
   },
   "goals": {
     "weeklyGoal": "週目標",
@@ -111,6 +142,7 @@
     "validationFailed": "驗證失敗"
   },
   "validation": {
+    "requiredField": "此欄位為必填",
     "durationBetween": "時間必須在 1 至 480 分鐘之間",
     "caloriesBetween": "卡路里必須在 1 至 5000 之間",
     "weightPositive": "體重必須是正數",

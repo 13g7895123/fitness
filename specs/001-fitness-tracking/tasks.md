@@ -127,8 +127,8 @@
 - [x] T055 [P] [US1] 建立週比較元件於 frontend/src/components/workout/WeeklyComparisonCard.vue（顯示增減百分比）
 - [x] T056 [P] [US1] 建立每日統計長條圖元件於 frontend/src/components/charts/DailyBarChart.vue
 - [x] T057 [US1] 實作首頁 Home.vue 於 frontend/src/views/Home.vue（整合週統計、週比較、圖表元件）
-- [ ] T058 [US1] 新增首頁 Loading 與空資料狀態於 frontend/src/views/Home.vue
-- [ ] T059 [US1] 新增首頁繁體中文文案於 frontend/src/i18n/zh-TW.json（週統計、比較相關文字）
+- [x] T058 [US1] 新增首頁 Loading 與空資料狀態於 frontend/src/views/Home.vue
+- [x] T059 [US1] 新增首頁繁體中文文案於 frontend/src/i18n/zh-TW.json（週統計、比較相關文字）
 
 **檢查點**: 此時使用者故事 1 應完全可運作並可獨立測試
 
@@ -153,30 +153,30 @@
 
 #### 後端實作
 
-- [ ] T066 [P] [US2] 建立 WorkoutRecordDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/WorkoutRecordDto.cs
-- [ ] T067 [P] [US2] 建立 CreateWorkoutRecordDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/CreateWorkoutRecordDto.cs
-- [ ] T068 [P] [US2] 建立 UpdateWorkoutRecordDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/UpdateWorkoutRecordDto.cs
-- [ ] T069 [P] [US2] 建立 WorkoutRecordValidator（FluentValidation）於 backend/src/FitnessTracker.Core/Validators/WorkoutRecordValidator.cs
-- [ ] T070 [US2] 建立 WorkoutRecord 儲存庫介面於 backend/src/FitnessTracker.Core/Interfaces/IWorkoutRecordRepository.cs
-- [ ] T071 [US2] 實作 WorkoutRecord 儲存庫於 backend/src/FitnessTracker.Infrastructure/Repositories/WorkoutRecordRepository.cs
-- [ ] T072 [US2] 建立 WorkoutService 處理 CRUD 邏輯於 backend/src/FitnessTracker.Core/Services/WorkoutService.cs（含卡路里自動計算、重複檢查）
-- [ ] T073 [US2] 建立 WorkoutsController 於 backend/src/FitnessTracker.Api/Controllers/WorkoutsController.cs（實作 POST, GET, PUT, DELETE /api/v1/workouts）
-- [ ] T074 [US2] 實作軟刪除邏輯於 backend/src/FitnessTracker.Core/Services/WorkoutService.cs（設定 IsDeleted 而非真實刪除）
+- [x] T066 [P] [US2] 建立 WorkoutRecordDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/WorkoutRecordDto.cs
+- [x] T067 [P] [US2] 建立 CreateWorkoutRecordDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/CreateWorkoutRecordDto.cs
+- [x] T068 [P] [US2] 建立 UpdateWorkoutRecordDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/UpdateWorkoutRecordDto.cs
+- [x] T069 [P] [US2] 建立 WorkoutRecordValidator（FluentValidation）於 backend/src/FitnessTracker.Core/Validators/WorkoutRecordValidator.cs
+- [x] T070 [US2] 建立 WorkoutRecord 儲存庫介面於 backend/src/FitnessTracker.Core/Interfaces/IWorkoutRecordRepository.cs
+- [x] T071 [US2] 實作 WorkoutRecord 儲存庫於 backend/src/FitnessTracker.Infrastructure/Repositories/WorkoutRecordRepository.cs
+- [x] T072 [US2] 建立 WorkoutService 處理 CRUD 邏輯於 backend/src/FitnessTracker.Core/Services/WorkoutService.cs（含卡路里自動計算、重複檢查）
+- [x] T073 [US2] 建立 WorkoutsController 於 backend/src/FitnessTracker.Api/Controllers/WorkoutsController.cs（實作 POST, GET, PUT, DELETE /api/v1/workouts）
+- [x] T074 [US2] 實作軟刪除邏輯於 backend/src/FitnessTracker.Core/Services/WorkoutService.cs（設定 IsDeleted 而非真實刪除）
 
 #### 前端實作
 
-- [ ] T075 [P] [US2] 建立 Workouts Store（Pinia）於 frontend/src/stores/workouts.ts
-- [ ] T076 [P] [US2] 建立 WorkoutService API 服務於 frontend/src/services/workoutService.ts
-- [ ] T077 [P] [US2] 建立運動項目選擇器元件於 frontend/src/components/workout/ExerciseTypeSelector.vue（含搜尋功能）
-- [ ] T078 [P] [US2] 建立運動器材選擇器元件於 frontend/src/components/workout/EquipmentSelector.vue
-- [ ] T079 [US2] 建立健身紀錄表單元件於 frontend/src/components/workout/WorkoutRecordForm.vue（含日期、運動項目、時間、卡路里、體重、備註欄位）
-- [ ] T080 [US2] 新增表單驗證邏輯於 frontend/src/components/workout/WorkoutRecordForm.vue（1-480 分鐘、1-5000 卡路里、日期不可為未來）
-- [ ] T081 [US2] 建立新增紀錄對話框元件於 frontend/src/components/workout/AddWorkoutDialog.vue
-- [ ] T082 [US2] 建立編輯紀錄對話框元件於 frontend/src/components/workout/EditWorkoutDialog.vue
-- [ ] T083 [US2] 建立刪除確認對話框元件於 frontend/src/components/workout/DeleteWorkoutDialog.vue
-- [ ] T084 [US2] 整合 CRUD 功能至首頁於 frontend/src/views/Home.vue（新增按鈕、編輯/刪除操作）
-- [ ] T085 [US2] 新增成功/錯誤訊息提示於 frontend/src/views/Home.vue（使用 Vuetify Snackbar）
-- [ ] T086 [US2] 新增健身紀錄相關繁體中文文案於 frontend/src/i18n/zh-TW.json
+- [x] T075 [P] [US2] 建立 Workouts Store（Pinia）於 frontend/src/stores/workouts.ts
+- [x] T076 [P] [US2] 建立 WorkoutService API 服務於 frontend/src/services/workoutService.ts
+- [x] T077 [P] [US2] 建立運動項目選擇器元件於 frontend/src/components/workout/ExerciseTypeSelector.vue（含搜尋功能）
+- [x] T078 [P] [US2] 建立運動器材選擇器元件於 frontend/src/components/workout/EquipmentSelector.vue
+- [x] T079 [US2] 建立健身紀錄表單元件於 frontend/src/components/workout/WorkoutRecordForm.vue（含日期、運動項目、時間、卡路里、體重、備註欄位）
+- [x] T080 [US2] 新增表單驗證邏輯於 frontend/src/components/workout/WorkoutRecordForm.vue（1-480 分鐘、1-5000 卡路里、日期不可為未來）
+- [x] T081 [US2] 建立新增紀錄對話框元件於 frontend/src/components/workout/AddWorkoutDialog.vue
+- [x] T082 [US2] 建立編輯紀錄對話框元件於 frontend/src/components/workout/EditWorkoutDialog.vue
+- [x] T083 [US2] 建立刪除確認對話框元件於 frontend/src/components/workout/DeleteWorkoutDialog.vue
+- [x] T084 [US2] 整合 CRUD 功能至首頁於 frontend/src/views/Home.vue（新增按鈕、編輯/刪除操作）
+- [x] T085 [US2] 新增成功/錯誤訊息提示於 frontend/src/views/Home.vue（使用 Vuetify Snackbar）
+- [x] T086 [US2] 新增健身紀錄相關繁體中文文案於 frontend/src/i18n/zh-TW.json
 
 **檢查點**: 此時使用者故事 1 和 2 應都能獨立運作
 
@@ -199,19 +199,19 @@
 
 #### 後端實作
 
-- [ ] T091 [P] [US3] 建立 DailyWorkoutDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/DailyWorkoutDto.cs
-- [ ] T092 [US3] 實作按日期查詢紀錄於 backend/src/FitnessTracker.Core/Services/WorkoutService.cs（GetWorkoutsByDate 方法）
-- [ ] T093 [US3] 新增 GET /api/v1/workouts/by-date/{date} 端點於 backend/src/FitnessTracker.Api/Controllers/WorkoutsController.cs
+- [x] T091 [P] [US3] 建立 DailyWorkoutDto 於 backend/src/FitnessTracker.Shared/Dtos/WorkoutRecords/DailyWorkoutDto.cs
+- [x] T092 [US3] 實作按日期查詢紀錄於 backend/src/FitnessTracker.Core/Services/WorkoutService.cs（GetWorkoutsByDate 方法）
+- [x] T093 [US3] 新增 GET /api/v1/workouts/by-date/{date} 端點於 backend/src/FitnessTracker.Api/Controllers/WorkoutsController.cs
 
 #### 前端實作
 
-- [ ] T094 [P] [US3] 建立每日紀錄卡片元件於 frontend/src/components/workout/DailyWorkoutCard.vue（顯示單日所有紀錄）
-- [ ] T095 [P] [US3] 建立每日總計元件於 frontend/src/components/workout/DailyTotalCard.vue
-- [ ] T096 [P] [US3] 建立週行事曆元件於 frontend/src/components/workout/WeeklyCalendar.vue（週一至週日日期選擇器）
-- [ ] T097 [US3] 建立 WorkoutDetail 頁面於 frontend/src/views/WorkoutDetail.vue（顯示選定日期的所有紀錄）
-- [ ] T098 [US3] 新增從首頁導航至明細頁面的連結於 frontend/src/views/Home.vue（點擊週統計卡片）
-- [ ] T099 [US3] 新增路由設定於 frontend/src/router/index.ts（/workouts/detail/:date）
-- [ ] T100 [US3] 新增每週明細相關繁體中文文案於 frontend/src/i18n/zh-TW.json
+- [x] T094 [P] [US3] 建立每日紀錄卡片元件於 frontend/src/components/workout/DailyWorkoutCard.vue（顯示單日所有紀錄）
+- [x] T095 [P] [US3] 建立每日總計元件於 frontend/src/components/workout/DailyTotalCard.vue
+- [x] T096 [P] [US3] 建立週行事曆元件於 frontend/src/components/workout/WeeklyCalendar.vue（週一至週日日期選擇器）
+- [x] T097 [US3] 建立 WorkoutDetail 頁面於 frontend/src/views/WorkoutDetail.vue（顯示選定日期的所有紀錄）
+- [x] T098 [US3] 新增從首頁導航至明細頁面的連結於 frontend/src/views/Home.vue（點擊週統計卡片）
+- [x] T099 [US3] 新增路由設定於 frontend/src/router/index.ts（/workouts/detail/:date）
+- [x] T100 [US3] 新增每週明細相關繁體中文文案於 frontend/src/i18n/zh-TW.json
 
 **檢查點**: 所有使用者故事 1-3 應都能獨立運作
 

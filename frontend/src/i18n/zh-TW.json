@@ -101,7 +101,18 @@
     "weeklyWorkoutDays": "本週運動天數",
     "timeChange": "時間變化",
     "caloriesChange": "卡路里變化",
-    "workoutDaysChange": "運動天數變化"
+    "workoutDaysChange": "運動天數變化",
+    "timeRange": "時間範圍",
+    "chartType": "圖表類型",
+    "weeklySummary": "週摘要",
+    "totalDuration": "總運動時間",
+    "durationTrend": "運動時間趨勢",
+    "caloriesTrend": "卡路里消耗趨勢",
+    "exerciseDistribution": "運動項目分布",
+    "durationChange": "時間變化",
+    "caloriesChange": "卡路里變化",
+    "insufficientData": "資料不足",
+    "insufficientDataMessage": "至少需要 2 週以上的資料才能顯示趨勢圖表"
   },
   "goals": {
     "weeklyGoal": "週目標",
@@ -116,7 +127,13 @@
     "endDate": "結束日期",
     "achievementBadge": "達成徽章"
   },
-  "settings": {
+  "navigation": {
+    "home": "首頁",
+    "workouts": "運動紀錄",
+    "goals": "運動目標",
+    "trends": "歷史趨勢",
+    "settings": "設定"
+  },
     "settings": "設定",
     "exerciseTypes": "運動項目",
     "equipment": "器材",

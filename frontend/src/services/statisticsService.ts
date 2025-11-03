@@ -1,6 +1,12 @@
 import { api } from './api'
 import { useStatisticsStore } from '@/stores/statistics'
 import { useErrorHandler } from '@/utils/errorHandler'
+import type {
+  TrendDataDto,
+  WeeklySummaryDto,
+  MonthlySummaryDto,
+  ExerciseDistributionDto
+} from '@/types/statistics'
 
 interface WeeklySummaryResponse {
   success: boolean
@@ -29,7 +35,7 @@ export const useStatisticsService = () => {
   const statisticsStore = useStatisticsStore()
   const { showError } = useErrorHandler()
 
-  const getWeeklySummary = async (date?: string) => {
+  const getWeeklySummary = async (date?: string): Promise<WeeklySummaryDto | null> => {
     try {
       statisticsStore.setLoading(true)
       statisticsStore.setError(null)
@@ -43,7 +49,13 @@ export const useStatisticsService = () => {
 
       if (response.data.success && response.data.data) {
         statisticsStore.setWeeklySummary(response.data.data)
-        return response.data.data
+        return {
+          totalDurationMinutes: response.data.data.totalDurationMinutes,
+          totalCaloriesBurned: response.data.data.totalCaloriesBurned,
+          workoutDays: response.data.data.workoutDays,
+          durationChangePercentage: response.data.data.durationChangePercent,
+          caloriesChangePercentage: response.data.data.caloriesChangePercent
+        }
       } else {
         throw new Error(response.data.message || '取得週統計失敗')
       }
@@ -72,5 +84,56 @@ export const useStatisticsService = () => {
     }
   }
 
-  return { getWeeklySummary, getDailyBreakdown }
+  const getTrends = async (periodType: 'day' | 'week' | 'month' = 'day'): Promise<TrendDataDto[]> => {
+    try {
+      const response = await api.get<{ success: boolean; data: TrendDataDto[] }>(
+        `/statistics/trends?periodType=${periodType}`
+      )
+      if (response.data.success) {
+        return response.data.data || []
+      } else {
+        throw new Error('取得趨勢資料失敗')
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '取得趨勢資料失敗'
+      showError(message)
+      return []
+    }
+  }
+
+  const getMonthlySummary = async (): Promise<MonthlySummaryDto | null> => {
+    try {
+      const response = await api.get<{ success: boolean; data: MonthlySummaryDto }>(
+        '/statistics/monthly'
+      )
+      if (response.data.success) {
+        return response.data.data
+      } else {
+        throw new Error('取得月度摘要失敗')
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '取得月度摘要失敗'
+      showError(message)
+      return null
+    }
+  }
+
+  const getExerciseDistribution = async (): Promise<ExerciseDistributionDto[]> => {
+    try {
+      const response = await api.get<{ success: boolean; data: ExerciseDistributionDto[] }>(
+        '/statistics/exercise-distribution'
+      )
+      if (response.data.success) {
+        return response.data.data || []
+      } else {
+        throw new Error('取得運動分布失敗')
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '取得運動分布失敗'
+      showError(message)
+      return []
+    }
+  }
+
+  return { getWeeklySummary, getDailyBreakdown, getTrends, getMonthlySummary, getExerciseDistribution }
 }

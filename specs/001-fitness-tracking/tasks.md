@@ -278,27 +278,27 @@
 
 #### 後端實作
 
-- [ ] T128 [P] [US5] 建立 TrendDataDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/TrendDataDto.cs
-- [ ] T129 [P] [US5] 建立 MonthlySummaryDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/MonthlySummaryDto.cs
-- [ ] T130 [P] [US5] 建立 ExerciseDistributionDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/ExerciseDistributionDto.cs
-- [ ] T131 [US5] 實作趨勢資料查詢於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs（按日/週/月聚合）
-- [ ] T132 [US5] 實作月統計計算於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs
-- [ ] T133 [US5] 實作運動項目分布統計於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs
-- [ ] T134 [US5] 新增統計端點於 backend/src/FitnessTracker.Api/Controllers/StatisticsController.cs（GET /api/v1/statistics/trends, /monthly, /exercise-distribution）
+- [x] T128 [P] [US5] 建立 TrendDataDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/TrendDataDto.cs
+- [x] T129 [P] [US5] 建立 MonthlySummaryDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/MonthlySummaryDto.cs
+- [x] T130 [P] [US5] 建立 ExerciseDistributionDto 於 backend/src/FitnessTracker.Shared/Dtos/Statistics/ExerciseDistributionDto.cs
+- [x] T131 [US5] 實作趨勢資料查詢於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs（按日/週/月聚合）
+- [x] T132 [US5] 實作月統計計算於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs
+- [x] T133 [US5] 實作運動項目分布統計於 backend/src/FitnessTracker.Core/Services/StatisticsService.cs
+- [x] T134 [US5] 新增統計端點於 backend/src/FitnessTracker.Api/Controllers/StatisticsController.cs（GET /api/v1/statistics/trends, /monthly, /exercise-distribution）
 
 #### 前端實作
 
-- [ ] T135 [P] [US5] 建立折線圖元件（Chart.js）於 frontend/src/components/charts/LineChart.vue（運動時間/卡路里趨勢）
-- [ ] T136 [P] [US5] 建立柱狀圖元件（Chart.js）於 frontend/src/components/charts/BarChart.vue（週比較、月比較）
-- [ ] T137 [P] [US5] 建立圓餅圖元件（Chart.js）於 frontend/src/components/charts/PieChart.vue（運動類別分布）
-- [ ] T138 [P] [US5] 建立時間範圍選擇器元件於 frontend/src/components/charts/TimeRangeSelector.vue（近 4 週/12 個月/全部）
-- [ ] T139 [P] [US5] 建立圖表類型切換元件於 frontend/src/components/charts/ChartTypeToggle.vue（折線圖/柱狀圖）
-- [ ] T140 [US5] 建立 Trends 頁面於 frontend/src/views/Trends.vue（整合所有圖表元件）
-- [ ] T141 [US5] 新增圖表互動功能（點擊資料點顯示詳細資訊）於 frontend/src/views/Trends.vue
-- [ ] T142 [US5] 新增資料不足提示於 frontend/src/views/Trends.vue（少於 2 週資料時顯示）
-- [ ] T143 [US5] 新增路由設定於 frontend/src/router/index.ts（/trends）
-- [ ] T144 [US5] 新增導航選單項目於 frontend/src/App.vue（趨勢分析連結）
-- [ ] T145 [US5] 新增趨勢圖表相關繁體中文文案於 frontend/src/i18n/zh-TW.json
+- [x] T135 [P] [US5] 建立折線圖元件（Canvas）於 frontend/src/components/charts/LineChart.vue（運動時間/卡路里趨勢）
+- [x] T136 [P] [US5] 建立柱狀圖元件（Canvas）於 frontend/src/components/charts/BarChart.vue（週比較、月比較）
+- [x] T137 [P] [US5] 建立圓餅圖元件（Canvas）於 frontend/src/components/charts/PieChart.vue（運動類別分布）
+- [x] T138 [P] [US5] 建立時間範圍選擇器元件於 frontend/src/components/charts/TimeRangeSelector.vue（近 4 週/12 個月/全部）
+- [x] T139 [P] [US5] 建立圖表類型切換元件於 frontend/src/components/charts/ChartTypeToggle.vue（折線圖/柱狀圖）
+- [x] T140 [US5] 建立 Trends 頁面於 frontend/src/views/Trends.vue（整合所有圖表元件）
+- [x] T141 [US5] 新增圖表互動功能（點擊資料點顯示詳細資訊）於 frontend/src/views/Trends.vue
+- [x] T142 [US5] 新增資料不足提示於 frontend/src/views/Trends.vue（少於 2 週資料時顯示）
+- [x] T143 [US5] 新增路由設定於 frontend/src/router/index.ts（/trends）
+- [x] T144 [US5] 新增導航選單項目於 frontend/src/App.vue（趨勢分析連結）
+- [x] T145 [US5] 新增趨勢圖表相關繁體中文文案於 frontend/src/i18n/zh-TW.json
 
 **檢查點**: 所有使用者故事 1-5 應都能獨立運作
 

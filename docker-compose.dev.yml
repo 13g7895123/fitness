@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 資料庫
+  postgres:
+    image: postgres:16-alpine
+    container_name: fitness-postgres
+    environment:
+      - POSTGRES_DB=fitness_tracker
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - fitness-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # 後端開發容器 (.NET 8)
+  backend-dev:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    container_name: fitness-backend-dev
+    working_dir: /workspace
+    command: sleep infinity
+    volumes:
+      - ./backend:/workspace
+      - dotnet-packages:/root/.nuget/packages
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=fitness_tracker;Username=postgres;Password=postgres
+    networks:
+      - fitness-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # 前端開發容器 (Node.js 20)
+  frontend-dev:
+    image: node:20-alpine
+    container_name: fitness-frontend-dev
+    working_dir: /workspace
+    command: sleep infinity
+    volumes:
+      - ./frontend:/workspace
+      - node-modules:/workspace/node_modules
+    ports:
+      - "5174:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000/api/v1
+    networks:
+      - fitness-network
+
+networks:
+  fitness-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  dotnet-packages:
+  node-modules:

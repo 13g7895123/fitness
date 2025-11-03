@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="StyleCop Rules" Description="StyleCop 規則設定" ToolsVersion="16.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <!-- 文件標頭規則 -->
+    <Rule Id="SA1633" Action="None" /> <!-- 檔案必須有標頭 -->
+    <Rule Id="SA1652" Action="None" /> <!-- 啟用 XML 文件輸出 -->
+    
+    <!-- 命名規則 -->
+    <Rule Id="SA1309" Action="None" /> <!-- 欄位名稱不應以底線開頭 -->
+    
+    <!-- 排版規則 -->
+    <Rule Id="SA1101" Action="None" /> <!-- 限定詞是必須的 -->
+    <Rule Id="SA1200" Action="None" /> <!-- Using 指示詞必須放在命名空間內 -->
+    <Rule Id="SA1413" Action="None" /> <!-- 使用尾隨逗號 -->
+    
+    <!-- 文件規則 -->
+    <Rule Id="SA1600" Action="None" /> <!-- 元素必須有文件 -->
+    <Rule Id="SA1601" Action="None" /> <!-- 部分元素必須有文件 -->
+    
+    <!-- 可讀性規則 -->
+    <Rule Id="SA1028" Action="None" /> <!-- 程式碼不應包含尾隨空格 -->
+  </Rules>
+</RuleSet>

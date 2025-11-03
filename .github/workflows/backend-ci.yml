@@ -1,0 +1,69 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main, develop, '001-fitness-tracking' ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: TestPassword@123
+          MSSQL_PID: Developer
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P TestPassword@123 -Q 'SELECT 1' || exit 1"
+          --health-interval=10s
+          --health-timeout=3s
+          --health-retries=10
+          --health-start-period=10s
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./backend
+    
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+      working-directory: ./backend
+    
+    - name: Run Unit Tests
+      run: dotnet test tests/FitnessTracker.UnitTests --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+      working-directory: ./backend
+    
+    - name: Run Integration Tests
+      run: dotnet test tests/FitnessTracker.IntegrationTests --no-build --configuration Release --verbosity normal
+      working-directory: ./backend
+      env:
+        ConnectionStrings__DefaultConnection: "Server=localhost,1433;Database=FitnessTrackerTest;User Id=sa;Password=TestPassword@123;TrustServerCertificate=True"
+    
+    - name: Run Contract Tests
+      run: dotnet test tests/FitnessTracker.ContractTests --no-build --configuration Release --verbosity normal
+      working-directory: ./backend
+    
+    - name: Upload Coverage Reports
+      uses: codecov/codecov-action@v4
+      with:
+        files: ./backend/**/coverage.cobertura.xml
+        flags: backend
+        name: backend-coverage

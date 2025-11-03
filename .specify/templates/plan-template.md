@@ -31,7 +31,45 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+**Code Quality (Principle I)**:
+- [ ] Type safety requirements defined for language/framework
+- [ ] Linting and formatting tools specified in dependencies
+- [ ] Code coverage targets (80% minimum, 95% for critical paths) achievable for this feature
+- [ ] Complexity limits considered in architecture (functions <10, modules <15)
+
+**Testing Standards (Principle II)**:
+- [ ] TDD approach confirmed (tests written before implementation)
+- [ ] Test pyramid ratios achievable (70% unit, 20% integration, 10% e2e)
+- [ ] Contract tests planned for all API endpoints
+- [ ] Integration tests identified for: external APIs, database, auth, workout/nutrition logic
+- [ ] Performance regression tests planned for critical user journeys
+- [ ] Accessibility testing approach defined
+
+**User Experience Consistency (Principle III)**:
+- [ ] Design system/component library specified
+- [ ] WCAG 2.1 AA compliance requirements documented
+- [ ] Responsive breakpoints defined (mobile 320px+, tablet 768px+, desktop 1024px+)
+- [ ] Loading states planned for all async operations
+- [ ] Error handling strategy defined with user-friendly messages in Traditional Chinese
+- [ ] Offline support requirements clarified for core features
+- [ ] All UI text, error messages, notifications in Traditional Chinese (zh-TW)
+- [ ] Internationalization approach specified if user-facing text present
+
+**Documentation Standards**:
+- [ ] This plan document written in Traditional Chinese (zh-TW)
+- [ ] Feature specification (spec.md) in Traditional Chinese
+- [ ] User stories and acceptance scenarios in Traditional Chinese
+- [ ] API documentation and error messages in Traditional Chinese
+- [ ] Code comments for public APIs in Traditional Chinese
+
+**Performance Requirements (Principle IV)**:
+- [ ] Page load targets defined (<2s on 3G, <1s broadband)
+- [ ] Interaction response targets specified (clicks <100ms, submissions <200ms)
+- [ ] Data sync requirements defined (<5s for typical workout data)
+- [ ] API latency targets set (p95 <500ms reads, <1000ms writes)
+- [ ] Memory usage limits specified (<150MB mobile, <10% heap growth/hour)
+- [ ] Battery impact minimized (efficient scheduling, no continuous polling)
+- [ ] Database query optimization planned (no N+1, appropriate indexes)
 
 ## Project Structure
 

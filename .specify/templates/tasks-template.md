@@ -8,7 +8,9 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Test tasks are MANDATORY per Constitution Principle II (Testing Standards). All features MUST follow TDD: tests written first, approved, fail, then implement. Test pyramid ratios: 70% unit, 20% integration, 10% e2e. Contract tests required for all API endpoints.
+
+**Language**: This document MUST be written in Traditional Chinese (zh-TW) per Constitution Documentation Standards. All task descriptions, user stories, and documentation in Traditional Chinese.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -79,9 +81,9 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 1 (MANDATORY per Constitution Principle II) ⚠️
 
-> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+> **CRITICAL: Write these tests FIRST per TDD, get user approval, ensure they FAIL before implementation**
 
 - [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
@@ -105,7 +107,7 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 2 (MANDATORY per Constitution Principle II) ⚠️
 
 - [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
@@ -127,7 +129,7 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 3 (MANDATORY per Constitution Principle II) ⚠️
 
 - [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
 - [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
@@ -148,12 +150,46 @@ Examples of foundational tasks (adjust based on your project):
 
 ## Phase N: Polish & Cross-Cutting Concerns
 
-**Purpose**: Improvements that affect multiple user stories
+**Purpose**: Constitution compliance verification and cross-story improvements
 
+**Code Quality (Principle I)**:
+- [ ] TXXX Verify code coverage meets thresholds (80% minimum, 95% critical paths)
+- [ ] TXXX Run complexity analysis (functions <10, modules <15)
+- [ ] TXXX Verify zero linting errors, address/justify all warnings
+- [ ] TXXX Validate type safety (no implicit any types)
+
+**Testing Standards (Principle II)**:
+- [ ] TXXX Verify test pyramid ratios (70% unit, 20% integration, 10% e2e)
+- [ ] TXXX [P] Add performance regression tests for critical user journeys
+- [ ] TXXX [P] Run accessibility tests (WCAG 2.1 AA automated checks)
+
+**User Experience Consistency (Principle III)**:
+- [ ] TXXX Validate all components use design system (no one-off styles)
+- [ ] TXXX Verify responsive design across breakpoints (320px, 768px, 1024px)
+- [ ] TXXX Test offline support for core features
+- [ ] TXXX Verify loading states on all async operations
+- [ ] TXXX Review error messages for user-friendliness and Traditional Chinese correctness
+- [ ] TXXX Verify all UI text in Traditional Chinese (zh-TW)
+
+**Documentation Standards**:
+- [ ] TXXX Verify spec.md written in Traditional Chinese
+- [ ] TXXX Verify plan.md written in Traditional Chinese
+- [ ] TXXX Verify tasks.md (this file) written in Traditional Chinese
+- [ ] TXXX Verify all checklists written in Traditional Chinese
+- [ ] TXXX Verify API documentation in Traditional Chinese
+- [ ] TXXX Verify README and quickstart guides in Traditional Chinese
+- [ ] TXXX Review public API code comments for Traditional Chinese
+
+**Performance Requirements (Principle IV)**:
+- [ ] TXXX Measure page load times (<2s on 3G, <1s broadband)
+- [ ] TXXX Verify interaction response times (clicks <100ms, submissions <200ms)
+- [ ] TXXX Test data sync performance (<5s for typical workout data)
+- [ ] TXXX Profile memory usage (<150MB mobile, <10% heap growth/hour)
+- [ ] TXXX Optimize database queries (verify no N+1, check indexes)
+
+**General**:
 - [ ] TXXX [P] Documentation updates in docs/
 - [ ] TXXX Code cleanup and refactoring
-- [ ] TXXX Performance optimization across all stories
-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
 - [ ] TXXX Security hardening
 - [ ] TXXX Run quickstart.md validation
 

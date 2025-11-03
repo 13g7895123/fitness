@@ -3,7 +3,8 @@
 **Feature Branch**: `[###-feature-name]`  
 **Created**: [DATE]  
 **Status**: Draft  
-**Input**: User description: "$ARGUMENTS"
+**Input**: User description: "$ARGUMENTS"  
+**Language**: Traditional Chinese (zh-TW) - All content MUST be in Traditional Chinese per Constitution
 
 ## User Scenarios & Testing *(mandatory)*
 

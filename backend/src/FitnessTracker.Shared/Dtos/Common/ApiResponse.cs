@@ -17,7 +17,7 @@ public class ApiResponse<T>
         };
     }
 
-    public static ApiResponse<T> FailureResponse(string message, List<ApiError>? errors = null)
+    public static ApiResponse<T> ErrorResponse(string message, List<ApiError>? errors = null)
     {
         return new ApiResponse<T>
         {
@@ -26,6 +26,9 @@ public class ApiResponse<T>
             Errors = errors
         };
     }
+
+    public static ApiResponse<T> FailureResponse(string message, List<ApiError>? errors = null) 
+        => ErrorResponse(message, errors);
 }
 
 public class ApiError

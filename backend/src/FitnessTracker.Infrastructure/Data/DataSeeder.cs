@@ -7,11 +7,12 @@ public static class DataSeeder
 {
     public static void Seed(ModelBuilder modelBuilder)
     {
-        SeedExerciseTypes(modelBuilder);
-        SeedEquipments(modelBuilder);
+        // TODO: Update seed data to match new schema
+        // SeedExerciseTypes(modelBuilder);
+        // SeedEquipments(modelBuilder);
     }
 
-    private static void SeedExerciseTypes(ModelBuilder modelBuilder)
+    /*private static void SeedExerciseTypes(ModelBuilder modelBuilder)
     {
         var exerciseTypes = new[]
         {
@@ -133,5 +134,5 @@ public static class DataSeeder
         };
 
         modelBuilder.Entity<Equipment>().HasData(equipments);
-    }
+    }*/
 }

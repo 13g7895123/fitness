@@ -15,8 +15,17 @@ public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
                .IsRequired()
                .HasMaxLength(100);
         
-        builder.Property(e => e.IsActive)
+        builder.Property(e => e.Description)
+               .HasMaxLength(500);
+        
+        builder.Property(e => e.IsSystemDefault)
                .IsRequired()
-               .HasDefaultValue(true);
+               .HasDefaultValue(false);
+        
+        builder.Property(e => e.IsDeleted)
+               .IsRequired()
+               .HasDefaultValue(false);
+        
+        builder.HasQueryFilter(e => !e.IsDeleted);
     }
 }

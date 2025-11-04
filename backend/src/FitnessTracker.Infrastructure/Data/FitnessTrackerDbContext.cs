@@ -16,6 +16,7 @@ public class FitnessTrackerDbContext : DbContext
     public DbSet<Equipment> Equipments => Set<Equipment>();
     public DbSet<WorkoutRecord> WorkoutRecords => Set<WorkoutRecord>();
     public DbSet<WorkoutGoal> WorkoutGoals => Set<WorkoutGoal>();
+    public DbSet<Goal> Goals => Set<Goal>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -22,6 +22,11 @@ builder.Services.AddHttpClient();
 // Add generic repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+// Add repositories
+builder.Services.AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>();
+builder.Services.AddScoped<IWorkoutRecordRepository, WorkoutRecordRepository>();
+builder.Services.AddScoped<IWorkoutGoalRepository, WorkoutGoalRepository>();
+
 // Add authentication services
 builder.Services.AddScoped<ILineLoginService, LineLoginService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
@@ -29,11 +34,9 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 // Add business services
 builder.Services.AddScoped<ICalorieCalculationService, CalorieCalculationService>();
 builder.Services.AddScoped<IStatisticsService, StatisticsService>();
-builder.Services.AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>();
-builder.Services.AddScoped<ExerciseTypeService>();
-builder.Services.AddScoped<IWorkoutRecordRepository, WorkoutRecordRepository>();
-builder.Services.AddScoped<IWorkoutGoalRepository, WorkoutGoalRepository>();
 builder.Services.AddScoped<IGoalService, GoalService>();
+builder.Services.AddScoped<ExerciseTypeService>();
+builder.Services.AddScoped<EquipmentService>();
 
 // Add JWT authentication
 var jwtKey = builder.Configuration["Jwt:SecretKey"];

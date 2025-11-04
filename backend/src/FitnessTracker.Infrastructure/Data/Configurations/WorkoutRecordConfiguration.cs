@@ -11,7 +11,7 @@ public class WorkoutRecordConfiguration : IEntityTypeConfiguration<WorkoutRecord
         builder.ToTable("WorkoutRecords");
         builder.HasKey(w => w.Id);
         
-        builder.Property(w => w.Date)
+        builder.Property(w => w.ExerciseDate)
                .IsRequired()
                .HasColumnType("date");
         
@@ -32,12 +32,12 @@ public class WorkoutRecordConfiguration : IEntityTypeConfiguration<WorkoutRecord
                .IsRequired()
                .HasDefaultValue(false);
         
-        builder.HasIndex(w => new { w.UserId, w.Date, w.ExerciseTypeId })
+        builder.HasIndex(w => new { w.UserId, w.ExerciseDate, w.ExerciseTypeId })
                .IsUnique()
                .HasFilter("\"IsDeleted\" = false");
         
-        builder.HasIndex(w => new { w.UserId, w.Date });
-        builder.HasIndex(w => w.Date);
+        builder.HasIndex(w => new { w.UserId, w.ExerciseDate });
+        builder.HasIndex(w => w.ExerciseDate);
         
         builder.HasOne<User>()
                .WithMany()

@@ -2,7 +2,13 @@ namespace FitnessTracker.Core.Entities;
 
 public class Equipment
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    public bool IsActive { get; set; }
+    public string? Description { get; set; }
+    public bool IsSystemDefault { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public bool IsDeleted { get; set; }
+    
+    // Navigation properties
+    public ICollection<ExerciseType> ExerciseTypes { get; set; } = new List<ExerciseType>();
 }

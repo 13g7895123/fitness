@@ -40,7 +40,7 @@ namespace FitnessTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<ExerciseType>> GetCustomByUserAsync(int userId)
+        public async Task<List<ExerciseType>> GetCustomByUserAsync(Guid userId)
         {
             return await _context.ExerciseTypes
                 .Where(e => !e.IsDeleted && !e.IsSystemDefault && e.CreatedByUserId == userId)

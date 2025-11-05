@@ -17,7 +17,7 @@ namespace FitnessTracker.Core.Services
             _workoutRecordRepository = workoutRecordRepository;
         }
 
-        public async Task<GoalDto> CreateAsync(CreateGoalDto dto, int userId)
+        public async Task<GoalDto> CreateAsync(CreateGoalDto dto, Guid userId)
         {
             var goal = new Goal
             {
@@ -38,7 +38,7 @@ namespace FitnessTracker.Core.Services
             return MapToDto(goal);
         }
 
-        public async Task<GoalDto> UpdateAsync(int id, UpdateGoalDto dto, int userId)
+        public async Task<GoalDto> UpdateAsync(int id, UpdateGoalDto dto, Guid userId)
         {
             var goals = await _goalRepository.GetAllAsync();
             var goal = goals.FirstOrDefault(g => !g.IsDeleted && g.Id == id && g.UserId == userId);
@@ -57,7 +57,7 @@ namespace FitnessTracker.Core.Services
             return MapToDto(goal);
         }
 
-        public async Task DeleteAsync(int id, int userId)
+        public async Task DeleteAsync(int id, Guid userId)
         {
             var goals = await _goalRepository.GetAllAsync();
             var goal = goals.FirstOrDefault(g => !g.IsDeleted && g.Id == id && g.UserId == userId);
@@ -81,7 +81,7 @@ namespace FitnessTracker.Core.Services
             return MapToDto(goal);
         }
 
-        public async Task<List<GoalDto>> GetAllByUserAsync(int userId)
+        public async Task<List<GoalDto>> GetAllByUserAsync(Guid userId)
         {
             var goals = await _goalRepository.GetAllAsync();
             return goals
@@ -91,7 +91,7 @@ namespace FitnessTracker.Core.Services
                 .ToList();
         }
 
-        public async Task<List<GoalDto>> GetActiveByUserAsync(int userId)
+        public async Task<List<GoalDto>> GetActiveByUserAsync(Guid userId)
         {
             var goals = await _goalRepository.GetAllAsync();
             return goals

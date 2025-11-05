@@ -7,7 +7,7 @@ public class ExerciseType
     public string? Description { get; set; }
     public decimal DefaultMET { get; set; } = 5.0m;
     public bool IsSystemDefault { get; set; }
-    public int? CreatedByUserId { get; set; }
+    public Guid? CreatedByUserId { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public bool IsDeleted { get; set; }
     

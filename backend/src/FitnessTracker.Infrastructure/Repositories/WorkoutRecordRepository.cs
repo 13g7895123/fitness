@@ -14,7 +14,7 @@ namespace FitnessTracker.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<WorkoutRecord>> GetByUserAsync(int userId)
+        public async Task<List<WorkoutRecord>> GetByUserAsync(Guid userId)
         {
             return await _context.WorkoutRecords
                 .Where(r => !r.IsDeleted && r.UserId == userId)
@@ -23,7 +23,7 @@ namespace FitnessTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<WorkoutRecord>> GetByUserAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
+        public async Task<List<WorkoutRecord>> GetByUserAndDateRangeAsync(Guid userId, DateTime startDate, DateTime endDate)
         {
             return await _context.WorkoutRecords
                 .Where(r => !r.IsDeleted && r.UserId == userId && r.ExerciseDate >= startDate && r.ExerciseDate < endDate)
@@ -32,7 +32,7 @@ namespace FitnessTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<WorkoutRecord>> GetByUserAndExerciseTypeAsync(int userId, int exerciseTypeId)
+        public async Task<List<WorkoutRecord>> GetByUserAndExerciseTypeAsync(Guid userId, int exerciseTypeId)
         {
             return await _context.WorkoutRecords
                 .Where(r => !r.IsDeleted && r.UserId == userId && r.ExerciseTypeId == exerciseTypeId)

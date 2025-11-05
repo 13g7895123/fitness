@@ -14,7 +14,7 @@ namespace FitnessTracker.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<Goal>> GetByUserAsync(int userId)
+        public async Task<List<Goal>> GetByUserAsync(Guid userId)
         {
             return await _context.Goals
                 .Where(g => !g.IsDeleted && g.UserId == userId)
@@ -22,7 +22,7 @@ namespace FitnessTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Goal>> GetActiveByUserAsync(int userId)
+        public async Task<List<Goal>> GetActiveByUserAsync(Guid userId)
         {
             return await _context.Goals
                 .Where(g => !g.IsDeleted && g.UserId == userId && !g.IsCompleted)
@@ -30,7 +30,7 @@ namespace FitnessTracker.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Goal>> GetCompletedByUserAsync(int userId)
+        public async Task<List<Goal>> GetCompletedByUserAsync(Guid userId)
         {
             return await _context.Goals
                 .Where(g => !g.IsDeleted && g.UserId == userId && g.IsCompleted)

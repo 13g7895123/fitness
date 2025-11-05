@@ -13,7 +13,7 @@ namespace FitnessTracker.Core.Services
             _workoutRecordRepository = workoutRecordRepository;
         }
 
-        public async Task<WeeklySummaryDto> GetWeeklySummaryAsync(int userId, DateTime? date = null)
+        public async Task<WeeklySummaryDto> GetWeeklySummaryAsync(Guid userId, DateTime? date = null)
         {
             var targetDate = date ?? DateTime.UtcNow;
             var weekStart = targetDate.AddDays(-(int)targetDate.DayOfWeek);
@@ -57,7 +57,7 @@ namespace FitnessTracker.Core.Services
             };
         }
 
-        public async Task<TrendDataDto> GetDailyBreakdownAsync(int userId, DateTime date)
+        public async Task<TrendDataDto> GetDailyBreakdownAsync(Guid userId, DateTime date)
         {
             var records = await _workoutRecordRepository.GetAllAsync();
             records = records
@@ -74,7 +74,7 @@ namespace FitnessTracker.Core.Services
             };
         }
 
-        public async Task<List<TrendDataDto>> GetTrendsAsync(int userId, string periodType = "day")
+        public async Task<List<TrendDataDto>> GetTrendsAsync(Guid userId, string periodType = "day")
         {
             var records = await _workoutRecordRepository.GetAllAsync();
             records = records.Where(r => !r.IsDeleted && r.UserId == userId).ToList();
@@ -145,7 +145,7 @@ namespace FitnessTracker.Core.Services
             return result;
         }
 
-        public async Task<MonthlySummaryDto> GetMonthlySummaryAsync(int userId, int? year = null, int? month = null)
+        public async Task<MonthlySummaryDto> GetMonthlySummaryAsync(Guid userId, int? year = null, int? month = null)
         {
             var targetDate = new DateTime(year ?? DateTime.UtcNow.Year, month ?? DateTime.UtcNow.Month, 1);
             var monthStart = new DateTime(targetDate.Year, targetDate.Month, 1);
@@ -172,7 +172,7 @@ namespace FitnessTracker.Core.Services
             };
         }
 
-        public async Task<List<ExerciseDistributionDto>> GetExerciseDistributionAsync(int userId)
+        public async Task<List<ExerciseDistributionDto>> GetExerciseDistributionAsync(Guid userId)
         {
             var records = await _workoutRecordRepository.GetAllAsync();
             records = records.Where(r => !r.IsDeleted && r.UserId == userId).ToList();

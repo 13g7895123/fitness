@@ -5,6 +5,7 @@ const Home = () => import('@/views/Home.vue')
 const WorkoutDetail = () => import('@/views/WorkoutDetail.vue')
 const Goals = () => import('@/views/Goals.vue')
 const Trends = () => import('@/views/Trends.vue')
+const Settings = () => import('@/views/Settings.vue')
 
 const routes: RouteRecordRaw[] = [
   {
@@ -40,6 +41,15 @@ const routes: RouteRecordRaw[] = [
     component: Trends,
     meta: {
       title: '歷史趨勢',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings,
+    meta: {
+      title: '設定',
       requiresAuth: true
     }
   },

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FitnessTracker.Infrastructure.Migrations
 {
     [DbContext(typeof(FitnessTrackerDbContext))]
-    [Migration("20251103123950_InitialCreate")]
+    [Migration("20251105000453_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,85 +25,42 @@ namespace FitnessTracker.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FitnessTracker.Core.Entities.Equipment", b =>
+            modelBuilder.Entity("EquipmentExerciseType", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<int>("EquipmentsId")
+                        .HasColumnType("integer");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                    b.Property<int>("ExerciseTypesId")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                    b.HasKey("EquipmentsId", "ExerciseTypesId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("ExerciseTypesId");
 
-                    b.ToTable("Equipments", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            IsActive = true,
-                            Name = "跑步機"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            IsActive = true,
-                            Name = "啞鈴"
-                        },
-                        new
-                        {
-                            Id = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                            IsActive = true,
-                            Name = "槓鈴"
-                        },
-                        new
-                        {
-                            Id = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
-                            IsActive = true,
-                            Name = "瑜伽墊"
-                        },
-                        new
-                        {
-                            Id = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            IsActive = true,
-                            Name = "飛輪"
-                        },
-                        new
-                        {
-                            Id = new Guid("ffffffff-ffff-ffff-ffff-ffffffffffff"),
-                            IsActive = true,
-                            Name = "其他"
-                        });
+                    b.ToTable("EquipmentExerciseType");
                 });
 
-            modelBuilder.Entity("FitnessTracker.Core.Entities.ExerciseType", b =>
+            modelBuilder.Entity("FitnessTracker.Core.Entities.Equipment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                        .HasDefaultValue(false);
 
-                    b.Property<bool>("IsCustom")
+                    b.Property<bool>("IsSystemDefault")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
@@ -113,81 +70,102 @@ namespace FitnessTracker.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<Guid?>("UserId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipments", (string)null);
+                });
+
+            modelBuilder.Entity("FitnessTracker.Core.Entities.ExerciseType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("DefaultMET")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsSystemDefault")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsSystemDefault");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("ExerciseTypes", (string)null);
+                });
+
+            modelBuilder.Entity("FitnessTracker.Core.Entities.Goal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("CurrentValue")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TargetValue")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("UserId", "IsActive");
-
-                    b.ToTable("ExerciseTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            Category = "有氧",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsCustom = false,
-                            Name = "跑步"
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            Category = "有氧",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsCustom = false,
-                            Name = "游泳"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            Category = "有氧",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsCustom = false,
-                            Name = "騎自行車"
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            Category = "重訓",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsCustom = false,
-                            Name = "重量訓練"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
-                            Category = "伸展",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsCustom = false,
-                            Name = "瑜伽"
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
-                            Category = "伸展",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsCustom = false,
-                            Name = "皮拉提斯"
-                        },
-                        new
-                        {
-                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
-                            Category = "其他",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            IsCustom = false,
-                            Name = "其他"
-                        });
+                    b.ToTable("Goals");
                 });
 
             modelBuilder.Entity("FitnessTracker.Core.Entities.User", b =>
@@ -266,9 +244,11 @@ namespace FitnessTracker.Infrastructure.Migrations
 
             modelBuilder.Entity("FitnessTracker.Core.Entities.WorkoutRecord", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("CaloriesBurned")
                         .HasPrecision(18, 2)
@@ -277,17 +257,17 @@ namespace FitnessTracker.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
-
                     b.Property<int>("DurationMinutes")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("EquipmentId")
-                        .HasColumnType("uuid");
+                    b.Property<int?>("EquipmentId")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("ExerciseTypeId")
-                        .HasColumnType("uuid");
+                    b.Property<DateTime>("ExerciseDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("ExerciseTypeId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -310,27 +290,45 @@ namespace FitnessTracker.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Date");
-
                     b.HasIndex("EquipmentId");
+
+                    b.HasIndex("ExerciseDate");
 
                     b.HasIndex("ExerciseTypeId");
 
-                    b.HasIndex("UserId", "Date");
+                    b.HasIndex("UserId", "ExerciseDate");
 
-                    b.HasIndex("UserId", "Date", "ExerciseTypeId")
+                    b.HasIndex("UserId", "ExerciseDate", "ExerciseTypeId")
                         .IsUnique()
                         .HasFilter("\"IsDeleted\" = false");
 
                     b.ToTable("WorkoutRecords", (string)null);
                 });
 
-            modelBuilder.Entity("FitnessTracker.Core.Entities.ExerciseType", b =>
+            modelBuilder.Entity("EquipmentExerciseType", b =>
                 {
-                    b.HasOne("FitnessTracker.Core.Entities.User", null)
+                    b.HasOne("FitnessTracker.Core.Entities.Equipment", null)
+                        .WithMany()
+                        .HasForeignKey("EquipmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FitnessTracker.Core.Entities.ExerciseType", null)
+                        .WithMany()
+                        .HasForeignKey("ExerciseTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FitnessTracker.Core.Entities.Goal", b =>
+                {
+                    b.HasOne("FitnessTracker.Core.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FitnessTracker.Core.Entities.WorkoutGoal", b =>
@@ -344,22 +342,33 @@ namespace FitnessTracker.Infrastructure.Migrations
 
             modelBuilder.Entity("FitnessTracker.Core.Entities.WorkoutRecord", b =>
                 {
-                    b.HasOne("FitnessTracker.Core.Entities.Equipment", null)
+                    b.HasOne("FitnessTracker.Core.Entities.Equipment", "Equipment")
                         .WithMany()
                         .HasForeignKey("EquipmentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("FitnessTracker.Core.Entities.ExerciseType", null)
-                        .WithMany()
+                    b.HasOne("FitnessTracker.Core.Entities.ExerciseType", "ExerciseType")
+                        .WithMany("WorkoutRecords")
                         .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FitnessTracker.Core.Entities.User", null)
+                    b.HasOne("FitnessTracker.Core.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("ExerciseType");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FitnessTracker.Core.Entities.ExerciseType", b =>
+                {
+                    b.Navigation("WorkoutRecords");
                 });
 #pragma warning restore 612, 618
         }

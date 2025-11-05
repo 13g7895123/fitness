@@ -3,7 +3,7 @@ namespace FitnessTracker.Core.Entities;
 public class WorkoutRecord
 {
     public int Id { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public User User { get; set; } = null!;
     public DateTime ExerciseDate { get; set; }
     public int ExerciseTypeId { get; set; }

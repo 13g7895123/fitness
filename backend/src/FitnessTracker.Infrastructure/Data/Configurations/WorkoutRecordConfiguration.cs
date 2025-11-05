@@ -39,17 +39,17 @@ public class WorkoutRecordConfiguration : IEntityTypeConfiguration<WorkoutRecord
         builder.HasIndex(w => new { w.UserId, w.ExerciseDate });
         builder.HasIndex(w => w.ExerciseDate);
         
-        builder.HasOne<User>()
+        builder.HasOne(w => w.User)
                .WithMany()
                .HasForeignKey(w => w.UserId)
                .OnDelete(DeleteBehavior.Cascade);
         
-        builder.HasOne<ExerciseType>()
-               .WithMany()
+        builder.HasOne(w => w.ExerciseType)
+               .WithMany(e => e.WorkoutRecords)
                .HasForeignKey(w => w.ExerciseTypeId)
                .OnDelete(DeleteBehavior.Restrict);
         
-        builder.HasOne<Equipment>()
+        builder.HasOne(w => w.Equipment)
                .WithMany()
                .HasForeignKey(w => w.EquipmentId)
                .OnDelete(DeleteBehavior.SetNull);

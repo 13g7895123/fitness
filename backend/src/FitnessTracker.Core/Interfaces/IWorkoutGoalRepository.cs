@@ -4,8 +4,8 @@ namespace FitnessTracker.Core.Interfaces
 {
     public interface IWorkoutGoalRepository : IRepository<Goal>
     {
-        Task<List<Goal>> GetByUserAsync(int userId);
-        Task<List<Goal>> GetActiveByUserAsync(int userId);
-        Task<List<Goal>> GetCompletedByUserAsync(int userId);
+        Task<List<Goal>> GetByUserAsync(Guid userId);
+        Task<List<Goal>> GetActiveByUserAsync(Guid userId);
+        Task<List<Goal>> GetCompletedByUserAsync(Guid userId);
     }
 }

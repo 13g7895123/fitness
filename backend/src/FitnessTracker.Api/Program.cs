@@ -35,6 +35,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<ICalorieCalculationService, CalorieCalculationService>();
 builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 builder.Services.AddScoped<IGoalService, GoalService>();
+builder.Services.AddScoped<IWorkoutRecordService, WorkoutRecordService>();
 builder.Services.AddScoped<ExerciseTypeService>();
 builder.Services.AddScoped<EquipmentService>();
 

@@ -1,7 +1,7 @@
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
-import { zhTW } from 'vuetify/locale'
+import { zhHant } from 'vuetify/locale'
 
 /**
  * 自訂色彩主題
@@ -27,10 +27,10 @@ export default createVuetify({
   components,
   directives,
   locale: {
-    locale: 'zhTW',
+    locale: 'zhHant',
     messages: {
-      zhTW: {
-        ...zhTW,
+      zhHant: {
+        ...zhHant,
         // 自訂繁體中文翻譯
         close: '關閉',
         edit: '編輯',

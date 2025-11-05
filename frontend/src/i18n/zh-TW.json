@@ -33,7 +33,8 @@
     "inactive": "已停用",
     "maxLength": "最多 {max} 字",
     "minuteAbbr": "分",
-    "loadError": "加載失敗，請重試"
+    "loadError": "加載失敗，請重試",
+    "backToHome": "返回首頁"
   },
   "auth": {
     "login": "登入",
@@ -44,7 +45,12 @@
     "loginFailed": "登入失敗",
     "logoutSuccess": "登出成功",
     "tokenExpired": "Token 已過期，請重新登入",
-    "invalidCredentials": "無效的認證信息"
+    "invalidCredentials": "無效的認證信息",
+    "welcomeMessage": "歡迎使用健身追蹤系統",
+    "loginWithLine": "使用 LINE 登入",
+    "processing": "處理中...",
+    "success": "認證成功",
+    "redirecting": "正在跳轉..."
   },
   "workout": {
     "workoutRecord": "健身紀錄",
@@ -179,6 +185,10 @@
     "selectEquipment": "選擇此運動類型可能使用的器材",
     "view": "查看詳情",
     "close": "關閉"
+  },
+  "error": {
+    "pageNotFound": "頁面不存在",
+    "pageNotFoundMessage": "抱歉，您訪問的頁面不存在，請檢查網址是否正確"
   },
   "errors": {
     "invalidInput": "無效的輸入",

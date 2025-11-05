@@ -26,8 +26,8 @@ services:
   backend-dev:
     image: mcr.microsoft.com/dotnet/sdk:8.0
     container_name: fitness-backend-dev
-    working_dir: /workspace
-    command: sleep infinity
+    working_dir: /workspace/src/FitnessTracker.Api
+    command: dotnet watch run
     volumes:
       - ./backend:/workspace
       - dotnet-packages:/root/.nuget/packages

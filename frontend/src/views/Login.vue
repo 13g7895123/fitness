@@ -39,7 +39,9 @@ const { getLineLoginUrl } = useLineLoginService()
 
 const useMockAuth = import.meta.env.VITE_USE_MOCK_AUTH === 'true'
 
-const handleLineLogin = () => {
+const handleLineLogin = async () => {
+  console.log('Mock Auth enabled:', useMockAuth)
+  
   if (useMockAuth) {
     // 使用 Mock 資料登入
     const mockToken = 'mock-jwt-token-' + Date.now()
@@ -49,8 +51,17 @@ const handleLineLogin = () => {
       displayName: '測試使用者',
       pictureUrl: 'https://cdn.vuetifyjs.com/images/avatars/1.jpg'
     }
+    console.log('Setting mock auth:', { mockToken, mockUser })
     authStore.setAuth(mockToken, mockUser)
-    router.push('/')
+    console.log('Auth state after set:', { 
+      token: authStore.token, 
+      user: authStore.user,
+      isAuthenticated: authStore.isAuthenticated 
+    })
+    
+    // 使用 nextTick 確保狀態已更新
+    await router.push('/')
+    console.log('Navigated to home')
   } else {
     // 真實 LINE 登入
     const loginUrl = getLineLoginUrl()

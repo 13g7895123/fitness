@@ -54,11 +54,11 @@ const drawer = ref(false)
 const rail = ref(true)
 
 const userName = computed(() => {
-  return authStore.user?.name || 'User'
+  return authStore.user?.displayName || 'User'
 })
 
 const userAvatar = computed(() => {
-  return authStore.user?.picture || 'https://cdn.vuetifyjs.com/images/avatars/1.jpg'
+  return authStore.user?.pictureUrl || 'https://cdn.vuetifyjs.com/images/avatars/1.jpg'
 })
 
 const navItems = [

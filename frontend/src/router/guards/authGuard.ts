@@ -15,15 +15,25 @@ export const setupAuthGuard = (router: Router): void => {
     const authStore = useAuthStore()
     const lineLoginService = useLineLoginService()
 
+    console.log('[Auth Guard] Navigating to:', to.path, 'from:', from.path)
+
     // 恢復已保存的 token
     if (!authStore.token) {
       authStore.restoreToken()
     }
 
+    console.log('[Auth Guard] Auth state:', {
+      token: authStore.token?.substring(0, 20) + '...',
+      isAuthenticated: authStore.isAuthenticated,
+      user: authStore.user?.displayName
+    })
+
     // 檢查是否為公開路由
     if (PUBLIC_ROUTES.includes(to.path)) {
+      console.log('[Auth Guard] Public route detected')
       // 如果已登入且訪問登入頁，重定向到首頁
       if (authStore.isAuthenticated && to.path === '/login') {
+        console.log('[Auth Guard] Already authenticated, redirecting to home')
         next('/')
       } else {
         next()
@@ -35,12 +45,19 @@ export const setupAuthGuard = (router: Router): void => {
     if (!authStore.isAuthenticated) {
       // 如果有 token，驗證是否仍有效
       if (authStore.token) {
-        const isValid = await lineLoginService.validateToken(authStore.token)
-        if (!isValid) {
-          authStore.clearAuth()
-          next('/login')
-          return
+        // 如果是 mock token，跳過驗證
+        const isMockToken = authStore.token.startsWith('mock-jwt-token-')
+        if (!isMockToken) {
+          const isValid = await lineLoginService.validateToken(authStore.token)
+          if (!isValid) {
+            authStore.clearAuth()
+            next('/login')
+            return
+          }
         }
+        // Mock token 或驗證通過，繼續
+        next()
+        return
       } else {
         // 沒有 token，重定向到登入
         next('/login')

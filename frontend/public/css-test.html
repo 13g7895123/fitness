@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS 測試頁面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Fitness Tracker - CSS 載入測試</h1>
+  
+  <div class="test-section">
+    <h2>1. 基礎 CSS 測試</h2>
+    <p>如果你能看到這段文字有正確的樣式（白色背景、圓角、陰影），表示基礎 CSS 正常。</p>
+    <p class="success">✓ 這是成功訊息</p>
+    <p class="error">✗ 這是錯誤訊息</p>
+  </div>
+
+  <div class="test-section">
+    <h2>2. Vue 應用程式載入測試</h2>
+    <p>請訪問以下 URL 來測試完整的 Vue 應用：</p>
+    <ul>
+      <li><strong>開發服務器:</strong> <a href="http://localhost:5173" target="_blank">http://localhost:5173</a></li>
+      <li><strong>備用端口:</strong> <a href="http://localhost:5174" target="_blank">http://localhost:5174</a></li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>3. 檢查清單</h2>
+    <h3>應該看到的內容：</h3>
+    <ul>
+      <li>✓ Vuetify 的 Material Design 元件樣式</li>
+      <li>✓ 導航抽屜和頂部導航列</li>
+      <li>✓ 卡片元件有圓角和陰影</li>
+      <li>✓ 按鈕有藍色主題色 (#2563eb)</li>
+      <li>✓ Material Design Icons 圖標正常顯示</li>
+      <li>✓ 繁體中文字體（Noto Sans TC）</li>
+    </ul>
+    
+    <h3>如果 CSS 沒有載入，你會看到：</h3>
+    <ul>
+      <li>✗ 純文字，無樣式</li>
+      <li>✗ 元件排列錯亂</li>
+      <li>✗ 沒有顏色或間距</li>
+      <li>✗ 圖標顯示為方框或亂碼</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>4. 瀏覽器控制台檢查</h2>
+    <p>按 F12 打開開發者工具，檢查：</p>
+    <ol>
+      <li><strong>Console 標籤:</strong> 檢查是否有 CSS 載入錯誤</li>
+      <li><strong>Network 標籤:</strong> 檢查 CSS 文件是否成功載入（200 狀態碼）</li>
+      <li><strong>Elements 標籤:</strong> 檢查 &lt;head&gt; 中是否有 Vuetify 的 &lt;style&gt; 標籤</li>
+    </ol>
+  </div>
+
+  <div class="test-section">
+    <h2>5. 已套用的修復</h2>
+    <ul>
+      <li>✓ 在 vuetify.ts 中添加 <code>import 'vuetify/styles'</code></li>
+      <li>✓ 在 vuetify.ts 中添加 <code>import '@mdi/font/css/materialdesignicons.css'</code></li>
+      <li>✓ 在 index.html 中添加 Google Fonts (Roboto + Noto Sans TC)</li>
+      <li>✓ 調整 global.css 避免過度重置樣式</li>
+      <li>✓ 確保 main.ts 中 Vuetify 在其他插件之前載入</li>
+    </ul>
+  </div>
+
+  <script>
+    console.log('%c✓ CSS 測試頁面已載入', 'color: green; font-size: 16px; font-weight: bold;');
+    console.log('如果你看到這條訊息，表示 JavaScript 運作正常');
+    console.log('現在請訪問 http://localhost:5173 或 http://localhost:5174 測試 Vue 應用');
+  </script>
+</body>
+</html>

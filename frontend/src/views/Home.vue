@@ -90,7 +90,7 @@
 
     <!-- 通知面板 -->
     <NotificationPanel />
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">

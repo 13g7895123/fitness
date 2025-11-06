@@ -1,55 +1,67 @@
 <template>
-  <v-container fluid style="max-width: 1280px; margin: 0 auto;">
-    <v-row>
-      <v-col cols="12">
-        <h1 class="text-h4 mb-4">設定</h1>
+  <div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">設定</h1>
 
-        <v-tabs v-model="activeTab">
-          <v-tab value="exerciseTypes">運動類型</v-tab>
-          <v-tab value="equipments">器材設備</v-tab>
-        </v-tabs>
+      <!-- Tabs -->
+      <div class="border-b border-gray-200 mb-6">
+        <nav class="-mb-px flex space-x-8">
+          <button
+            @click="activeTab = 'exerciseTypes'"
+            :class="[
+              activeTab === 'exerciseTypes'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors'
+            ]"
+          >
+            運動類型
+          </button>
+          <button
+            @click="activeTab = 'equipments'"
+            :class="[
+              activeTab === 'equipments'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors'
+            ]"
+          >
+            器材設備
+          </button>
+        </nav>
+      </div>
 
-        <v-window v-model="activeTab" class="mt-4">
-          <!-- 運動類型 Tab -->
-          <v-window-item value="exerciseTypes">
-            <v-row>
-              <v-col cols="12">
-                <ExerciseTypeSearchBar v-model="searchQuery" />
-              </v-col>
-            </v-row>
+      <!-- Tab Content -->
+      <div class="space-y-6">
+        <!-- 運動類型 Tab -->
+        <div v-if="activeTab === 'exerciseTypes'">
+          <div class="mb-6">
+            <ExerciseTypeSearchBar v-model="searchQuery" />
+          </div>
 
-            <v-row class="mt-4">
-              <v-col cols="12">
-                <ExerciseTypeList
-                  :exercise-types="filteredExerciseTypes"
-                  @create="openExerciseTypeDialog('create')"
-                  @view="openExerciseTypeDialog('view', $event)"
-                  @edit="openExerciseTypeDialog('edit', $event)"
-                  @delete="openDeleteDialog('exerciseType', $event)"
-                />
-              </v-col>
-            </v-row>
-          </v-window-item>
+          <ExerciseTypeList
+            :exercise-types="filteredExerciseTypes"
+            @create="openExerciseTypeDialog('create')"
+            @view="openExerciseTypeDialog('view', $event)"
+            @edit="openExerciseTypeDialog('edit', $event)"
+            @delete="openDeleteDialog('exerciseType', $event)"
+          />
+        </div>
 
-          <!-- 器材設備 Tab -->
-          <v-window-item value="equipments">
-            <v-row>
-              <v-col cols="12">
-                <EquipmentList
-                  :equipments="exerciseTypesStore.customEquipments"
-                  @create="openEquipmentDialog('create')"
-                  @edit="openEquipmentDialog('edit', $event)"
-                  @delete="openDeleteDialog('equipment', $event)"
-                />
-              </v-col>
-            </v-row>
-          </v-window-item>
-        </v-window>
-      </v-col>
-    </v-row>
+        <!-- 器材設備 Tab -->
+        <div v-if="activeTab === 'equipments'">
+          <EquipmentList
+            :equipments="exerciseTypesStore.customEquipments"
+            @create="openEquipmentDialog('create')"
+            @edit="openEquipmentDialog('edit', $event)"
+            @delete="openDeleteDialog('equipment', $event)"
+          />
+        </div>
+      </div>
+    </div>
 
     <!-- 運動類型表單對話框 -->
-    <v-dialog v-model="exerciseTypeDialogOpen" max-width="800">
+    <Modal v-model="exerciseTypeDialogOpen" max-width="4xl">
       <ExerciseTypeForm
         v-if="exerciseTypeDialogOpen"
         :mode="exerciseTypeFormMode"
@@ -59,10 +71,10 @@
         @submit="handleExerciseTypeSubmit"
         @cancel="closeExerciseTypeDialog"
       />
-    </v-dialog>
+    </Modal>
 
     <!-- 器材表單對話框 -->
-    <v-dialog v-model="equipmentDialogOpen" max-width="600">
+    <Modal v-model="equipmentDialogOpen" max-width="lg">
       <EquipmentForm
         v-if="equipmentDialogOpen"
         :mode="equipmentFormMode"
@@ -71,7 +83,7 @@
         @submit="handleEquipmentSubmit"
         @cancel="closeEquipmentDialog"
       />
-    </v-dialog>
+    </Modal>
 
     <!-- 刪除確認對話框 -->
     <DeleteConfirmDialog
@@ -82,24 +94,56 @@
       @confirm="handleDeleteConfirm"
     />
 
-    <!-- 成功 Snackbar -->
-    <v-snackbar v-model="successSnackbar" color="success" timeout="3000">
-      {{ successMessage }}
-    </v-snackbar>
+    <!-- Toast Notifications -->
+    <Transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="translate-y-2 opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="translate-y-2 opacity-0"
+    >
+      <div v-if="successSnackbar" class="fixed bottom-4 right-4 z-50">
+        <div class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>{{ successMessage }}</span>
+        </div>
+      </div>
+    </Transition>
 
-    <!-- 錯誤 Snackbar -->
-    <v-snackbar v-model="errorSnackbar" color="error" timeout="5000">
-      {{ exerciseTypesStore.error }}
-      <template v-slot:actions>
-        <v-btn text @click="errorSnackbar = false">關閉</v-btn>
-      </template>
-    </v-snackbar>
-  </v-container>
+    <Transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="translate-y-2 opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="translate-y-2 opacity-0"
+    >
+      <div v-if="errorSnackbar" class="fixed bottom-4 right-4 z-50">
+        <div class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center justify-between space-x-3">
+          <div class="flex items-center space-x-3">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span>{{ exerciseTypesStore.error }}</span>
+          </div>
+          <button @click="errorSnackbar = false" class="ml-4 hover:text-gray-200">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useExerciseTypesStore } from '@/stores/exerciseTypes'
+import Modal from '@/components/common/Modal.vue'
 import ExerciseTypeList from '@/components/settings/ExerciseTypeList.vue'
 import ExerciseTypeForm from '@/components/settings/ExerciseTypeForm.vue'
 import ExerciseTypeSearchBar from '@/components/settings/ExerciseTypeSearchBar.vue'
@@ -138,8 +182,10 @@ const filteredExerciseTypes = computed(() => {
   if (!searchQuery.value) {
     return exerciseTypesStore.customExerciseTypes
   }
-  exerciseTypesStore.setSearchQuery(searchQuery.value)
-  return exerciseTypesStore.searchResults
+  const query = searchQuery.value.toLowerCase()
+  return exerciseTypesStore.customExerciseTypes.filter(e => 
+    e.name.toLowerCase().includes(query)
+  )
 })
 
 const deleteItemName = computed(() => {
@@ -166,6 +212,18 @@ onMounted(async () => {
 watch(() => exerciseTypesStore.error, (error) => {
   if (error) {
     errorSnackbar.value = true
+    setTimeout(() => {
+      errorSnackbar.value = false
+    }, 5000)
+  }
+})
+
+// 自動關閉成功提示
+watch(successSnackbar, (value) => {
+  if (value) {
+    setTimeout(() => {
+      successSnackbar.value = false
+    }, 3000)
   }
 })
 

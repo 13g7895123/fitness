@@ -24,12 +24,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAuthService } from '@/services/authService'
+import { useLineLoginService } from '@/services/authService'
 import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
 const router = useRouter()
-const authService = useAuthService()
+const authService = useLineLoginService()
 const authStore = useAuthStore()
 
 const isProcessing = ref(true)

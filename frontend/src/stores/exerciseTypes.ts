@@ -178,6 +178,10 @@ export const useExerciseTypesStore = defineStore('exerciseTypes', () => {
     }
   }
 
+  const setSearchQuery = (query: string) => {
+    searchQuery.value = query
+  }
+
   const clearError = () => {
     error.value = null
   }
@@ -205,6 +209,7 @@ export const useExerciseTypesStore = defineStore('exerciseTypes', () => {
     createEquipment,
     updateEquipment,
     deleteEquipment,
+    setSearchQuery,
     clearError
   }
 })

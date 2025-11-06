@@ -1,120 +1,47 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@layer base {
-  * {
-    @apply box-border;
-  }
-
-  body {
-    @apply font-sans antialiased;
-    @apply bg-gray-50 text-gray-900;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@layer components {
-  /* 卡片樣式 */
-  .card {
-    @apply bg-white rounded-xl border border-gray-100 shadow-sm transition-all duration-200;
-  }
+html {
+  line-height: 1.5;
+}
 
-  .card:hover {
-    @apply shadow-md;
-  }
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Noto Sans TC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  /* 按鈕樣式 */
-  .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
 
-  .btn-primary {
-    @apply bg-primary text-white shadow-sm;
-    @apply hover:bg-primary-700 hover:shadow-md;
-  }
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
-  .btn-secondary {
-    @apply bg-secondary text-white shadow-sm;
-    @apply hover:bg-secondary-600 hover:shadow-md;
-  }
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
 
-  .btn-outlined {
-    @apply border border-gray-300 bg-white text-gray-700;
-    @apply hover:bg-gray-50;
-  }
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
 
-  .btn-text {
-    @apply text-gray-700 hover:bg-gray-100;
-  }
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
 
-  /* 輸入框樣式 */
-  .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30;
-    @apply transition-all duration-200;
-  }
-
-  .input-error {
-    @apply border-red-500 focus:ring-red-500/20 focus:border-red-500/30;
-  }
-
-  /* 列表項目 */
-  .list-item {
-    @apply px-4 py-3 rounded-lg mb-1 transition-colors duration-200;
-    @apply hover:bg-gray-50 cursor-pointer;
-  }
-
-  .list-item-active {
-    @apply bg-primary/10 text-primary;
-  }
-
-  /* 對話框 */
-  .dialog {
-    @apply bg-white rounded-2xl shadow-2xl;
-    @apply max-w-2xl mx-auto;
-  }
-
-  /* 分隔線 */
-  .divider {
-    @apply border-t border-gray-200;
-  }
-
-  /* 晶片 */
-  .chip {
-    @apply inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium;
-  }
-
-  .chip-primary {
-    @apply bg-primary/10 text-primary;
-  }
-
-  .chip-secondary {
-    @apply bg-secondary/10 text-secondary;
-  }
-
-  .chip-warning {
-    @apply bg-yellow-100 text-yellow-800;
-  }
-
-  /* 警告框 */
-  .alert {
-    @apply p-4 rounded-lg border;
-  }
-
-  .alert-info {
-    @apply bg-blue-50 border-blue-200 text-blue-800;
-  }
-
-  .alert-warning {
-    @apply bg-yellow-50 border-yellow-200 text-yellow-800;
-  }
-
-  .alert-error {
-    @apply bg-red-50 border-red-200 text-red-800;
-  }
-
-  .alert-success {
-    @apply bg-green-50 border-green-200 text-green-800;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

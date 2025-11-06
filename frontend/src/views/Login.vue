@@ -29,12 +29,33 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthService } from '@/services/authService'
+import { useRouter } from 'vue-router'
+import { useLineLoginService } from '@/services/authService'
+import { useAuthStore } from '@/stores/auth'
 
-const authService = useAuthService()
+const router = useRouter()
+const authStore = useAuthStore()
+const { getLineLoginUrl } = useLineLoginService()
+
+const useMockAuth = import.meta.env.VITE_USE_MOCK_AUTH === 'true'
 
 const handleLineLogin = () => {
-  authService.redirectToLineLogin()
+  if (useMockAuth) {
+    // 使用 Mock 資料登入
+    const mockToken = 'mock-jwt-token-' + Date.now()
+    const mockUser = {
+      id: 'mock-user-id',
+      lineUserId: 'U1234567890abcdef',
+      displayName: '測試使用者',
+      pictureUrl: 'https://cdn.vuetifyjs.com/images/avatars/1.jpg'
+    }
+    authStore.setAuth(mockToken, mockUser)
+    router.push('/')
+  } else {
+    // 真實 LINE 登入
+    const loginUrl = getLineLoginUrl()
+    window.location.href = loginUrl
+  }
 }
 </script>
 

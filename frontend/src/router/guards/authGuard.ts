@@ -5,7 +5,7 @@ import { useLineLoginService } from '@/services/authService'
 /**
  * 公開路由列表 - 不需要登入即可訪問
  */
-const PUBLIC_ROUTES = ['/login', '/auth/callback', '/']
+const PUBLIC_ROUTES = ['/login', '/auth/callback']
 
 /**
  * 安裝 Auth 導航守衛

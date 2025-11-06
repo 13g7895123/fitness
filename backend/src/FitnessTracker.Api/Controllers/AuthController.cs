@@ -1,12 +1,14 @@
 using FitnessTracker.Core.Entities;
 using FitnessTracker.Core.Interfaces;
 using FitnessTracker.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/auth")]
+[AllowAnonymous]
 public class AuthController : ControllerBase
 {
     private readonly ILineLoginService _lineLoginService;

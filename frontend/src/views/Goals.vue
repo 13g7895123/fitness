@@ -1,5 +1,5 @@
 <template>
-  <v-container class="goals-page">
+  <v-container class="goals-page" fluid>
     <div class="page-header">
       <h1>{{ $t('goals.weeklyGoal') }}</h1>
       <p>{{ $t('goals.progress') }}</p>

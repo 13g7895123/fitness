@@ -30,7 +30,7 @@
       <v-btn icon="mdi-bell" @click="showNotifications"></v-btn>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="pa-0">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
           <component :is="Component" :key="$route.path" />

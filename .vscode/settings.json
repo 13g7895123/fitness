@@ -11,5 +11,11 @@
         ".specify/scripts/powershell/": true
     },
     "editor.lineHeight": 2,
+    "terminal.integrated.fontFamily": "'MesloLGM Nerd Font Mono'",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.lineHeight": 1.2,
+    "editor.fontFamily": "'MesloLGM Nerd Font Mono', 'Droid Sans Mono', 'monospace'",
+    "editor.fontLigatures": true,
+    "debug.console.fontFamily": "'MesloLGM Nerd Font Mono'"
 }
 

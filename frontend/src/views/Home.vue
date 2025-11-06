@@ -1,5 +1,5 @@
 <template>
-  <v-container class="home-page">
+  <v-container class="home-page" fluid>
     <div class="page-header">
       <h1>{{ $t('app.title') }}</h1>
       <p>{{ $t('statistics.weekly') }}</p>

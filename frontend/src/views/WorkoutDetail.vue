@@ -1,6 +1,6 @@
 <template>
   <div class="workout-detail-page">
-    <v-container class="py-6">
+    <v-container class="py-6" fluid>
       <!-- Header -->
       <div class="mb-6">
         <v-btn

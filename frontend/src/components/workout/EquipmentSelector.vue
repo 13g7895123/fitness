@@ -9,12 +9,9 @@
       clearable
       variant="outlined"
       density="comfortable"
+      rounded="lg"
       @update:model-value="handleSelect"
-    >
-      <template #prepend-inner>
-        <v-icon>mdi-tools</v-icon>
-      </template>
-    </v-select>
+    ></v-select>
   </div>
 </template>
 

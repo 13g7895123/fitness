@@ -31,13 +31,14 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
+    "autoprefixer": "^10.4.21",
     "chart.js": "^4.5.1",
     "eslint": "^9.39.0",
     "happy-dom": "^20.0.10",
+    "postcss": "^8.5.6",
     "prettier": "^3.6.2",
-    "vite-plugin-vuetify": "^2.1.2",
+    "tailwindcss": "^4.1.16",
     "vitest": "^4.0.6",
-    "vue-chartjs": "^5.3.2",
-    "vuetify": "^3.10.8"
+    "vue-chartjs": "^5.3.2"
   }
 }

@@ -1,28 +1,21 @@
 <template>
-  <v-container class="login-page fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="5" lg="4">
-        <div class="login-card">
-          <div class="text-center mb-10">
-            <h1 class="text-h3 font-weight-bold mb-2">{{ $t('app.title') }}</h1>
-            <p class="text-body-1 text-medium-emphasis">{{ $t('auth.welcomeMessage') }}</p>
-          </div>
-
-          <v-btn
-            color="#00B900"
-            size="x-large"
-            variant="flat"
-            block
-            rounded="lg"
-            class="text-none font-weight-medium"
-            @click="handleLineLogin"
-          >
-            {{ $t('auth.loginWithLine') }}
-          </v-btn>
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div class="w-full max-w-md">
+      <div class="card p-12">
+        <div class="text-center mb-10">
+          <h1 class="text-3xl font-bold mb-2">{{ $t('app.title') }}</h1>
+          <p class="text-gray-600">{{ $t('auth.welcomeMessage') }}</p>
         </div>
-      </v-col>
-    </v-row>
-  </v-container>
+
+        <button
+          class="w-full py-3 px-4 bg-[#00B900] text-white rounded-lg font-medium hover:bg-[#009900] transition-colors shadow-sm hover:shadow-md"
+          @click="handleLineLogin"
+        >
+          {{ $t('auth.loginWithLine') }}
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -59,15 +52,5 @@ const handleLineLogin = async () => {
 </script>
 
 <style scoped>
-.login-page {
-  background-color: #fafafa;
-  min-height: 100vh;
-}
-
-.login-card {
-  background: white;
-  border-radius: 24px;
-  padding: 48px 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
+/* Tailwind handles all styling */
 </style>

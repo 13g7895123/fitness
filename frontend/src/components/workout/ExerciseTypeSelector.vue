@@ -6,24 +6,19 @@
       placeholder="搜尋運動項目..."
       variant="outlined"
       density="comfortable"
+      rounded="lg"
       clearable
       @update:model-value="handleSearch"
-    >
-      <template #prepend-inner>
-        <v-icon>mdi-magnify</v-icon>
-      </template>
-    </v-text-field>
+    ></v-text-field>
 
-    <v-card v-if="showDropdown" class="mt-2">
+    <v-card v-if="showDropdown" class="mt-2" rounded="lg">
       <v-list>
         <v-list-item
           v-for="exercise in filteredExercises"
           :key="exercise.id"
           @click="selectExercise(exercise)"
+          rounded="lg"
         >
-          <template #prepend>
-            <v-icon>mdi-dumbbell</v-icon>
-          </template>
           <v-list-item-title>{{ exercise.name }}</v-list-item-title>
           <template v-if="!exercise.isActive" #append>
             <v-chip size="small" color="warning">{{ $t('common.inactive') }}</v-chip>

@@ -1,55 +1,78 @@
 <template>
-  <v-app>
-    <v-navigation-drawer v-model="drawer" width="280" elevation="0" class="border-e">
-      <div class="pa-6">
-        <h2 class="text-h5 font-weight-bold mb-2">{{ $t('app.title') }}</h2>
-        <div class="d-flex align-center mb-6">
-          <v-avatar :image="userAvatar" size="40" class="mr-3"></v-avatar>
-          <div class="flex-grow-1">
-            <div class="text-body-2 font-weight-medium">{{ userName }}</div>
-            <div class="text-caption text-medium-emphasis">健身追蹤</div>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Sidebar -->
+    <div
+      v-if="drawer"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+      @click="drawer = false"
+    ></div>
+
+    <aside
+      :class="[
+        'fixed top-0 left-0 h-full w-72 bg-white border-r border-gray-200 z-50 transform transition-transform duration-200',
+        drawer ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      ]"
+    >
+      <div class="p-6">
+        <h2 class="text-xl font-bold mb-2">{{ $t('app.title') }}</h2>
+        <div class="flex items-center mb-6">
+          <img :src="userAvatar" alt="avatar" class="w-10 h-10 rounded-full mr-3" />
+          <div class="flex-1">
+            <div class="text-sm font-medium">{{ userName }}</div>
+            <div class="text-xs text-gray-500">健身追蹤</div>
           </div>
         </div>
       </div>
 
-      <v-list class="px-3" density="compact" nav>
-        <v-list-item
+      <nav class="px-3">
+        <router-link
           v-for="item in navItems"
           :key="item.path"
           :to="item.path"
-          :title="item.label"
-          rounded="lg"
-          class="mb-1"
-        ></v-list-item>
-      </v-list>
+          class="list-item block"
+          active-class="list-item-active"
+        >
+          {{ item.label }}
+        </router-link>
+      </nav>
 
-      <template v-slot:append>
-        <div class="pa-4">
-          <v-btn
-            variant="text"
-            block
-            class="text-none"
-            @click="handleLogout"
+      <div class="absolute bottom-0 left-0 right-0 p-4">
+        <button
+          class="btn-text w-full text-left"
+          @click="handleLogout"
+        >
+          登出
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="lg:ml-72">
+      <!-- Top Bar -->
+      <header class="bg-white border-b border-gray-200 sticky top-0 z-30">
+        <div class="flex items-center px-4 py-3">
+          <button
+            class="lg:hidden p-2 rounded-lg hover:bg-gray-100 mr-2"
+            @click="drawer = !drawer"
           >
-            登出
-          </v-btn>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <h1 class="text-lg font-bold">{{ $t('app.title') }}</h1>
         </div>
-      </template>
-    </v-navigation-drawer>
+      </header>
 
-    <v-app-bar elevation="0" class="border-b" color="white">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title class="font-weight-bold">{{ $t('app.title') }}</v-toolbar-title>
-    </v-app-bar>
-
-    <v-main class="pa-0">
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" :key="$route.path" />
-        </transition>
-      </router-view>
-    </v-main>
-  </v-app>
+      <!-- Page Content -->
+      <main>
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" :key="$route.path" />
+          </transition>
+        </router-view>
+      </main>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -100,13 +123,5 @@ const showNotifications = () => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.border-e {
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.border-b {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 </style>

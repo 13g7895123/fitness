@@ -4,6 +4,7 @@ using FitnessTracker.Core.Services;
 using FitnessTracker.Infrastructure.Data;
 using FitnessTracker.Infrastructure.ExternalServices;
 using FitnessTracker.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -51,22 +52,31 @@ if (string.IsNullOrEmpty(jwtKey))
 
 var key = System.Text.Encoding.UTF8.GetBytes(jwtKey);
 
-builder.Services
-    .AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
+// Configure authentication
+var authBuilder = builder.Services.AddAuthentication("Bearer");
+
+// 在開發環境中，添加 Mock 認證支援
+if (builder.Environment.IsDevelopment())
+{
+    authBuilder.AddScheme<AuthenticationSchemeOptions, FitnessTracker.Api.Middleware.MockAuthenticationHandler>(
+        "MockAuth", 
+        options => { });
+}
+
+authBuilder.AddJwtBearer("Bearer", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
-            ValidateAudience = true,
-            ValidAudience = jwtAudience,
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
-        };
-    });
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidIssuer = jwtIssuer,
+        ValidateAudience = true,
+        ValidAudience = jwtAudience,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 builder.Services.AddAuthorization();
 
@@ -108,9 +118,63 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 
+// 在開發環境中，添加 Mock 認證的中介軟體
+if (app.Environment.IsDevelopment())
+{
+    app.Use(async (context, next) =>
+    {
+        var authHeader = context.Request.Headers["Authorization"].ToString();
+        if (!string.IsNullOrEmpty(authHeader) && authHeader.Contains("mock-jwt-token-"))
+        {
+            // 使用 Mock 認證
+            var result = await context.AuthenticateAsync("MockAuth");
+            if (result.Succeeded)
+            {
+                context.User = result.Principal;
+            }
+        }
+        await next();
+    });
+}
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Apply database migrations and seed data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<FitnessTrackerDbContext>();
+        context.Database.Migrate();
+        
+        // 在開發環境中，創建 Mock 使用者
+        if (app.Environment.IsDevelopment())
+        {
+            var mockUserId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            if (!context.Users.Any(u => u.Id == mockUserId))
+            {
+                context.Users.Add(new FitnessTracker.Core.Entities.User
+                {
+                    Id = mockUserId,
+                    LineUserId = "U1234567890abcdef",
+                    DisplayName = "測試使用者",
+                    PictureUrl = "https://cdn.vuetifyjs.com/images/avatars/1.jpg",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                });
+                context.SaveChanges();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+    }
+}
 
 app.Run();

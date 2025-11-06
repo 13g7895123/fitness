@@ -1,8 +1,8 @@
 <template>
-  <v-container class="home-page" fluid>
-    <div class="page-header">
-      <h1>{{ $t('app.title') }}</h1>
-      <p>{{ $t('statistics.weekly') }}</p>
+  <v-container class="home-page" fluid style="max-width: 1280px; margin: 0 auto;">
+    <div class="page-header mb-8">
+      <h1 class="text-h4 font-weight-bold mb-2">{{ $t('statistics.weekly') }}</h1>
+      <p class="text-body-2 text-medium-emphasis">{{ new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' }) }}</p>
     </div>
 
     <Loading :visible="isLoading" :text="$t('common.loading')" />
@@ -47,12 +47,24 @@
             <v-card class="action-card">
               <v-card-title>{{ $t('common.quickAction') }}</v-card-title>
               <v-card-text>
-                <v-btn color="primary" block class="mb-2" @click="showAddDialog">
-                  <v-icon start>mdi-plus</v-icon>
+                <v-btn 
+                  color="primary" 
+                  block 
+                  size="large"
+                  rounded="lg"
+                  class="mb-3 text-none font-weight-medium" 
+                  @click="showAddDialog"
+                >
                   {{ $t('workout.addRecord') }}
                 </v-btn>
-                <v-btn color="secondary" block @click="handleViewDetail">
-                  <v-icon start>mdi-eye</v-icon>
+                <v-btn 
+                  variant="outlined" 
+                  block 
+                  size="large"
+                  rounded="lg"
+                  class="text-none" 
+                  @click="handleViewDetail"
+                >
                   {{ $t('statistics.dailyBreakdown') }}
                 </v-btn>
               </v-card-text>
@@ -145,22 +157,13 @@ onMounted(async () => {
 
 <style scoped>
 .home-page {
-  padding: 24px;
+  padding: 32px 24px;
+  background-color: #fafafa;
+  min-height: 100vh;
 }
 
 .page-header {
-  margin-bottom: 32px;
-}
-
-.page-header h1 {
-  margin: 0 0 8px 0;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.page-header p {
-  margin: 0;
-  color: #999;
+  margin-bottom: 24px;
 }
 
 .content {
@@ -169,13 +172,16 @@ onMounted(async () => {
 
 .action-card {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border-radius: 16px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
 .mb-2 {
   margin-bottom: 8px !important;
+}
+
+.mb-3 {
+  margin-bottom: 12px !important;
 }
 
 .mb-4 {
@@ -184,5 +190,9 @@ onMounted(async () => {
 
 .mt-4 {
   margin-top: 16px !important;
+}
+
+.mb-8 {
+  margin-bottom: 32px !important;
 }
 </style>

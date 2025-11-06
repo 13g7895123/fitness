@@ -1,6 +1,6 @@
 <template>
   <div class="workout-detail-page">
-    <v-container class="py-6" fluid>
+    <v-container class="py-6" fluid style="max-width: 1280px; margin: 0 auto;">
       <!-- Header -->
       <div class="mb-6">
         <v-btn

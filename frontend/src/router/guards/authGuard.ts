@@ -23,7 +23,7 @@ export const setupAuthGuard = (router: Router): void => {
     }
 
     console.log('[Auth Guard] Auth state:', {
-      token: authStore.token?.substring(0, 20) + '...',
+      token: authStore.token ? (authStore.token.substring(0, Math.min(20, authStore.token.length)) + '...') : null,
       isAuthenticated: authStore.isAuthenticated,
       user: authStore.user?.displayName
     })
@@ -42,29 +42,33 @@ export const setupAuthGuard = (router: Router): void => {
     }
 
     // 受保護路由 - 檢查認證狀態
-    if (!authStore.isAuthenticated) {
-      // 如果有 token，驗證是否仍有效
-      if (authStore.token) {
-        // 如果是 mock token，跳過驗證
-        const isMockToken = authStore.token.startsWith('mock-jwt-token-')
-        if (!isMockToken) {
-          const isValid = await lineLoginService.validateToken(authStore.token)
-          if (!isValid) {
-            authStore.clearAuth()
-            next('/login')
-            return
-          }
-        }
-        // Mock token 或驗證通過，繼續
-        next()
-        return
-      } else {
-        // 沒有 token，重定向到登入
+    // 檢查是否有 token（直接檢查 token，而不是 isAuthenticated）
+    if (!authStore.token) {
+      console.log('[Auth Guard] No token, redirecting to login')
+      next('/login')
+      return
+    }
+
+    // 有 token，檢查是否需要驗證
+    const isMockToken = authStore.token.startsWith('mock-jwt-token-')
+    console.log('[Auth Guard] Token found, isMock:', isMockToken)
+    
+    if (!isMockToken) {
+      // 真實 token，需要驗證
+      const isValid = await lineLoginService.validateToken(authStore.token)
+      if (!isValid) {
+        console.log('[Auth Guard] Token validation failed')
+        authStore.clearAuth()
         next('/login')
         return
       }
+      console.log('[Auth Guard] Token validated successfully')
+    } else {
+      console.log('[Auth Guard] Mock token, skipping validation')
     }
 
+    // Token 有效，允許訪問
+    console.log('[Auth Guard] Access granted to:', to.path)
     next()
   })
 

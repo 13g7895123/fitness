@@ -4,19 +4,19 @@ import * as directives from 'vuetify/directives'
 import { zhHant } from 'vuetify/locale'
 
 /**
- * 自訂色彩主題
+ * 自訂色彩主題 - 簡約風格
  */
 const customTheme = {
   colors: {
-    primary: '#1976D2',
-    secondary: '#26A69A',
-    accent: '#82B1FF',
-    error: '#FF5252',
-    warning: '#FFC107',
-    info: '#2196F3',
-    success: '#4CAF50',
-    surface: '#FFFFFF',
-    background: '#F5F5F5'
+    primary: '#2563eb',
+    secondary: '#64748b',
+    accent: '#f59e0b',
+    error: '#ef4444',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+    success: '#10b981',
+    surface: '#ffffff',
+    background: '#fafafa'
   }
 }
 
@@ -65,5 +65,37 @@ export default createVuetify({
         }
       }
     }
-  }
+  },
+  defaults: {
+    VCard: {
+      elevation: 0,
+      rounded: 'lg',
+    },
+    VBtn: {
+      rounded: 'lg',
+    },
+    VTextField: {
+      variant: 'outlined',
+      density: 'comfortable',
+      rounded: 'lg',
+    },
+    VSelect: {
+      variant: 'outlined',
+      density: 'comfortable',
+      rounded: 'lg',
+    },
+    VTextarea: {
+      variant: 'outlined',
+      density: 'comfortable',
+      rounded: 'lg',
+    },
+    VAutocomplete: {
+      variant: 'outlined',
+      density: 'comfortable',
+      rounded: 'lg',
+    },
+    VDialog: {
+      rounded: 'xl',
+    },
+  },
 })

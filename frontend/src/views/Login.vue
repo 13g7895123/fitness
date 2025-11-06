@@ -1,28 +1,25 @@
 <template>
   <v-container class="login-page fill-height" fluid>
     <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4">
-        <v-card class="login-card" elevation="4">
-          <v-card-title class="text-h4 text-center py-6">
-            <v-icon size="48" color="primary" class="mr-2">mdi-dumbbell</v-icon>
-            {{ $t('app.title') }}
-          </v-card-title>
+      <v-col cols="12" sm="8" md="5" lg="4">
+        <div class="login-card">
+          <div class="text-center mb-10">
+            <h1 class="text-h3 font-weight-bold mb-2">{{ $t('app.title') }}</h1>
+            <p class="text-body-1 text-medium-emphasis">{{ $t('auth.welcomeMessage') }}</p>
+          </div>
 
-          <v-card-text class="text-center py-8">
-            <p class="text-h6 mb-6">{{ $t('auth.welcomeMessage') }}</p>
-
-            <v-btn
-              color="success"
-              size="large"
-              variant="flat"
-              prepend-icon="mdi-line"
-              block
-              @click="handleLineLogin"
-            >
-              {{ $t('auth.loginWithLine') }}
-            </v-btn>
-          </v-card-text>
-        </v-card>
+          <v-btn
+            color="#00B900"
+            size="x-large"
+            variant="flat"
+            block
+            rounded="lg"
+            class="text-none font-weight-medium"
+            @click="handleLineLogin"
+          >
+            {{ $t('auth.loginWithLine') }}
+          </v-btn>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -40,28 +37,19 @@ const { getLineLoginUrl } = useLineLoginService()
 const useMockAuth = import.meta.env.VITE_USE_MOCK_AUTH === 'true'
 
 const handleLineLogin = async () => {
-  console.log('Mock Auth enabled:', useMockAuth)
-  
   if (useMockAuth) {
     // 使用 Mock 資料登入
     const mockToken = 'mock-jwt-token-' + Date.now()
     const mockUser = {
-      id: 'mock-user-id',
+      id: '00000000-0000-0000-0000-000000000001',
       lineUserId: 'U1234567890abcdef',
       displayName: '測試使用者',
       pictureUrl: 'https://cdn.vuetifyjs.com/images/avatars/1.jpg'
     }
-    console.log('Setting mock auth:', { mockToken, mockUser })
     authStore.setAuth(mockToken, mockUser)
-    console.log('Auth state after set:', { 
-      token: authStore.token, 
-      user: authStore.user,
-      isAuthenticated: authStore.isAuthenticated 
-    })
     
-    // 使用 nextTick 確保狀態已更新
+    // 導航到首頁
     await router.push('/')
-    console.log('Navigated to home')
   } else {
     // 真實 LINE 登入
     const loginUrl = getLineLoginUrl()
@@ -72,11 +60,14 @@ const handleLineLogin = async () => {
 
 <style scoped>
 .login-page {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #fafafa;
   min-height: 100vh;
 }
 
 .login-card {
-  border-radius: 16px;
+  background: white;
+  border-radius: 24px;
+  padding: 48px 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 </style>

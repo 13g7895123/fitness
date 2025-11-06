@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid style="max-width: 1280px; margin: 0 auto;">
     <v-row>
       <v-col cols="12">
         <h1 class="text-h4 mb-4">設定</h1>

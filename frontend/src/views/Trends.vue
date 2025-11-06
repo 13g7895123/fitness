@@ -1,6 +1,6 @@
 <template>
   <div class="trends-container">
-    <v-container fluid>
+    <v-container fluid style="max-width: 1280px; margin: 0 auto;">
       <h1 class="page-title">{{ $t('navigation.trends') }}</h1>
 
       <v-row class="mb-4">

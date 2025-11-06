@@ -1,33 +1,45 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" :rail="rail" @mouseenter="rail = false" @mouseleave="rail = true">
-      <v-list>
-        <v-list-item :prepend-avatar="userAvatar" :title="userName" subtitle="健身追蹤">
-          <template v-slot:append>
-            <v-btn icon="mdi-logout" @click="handleLogout" size="small"></v-btn>
-          </template>
-        </v-list-item>
-      </v-list>
+    <v-navigation-drawer v-model="drawer" width="280" elevation="0" class="border-e">
+      <div class="pa-6">
+        <h2 class="text-h5 font-weight-bold mb-2">{{ $t('app.title') }}</h2>
+        <div class="d-flex align-center mb-6">
+          <v-avatar :image="userAvatar" size="40" class="mr-3"></v-avatar>
+          <div class="flex-grow-1">
+            <div class="text-body-2 font-weight-medium">{{ userName }}</div>
+            <div class="text-caption text-medium-emphasis">健身追蹤</div>
+          </div>
+        </div>
+      </div>
 
-      <v-divider></v-divider>
-
-      <v-list nav>
+      <v-list class="px-3" density="compact" nav>
         <v-list-item
           v-for="item in navItems"
           :key="item.path"
           :to="item.path"
-          :prepend-icon="item.icon"
           :title="item.label"
-          exact
+          rounded="lg"
+          class="mb-1"
         ></v-list-item>
       </v-list>
+
+      <template v-slot:append>
+        <div class="pa-4">
+          <v-btn
+            variant="text"
+            block
+            class="text-none"
+            @click="handleLogout"
+          >
+            登出
+          </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
-    <v-app-bar>
+    <v-app-bar elevation="0" class="border-b" color="white">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>{{ $t('app.title') }}</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon="mdi-bell" @click="showNotifications"></v-btn>
+      <v-toolbar-title class="font-weight-bold">{{ $t('app.title') }}</v-toolbar-title>
     </v-app-bar>
 
     <v-main class="pa-0">
@@ -88,5 +100,13 @@ const showNotifications = () => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.border-e {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.border-b {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 </style>

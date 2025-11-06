@@ -1,15 +1,18 @@
 <template>
-  <v-dialog v-model="isOpen" width="600">
-    <v-card>
-      <v-card-title>
-        {{ $t('workout.addRecord') }}
+  <v-dialog v-model="isOpen" max-width="600">
+    <v-card rounded="xl">
+      <v-card-title class="d-flex align-center pa-6">
+        <span class="text-h5 font-weight-bold">{{ $t('workout.addRecord') }}</span>
         <v-spacer />
-        <v-btn icon size="small" @click="closeDialog">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
+        <v-btn 
+          icon="mdi-close" 
+          variant="text" 
+          size="small" 
+          @click="closeDialog"
+        ></v-btn>
       </v-card-title>
 
-      <v-divider />
+      <v-divider></v-divider>
 
       <v-card-text class="pa-6">
         <WorkoutRecordForm
@@ -22,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref, watch, defineProps, defineEmits } from 'vue'
 import WorkoutRecordForm from './WorkoutRecordForm.vue'
 import { useWorkoutService } from '@/services/workoutService'
 import { useWorkoutsStore } from '@/stores/workouts'
@@ -44,6 +47,16 @@ const { showSuccess, showError } = useErrorHandler()
 
 const isOpen = ref(props.modelValue)
 
+// 同步 props 變化
+watch(() => props.modelValue, (newVal) => {
+  isOpen.value = newVal
+})
+
+// 同步 isOpen 變化
+watch(isOpen, (newVal) => {
+  emit('update:modelValue', newVal)
+})
+
 const handleSubmit = async (formData: CreateWorkoutRecordDto) => {
   try {
     const result = await createRecord(formData)
@@ -62,13 +75,7 @@ const handleSubmit = async (formData: CreateWorkoutRecordDto) => {
 
 const closeDialog = () => {
   isOpen.value = false
-  emit('update:modelValue', false)
 }
-
-// 監聽 modelValue prop 變化
-defineExpose({
-  isOpen
-})
 </script>
 
 <style scoped>

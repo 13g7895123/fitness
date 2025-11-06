@@ -1,7 +1,6 @@
 using FitnessTracker.Core.Entities;
 using FitnessTracker.Core.Interfaces;
 using FitnessTracker.Shared.Dtos.WorkoutRecords;
-using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTracker.Core.Services
 {
@@ -9,12 +8,12 @@ namespace FitnessTracker.Core.Services
     {
         private readonly IWorkoutRecordRepository _workoutRecordRepository;
         private readonly IExerciseTypeRepository _exerciseTypeRepository;
-        private readonly IEquipmentRepository _equipmentRepository;
+        private readonly IRepository<Equipment> _equipmentRepository;
 
         public WorkoutRecordService(
             IWorkoutRecordRepository workoutRecordRepository,
             IExerciseTypeRepository exerciseTypeRepository,
-            IEquipmentRepository equipmentRepository)
+            IRepository<Equipment> equipmentRepository)
         {
             _workoutRecordRepository = workoutRecordRepository;
             _exerciseTypeRepository = exerciseTypeRepository;
@@ -45,8 +44,9 @@ namespace FitnessTracker.Core.Services
 
         public async Task<WorkoutRecordDto> UpdateAsync(int id, UpdateWorkoutRecordDto dto, Guid userId)
         {
-            var record = await _workoutRecordRepository.GetByIdAsync(id);
-            if (record == null || record.UserId != userId)
+            var records = await _workoutRecordRepository.GetByUserAsync(userId);
+            var record = records.FirstOrDefault(r => r.Id == id && !r.IsDeleted);
+            if (record == null)
             {
                 throw new UnauthorizedAccessException("無權限更新此紀錄");
             }
@@ -60,7 +60,7 @@ namespace FitnessTracker.Core.Services
             record.Notes = dto.Notes;
             record.UpdatedAt = DateTime.UtcNow;
 
-            _workoutRecordRepository.Update(record);
+            await _workoutRecordRepository.UpdateAsync(record);
             await _workoutRecordRepository.SaveChangesAsync();
 
             return await MapToDto(record);
@@ -68,22 +68,24 @@ namespace FitnessTracker.Core.Services
 
         public async Task DeleteAsync(int id, Guid userId)
         {
-            var record = await _workoutRecordRepository.GetByIdAsync(id);
-            if (record == null || record.UserId != userId)
+            var records = await _workoutRecordRepository.GetByUserAsync(userId);
+            var record = records.FirstOrDefault(r => r.Id == id && !r.IsDeleted);
+            if (record == null)
             {
                 throw new UnauthorizedAccessException("無權限刪除此紀錄");
             }
 
             record.IsDeleted = true;
             record.UpdatedAt = DateTime.UtcNow;
-            _workoutRecordRepository.Update(record);
+            await _workoutRecordRepository.UpdateAsync(record);
             await _workoutRecordRepository.SaveChangesAsync();
         }
 
         public async Task<WorkoutRecordDto?> GetByIdAsync(int id)
         {
-            var record = await _workoutRecordRepository.GetByIdAsync(id);
-            if (record == null || record.IsDeleted)
+            var records = await _workoutRecordRepository.GetAllAsync();
+            var record = records.FirstOrDefault(r => r.Id == id && !r.IsDeleted);
+            if (record == null)
             {
                 return null;
             }
@@ -125,11 +127,14 @@ namespace FitnessTracker.Core.Services
 
         private async Task<WorkoutRecordDto> MapToDto(WorkoutRecord record)
         {
-            var exerciseType = await _exerciseTypeRepository.GetByIdAsync(record.ExerciseTypeId);
+            var exerciseTypes = await _exerciseTypeRepository.GetAllAsync();
+            var exerciseType = exerciseTypes.FirstOrDefault(e => !e.IsDeleted && e.Id == record.ExerciseTypeId);
+
             Equipment? equipment = null;
             if (record.EquipmentId.HasValue)
             {
-                equipment = await _equipmentRepository.GetByIdAsync(record.EquipmentId.Value);
+                var equipments = await _equipmentRepository.GetAllAsync();
+                equipment = equipments.FirstOrDefault(e => !e.IsDeleted && e.Id == record.EquipmentId.Value);
             }
 
             return new WorkoutRecordDto

@@ -1,13 +1,11 @@
 <template>
-  <div v-if="visible" class="loading-overlay">
-    <div class="loading-container">
-      <v-progress-circular
-        :size="size"
-        :width="width"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
-      <p v-if="text" class="loading-text">{{ text }}</p>
+  <div v-if="visible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+    <div class="flex flex-col items-center gap-4">
+      <div
+        :class="spinnerClasses"
+        class="border-primary border-t-transparent rounded-full animate-spin"
+      ></div>
+      <p v-if="text" class="text-white text-sm">{{ text }}</p>
     </div>
   </div>
 </template>
@@ -19,41 +17,24 @@ interface Props {
   visible: boolean
   text?: string
   size?: number
-  width?: number
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   visible: false,
   text: undefined,
-  size: 60,
-  width: 4
+  size: 60
+})
+
+const spinnerClasses = computed(() => {
+  const sizeMap: Record<number, string> = {
+    40: 'w-10 h-10 border-2',
+    60: 'w-16 h-16 border-4',
+    80: 'w-20 h-20 border-[5px]'
+  }
+  return sizeMap[props.size] || 'w-16 h-16 border-4'
 })
 </script>
 
 <style scoped>
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.loading-text {
-  color: white;
-  font-size: 14px;
-  margin: 0;
-}
+/* Tailwind handles all styling */
 </style>

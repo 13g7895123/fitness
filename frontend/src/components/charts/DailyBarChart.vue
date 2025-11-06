@@ -1,29 +1,31 @@
 <template>
-  <v-card class="daily-bar-chart-card">
-    <v-card-title>{{ $t('statistics.dailyBreakdown') }}</v-card-title>
-    <v-card-text>
-      <div class="chart-container">
-        <div v-if="chartData && chartData.length" class="bar-chart">
-          <div v-for="(day, index) in chartData" :key="index" class="bar-item">
-            <div class="bar-wrapper">
-              <div v-if="maxDuration > 0" class="duration-bar" :style="{ height: (day.durationMinutes / maxDuration * 100) + '%' }">
-                <span v-if="day.durationMinutes > 0" class="bar-label">{{ day.durationMinutes }}</span>
-              </div>
-              <div class="day-label">{{ getDayName(day.dayOfWeek) }}</div>
+  <Card :title="$t('statistics.dailyBreakdown')">
+    <div class="h-64">
+      <div v-if="chartData && chartData.length" class="flex items-end justify-around h-full p-3">
+        <div v-for="(day, index) in chartData" :key="index" class="flex flex-col items-center flex-1">
+          <div class="relative w-full flex items-end justify-center" style="height: 200px">
+            <div
+              v-if="maxDuration > 0 && day.durationMinutes > 0"
+              class="bg-primary rounded-t w-3/4 flex items-start justify-center transition-all hover:bg-primary-700"
+              :style="{ height: (day.durationMinutes / maxDuration * 100) + '%' }"
+            >
+              <span class="text-xs text-white font-semibold mt-1">{{ day.durationMinutes }}</span>
             </div>
           </div>
-        </div>
-        <div v-else class="no-data">
-          {{ $t('statistics.noData') }}
+          <div class="text-sm text-gray-600 mt-2">週{{ getDayName(day.dayOfWeek) }}</div>
         </div>
       </div>
-    </v-card-text>
-  </v-card>
+      <div v-else class="flex items-center justify-center h-full text-gray-500">
+        {{ $t('statistics.noData') }}
+      </div>
+    </div>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useStatisticsStore } from '@/stores/statistics'
+import Card from '@/components/common/Card.vue'
 
 const statisticsStore = useStatisticsStore()
 

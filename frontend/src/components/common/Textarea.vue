@@ -4,23 +4,22 @@
       {{ label }}
       <span v-if="required" class="text-red-500">*</span>
     </label>
-    <select
+    <textarea
       :id="id"
       :value="modelValue"
+      :placeholder="placeholder"
       :disabled="disabled"
       :required="required"
-      :class="selectClasses"
-      @change="$emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
-    >
-      <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
-      <option
-        v-for="item in items"
-        :key="itemValue ? item[itemValue] : item"
-        :value="itemValue ? item[itemValue] : item"
-      >
-        {{ itemTitle ? item[itemTitle] : item }}
-      </option>
-    </select>
+      :rows="rows"
+      :maxlength="maxlength"
+      :class="textareaClasses"
+      @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
+      @blur="$emit('blur')"
+      @focus="$emit('focus')"
+    ></textarea>
+    <div v-if="counter && maxlength" class="mt-1 text-sm text-gray-500 text-right">
+      {{ modelValue?.length || 0 }} / {{ maxlength }}
+    </div>
     <p v-if="error" class="mt-1 text-sm text-red-600">{{ error }}</p>
     <p v-else-if="hint" class="mt-1 text-sm text-gray-500">{{ hint }}</p>
   </div>
@@ -31,7 +30,7 @@ import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
-    type: [String, Number],
+    type: String,
     default: ''
   },
   label: {
@@ -58,28 +57,28 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  items: {
-    type: Array as () => any[],
-    default: () => []
+  rows: {
+    type: Number,
+    default: 3
   },
-  itemTitle: {
-    type: String,
-    default: ''
+  maxlength: {
+    type: Number,
+    default: undefined
   },
-  itemValue: {
-    type: String,
-    default: ''
+  counter: {
+    type: Boolean,
+    default: false
   },
   id: {
     type: String,
-    default: () => `select-${Math.random().toString(36).substr(2, 9)}`
+    default: () => `textarea-${Math.random().toString(36).substr(2, 9)}`
   }
 })
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue', 'blur', 'focus'])
 
-const selectClasses = computed(() => {
-  const base = 'input appearance-none bg-white'
+const textareaClasses = computed(() => {
+  const base = 'input resize-y min-h-[80px]'
   const error = props.error ? 'input-error' : ''
   const disabled = props.disabled ? 'bg-gray-100 cursor-not-allowed' : ''
   

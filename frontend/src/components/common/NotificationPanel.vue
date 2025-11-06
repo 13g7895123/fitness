@@ -1,17 +1,14 @@
 <template>
-  <div class="notification-container">
-    <transition-group name="list" tag="div">
-      <v-alert
+  <div class="fixed top-5 right-5 max-w-md z-[9999] md:right-5 md:left-auto left-5">
+    <transition-group name="list" tag="div" class="space-y-3">
+      <Alert
         v-for="notification in notifications"
         :key="notification.id"
         :type="notification.type"
-        :icon="`mdi-${getIcon(notification.type)}`"
+        :message="notification.message"
         closable
-        class="notification-item"
-        @click:close="removeNotification(notification.id)"
-      >
-        {{ notification.message }}
-      </v-alert>
+        @close="removeNotification(notification.id)"
+      />
     </transition-group>
   </div>
 </template>
@@ -19,35 +16,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { getNotifications, removeNotification } from '@/utils/errorHandler'
+import Alert from '@/components/common/Alert.vue'
 
 const notifications = computed(() => {
   return getNotifications().value
 })
-
-const getIcon = (type: string): string => {
-  const icons: Record<string, string> = {
-    error: 'alert-circle',
-    warning: 'alert',
-    info: 'information',
-    success: 'check-circle'
-  }
-  return icons[type] || 'information'
-}
 </script>
 
 <style scoped>
-.notification-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  max-width: 400px;
-  z-index: 9999;
-}
-
-.notification-item {
-  margin-bottom: 12px;
-}
-
 .list-enter-active,
 .list-leave-active {
   transition: all 0.3s ease;
@@ -61,13 +37,5 @@ const getIcon = (type: string): string => {
 .list-leave-to {
   opacity: 0;
   transform: translateX(30px);
-}
-
-@media (max-width: 600px) {
-  .notification-container {
-    left: 20px;
-    right: 20px;
-    max-width: none;
-  }
 }
 </style>

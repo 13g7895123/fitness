@@ -1,82 +1,68 @@
 <template>
-  <v-container class="home-page" fluid style="max-width: 1280px; margin: 0 auto;">
-    <div class="page-header mb-8">
-      <h1 class="text-h4 font-weight-bold mb-2">{{ $t('statistics.weekly') }}</h1>
-      <p class="text-body-2 text-medium-emphasis">{{ new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' }) }}</p>
-    </div>
+  <div class="min-h-screen p-6 bg-gray-50">
+    <div class="max-w-content mx-auto">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold mb-2">{{ $t('statistics.weekly') }}</h1>
+        <p class="text-gray-600">{{ new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' }) }}</p>
+      </div>
 
-    <Loading :visible="isLoading" :text="$t('common.loading')" />
+      <Loading :visible="isLoading" :text="$t('common.loading')" />
 
-    <div v-if="!isLoading" class="content">
-      <v-alert
-        v-if="hasError"
-        type="error"
-        :title="$t('common.error')"
-        closable
-        class="mb-4"
-      >
-        {{ statisticsStore.error }}
-      </v-alert>
+      <div v-if="!isLoading">
+        <div
+          v-if="hasError"
+          class="alert alert-error mb-4"
+        >
+          {{ statisticsStore.error }}
+        </div>
 
-      <v-empty-state
-        v-if="!hasData && !isLoading"
-        :headline="$t('statistics.noData')"
-      >
-        <template #media>
-          <v-icon size="64" color="disabled">mdi-chart-box-outline</v-icon>
-        </template>
-        <p class="mt-4">{{ $t('workout.addRecord') }}</p>
-        <v-btn color="primary" @click="showAddDialog">
-          <v-icon start>mdi-plus</v-icon>
-          {{ $t('workout.addRecord') }}
-        </v-btn>
-      </v-empty-state>
+        <div
+          v-if="!hasData && !isLoading"
+          class="text-center py-12"
+        >
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <p class="text-xl font-semibold mb-2">{{ $t('statistics.noData') }}</p>
+          <p class="text-gray-600 mb-6">{{ $t('workout.addRecord') }}</p>
+          <Button variant="primary" @click="showAddDialog">
+            {{ $t('workout.addRecord') }}
+          </Button>
+        </div>
 
-      <div v-if="hasData">
-        <v-row>
-          <v-col cols="12">
+        <div v-if="hasData" class="space-y-6">
+          <div class="grid grid-cols-1 gap-6">
             <WeeklySummaryCard />
-          </v-col>
-        </v-row>
+          </div>
 
-        <v-row>
-          <v-col cols="12" md="6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <WeeklyComparisonCard />
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-card class="action-card">
-              <v-card-title>{{ $t('common.quickAction') }}</v-card-title>
-              <v-card-text>
-                <v-btn 
-                  color="primary" 
+            <Card :title="$t('common.quickAction')">
+              <div class="space-y-3">
+                <Button 
+                  variant="primary" 
                   block 
                   size="large"
-                  rounded="lg"
-                  class="mb-3 text-none font-weight-medium" 
                   @click="showAddDialog"
                 >
                   {{ $t('workout.addRecord') }}
-                </v-btn>
-                <v-btn 
+                </Button>
+                <Button 
                   variant="outlined" 
                   block 
                   size="large"
-                  rounded="lg"
-                  class="text-none" 
                   @click="handleViewDetail"
                 >
                   {{ $t('statistics.dailyBreakdown') }}
-                </v-btn>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+                </Button>
+              </div>
+            </Card>
+          </div>
 
-        <v-row>
-          <v-col cols="12">
+          <div class="grid grid-cols-1 gap-6">
             <DailyBarChart />
-          </v-col>
-        </v-row>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -113,6 +99,8 @@ import { useRouter } from 'vue-router'
 import { useStatisticsStore } from '@/stores/statistics'
 import { useStatisticsService } from '@/services/statisticsService'
 import { useWorkoutsStore } from '@/stores/workouts'
+import Button from '@/components/common/Button.vue'
+import Card from '@/components/common/Card.vue'
 import WeeklySummaryCard from '@/components/workout/WeeklySummaryCard.vue'
 import WeeklyComparisonCard from '@/components/workout/WeeklyComparisonCard.vue'
 import DailyBarChart from '@/components/charts/DailyBarChart.vue'
@@ -156,43 +144,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.home-page {
-  padding: 32px 24px;
-  background-color: #fafafa;
-  min-height: 100vh;
-}
-
-.page-header {
-  margin-bottom: 24px;
-}
-
-.content {
-  width: 100%;
-}
-
-.action-card {
-  height: 100%;
-  border-radius: 16px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-}
-
-.mb-2 {
-  margin-bottom: 8px !important;
-}
-
-.mb-3 {
-  margin-bottom: 12px !important;
-}
-
-.mb-4 {
-  margin-bottom: 16px !important;
-}
-
-.mt-4 {
-  margin-top: 16px !important;
-}
-
-.mb-8 {
-  margin-bottom: 32px !important;
-}
+/* Tailwind handles all styling */
 </style>

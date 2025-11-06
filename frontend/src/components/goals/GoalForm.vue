@@ -1,69 +1,65 @@
 <template>
-  <v-form @submit.prevent="handleSubmit">
-    <div class="form-fields">
-      <!-- 每週運動時間目標 -->
-      <v-text-field
-        v-model.number="form.WeeklyMinutesGoal"
-        :label="$t('goals.weeklyMinutes')"
-        type="number"
-        min="0"
-        max="10080"
-        :hint="$t('validation.durationBetween')"
-        outlined
-        class="mb-3"
-      />
+  <form @submit.prevent="handleSubmit" class="space-y-4">
+    <!-- 每週運動時間目標 -->
+    <Input
+      v-model.number="form.WeeklyMinutesGoal"
+      :label="$t('goals.weeklyMinutes')"
+      type="number"
+      :hint="$t('validation.durationBetween')"
+      min="0"
+      max="10080"
+    />
 
-      <!-- 每週卡路里目標 -->
-      <v-text-field
-        v-model.number="form.WeeklyCaloriesGoal"
-        :label="$t('goals.weeklyCalories')"
-        type="number"
-        min="0"
-        max="100000"
-        hint="最多 100000 卡路里"
-        outlined
-        class="mb-3"
-      />
+    <!-- 每週卡路里目標 -->
+    <Input
+      v-model.number="form.WeeklyCaloriesGoal"
+      :label="$t('goals.weeklyCalories')"
+      type="number"
+      hint="最多 100000 卡路里"
+      min="0"
+      max="100000"
+    />
 
-      <!-- 開始日期 -->
-      <v-text-field
-        v-model="form.StartDate"
-        :label="$t('goals.startDate')"
-        type="date"
-        outlined
-        class="mb-3"
-        required
-      />
+    <!-- 開始日期 -->
+    <Input
+      v-model="form.StartDate"
+      :label="$t('goals.startDate')"
+      type="date"
+      required
+    />
 
-      <!-- 結束日期 -->
-      <v-text-field
-        v-model="form.EndDate"
-        :label="$t('goals.endDate') + ' (' + $t('common.optional') + ')'"
-        type="date"
-        outlined
-        class="mb-3"
-      />
+    <!-- 結束日期 -->
+    <Input
+      v-model="form.EndDate"
+      :label="$t('goals.endDate') + ' (' + $t('common.optional') + ')'"
+      type="date"
+    />
 
-      <!-- 驗證錯誤 -->
-      <v-alert v-if="validationError" type="error" class="mb-3">
-        {{ validationError }}
-      </v-alert>
-    </div>
+    <!-- 驗證錯誤 -->
+    <Alert
+      v-if="validationError"
+      type="error"
+      :message="validationError"
+      :visible="!!validationError"
+    />
 
-    <div class="form-actions">
-      <v-btn variant="text" @click="$emit('cancel')">
+    <div class="flex justify-end gap-2 pt-4">
+      <Button variant="text" @click="$emit('cancel')">
         {{ $t('common.cancel') }}
-      </v-btn>
-      <v-btn color="primary" type="submit" :loading="isSubmitting">
+      </Button>
+      <Button variant="primary" type="submit" :loading="isSubmitting">
         {{ $t('common.save') }}
-      </v-btn>
+      </Button>
     </div>
-  </v-form>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Input from '@/components/common/Input.vue'
+import Button from '@/components/common/Button.vue'
+import Alert from '@/components/common/Alert.vue'
 import type { CreateWorkoutGoalDto } from '@/types/goals'
 
 interface Props {
@@ -141,20 +137,5 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-.form-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.mb-3 {
-  margin-bottom: 1rem;
-}
+/* Tailwind handles all styling */
 </style>

@@ -1,129 +1,106 @@
 <template>
-  <v-form @submit.prevent="submitForm" class="workout-record-form">
-    <v-row>
-      <v-col cols="12">
-        <v-text-field
-          v-model="form.date"
-          type="date"
-          :label="$t('workout.date')"
-          :rules="dateRules"
-          required
-          variant="outlined"
-          density="comfortable"
-        />
-      </v-col>
-    </v-row>
+  <form @submit.prevent="submitForm" class="workout-record-form space-y-4">
+    <div>
+      <Input
+        v-model="form.date"
+        type="date"
+        :label="$t('workout.date')"
+        :error="dateError"
+        required
+      />
+    </div>
 
-    <v-row>
-      <v-col cols="12" sm="6">
-        <ExerciseTypeSelector
-          v-model="form.exerciseTypeId"
-          @select="handleExerciseSelect"
-        />
-      </v-col>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <ExerciseTypeSelector
+        v-model="form.exerciseTypeId"
+        @select="handleExerciseSelect"
+      />
 
-      <v-col cols="12" sm="6">
-        <EquipmentSelector
-          v-model="form.equipmentId"
-        />
-      </v-col>
-    </v-row>
+      <EquipmentSelector
+        v-model="form.equipmentId"
+      />
+    </div>
 
-    <v-row>
-      <v-col cols="12" sm="6">
-        <v-text-field
-          v-model.number="form.durationMinutes"
-          type="number"
-          :label="$t('workout.duration')"
-          :hint="$t('workout.durationHint')"
-          :rules="durationRules"
-          min="1"
-          max="480"
-          required
-          variant="outlined"
-          density="comfortable"
-        />
-      </v-col>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <Input
+        v-model.number="form.durationMinutes"
+        type="number"
+        :label="$t('workout.duration')"
+        :hint="$t('workout.durationHint')"
+        :error="durationError"
+        min="1"
+        max="480"
+        required
+      />
 
-      <v-col cols="12" sm="6">
-        <v-text-field
-          v-model.number="form.caloriesBurned"
-          type="number"
-          :label="$t('workout.calories')"
-          :hint="$t('common.optional')"
-          :rules="caloriesRules"
-          min="1"
-          max="5000"
-          variant="outlined"
-          density="comfortable"
-        />
-      </v-col>
-    </v-row>
+      <Input
+        v-model.number="form.caloriesBurned"
+        type="number"
+        :label="$t('workout.calories')"
+        :hint="$t('common.optional')"
+        :error="caloriesError"
+        min="1"
+        max="5000"
+      />
+    </div>
 
-    <v-row>
-      <v-col cols="12" sm="6">
-        <v-text-field
-          v-model.number="form.weight"
-          type="number"
-          :label="$t('workout.weight')"
-          :hint="$t('common.optional')"
-          :rules="weightRules"
-          min="0.1"
-          step="0.1"
-          variant="outlined"
-          density="comfortable"
-        />
-      </v-col>
-    </v-row>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <Input
+        v-model.number="form.weight"
+        type="number"
+        :label="$t('workout.weight')"
+        :hint="$t('common.optional')"
+        :error="weightError"
+        min="0.1"
+        step="0.1"
+      />
+    </div>
 
-    <v-row>
-      <v-col cols="12">
-        <v-textarea
-          v-model="form.notes"
-          :label="$t('workout.notes')"
-          :hint="$t('common.optional')"
-          :rules="notesRules"
-          counter
-          maxlength="500"
-          variant="outlined"
-          density="comfortable"
-          rows="3"
-        />
-      </v-col>
-    </v-row>
+    <div>
+      <Textarea
+        v-model="form.notes"
+        :label="$t('workout.notes')"
+        :hint="$t('common.optional')"
+        :error="notesError"
+        counter
+        :maxlength="500"
+        :rows="3"
+      />
+    </div>
 
-    <v-row class="mt-4">
-      <v-col cols="12" class="d-flex gap-2">
-        <v-btn
-          type="submit"
-          color="primary"
-          :loading="isSubmitting"
-        >
-          {{ submitButtonText }}
-        </v-btn>
-        <v-btn
-          type="button"
-          variant="outlined"
-          @click="resetForm"
-        >
-          {{ $t('common.reset') }}
-        </v-btn>
-        <v-spacer />
-        <v-btn
-          type="button"
-          variant="text"
-          @click="$emit('cancel')"
-        >
-          {{ $t('common.cancel') }}
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-form>
+    <div class="flex items-center gap-2 mt-6">
+      <Button
+        type="submit"
+        variant="primary"
+        :loading="isSubmitting"
+      >
+        {{ submitButtonText }}
+      </Button>
+      <Button
+        type="button"
+        variant="outlined"
+        @click="resetForm"
+      >
+        {{ $t('common.reset') }}
+      </Button>
+      <div class="flex-1"></div>
+      <Button
+        type="button"
+        variant="text"
+        @click="$emit('cancel')"
+      >
+        {{ $t('common.cancel') }}
+      </Button>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch, defineProps, defineEmits, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Button from '@/components/common/Button.vue'
+import Input from '@/components/common/Input.vue'
+import Textarea from '@/components/common/Textarea.vue'
 import ExerciseTypeSelector from './ExerciseTypeSelector.vue'
 import EquipmentSelector from './EquipmentSelector.vue'
 import type { CreateWorkoutRecordDto, UpdateWorkoutRecordDto, WorkoutRecordResponseDto } from '@/types/workout'
@@ -160,30 +137,39 @@ const submitButtonText = computed(() => {
   return props.isEditing ? t('common.edit') : t('workout.addRecord')
 })
 
-// 驗證規則
-const dateRules = computed(() => [
-  (v: any) => !!v || t('validation.requiredField'),
-  (v: any) => new Date(v) <= new Date() || t('validation.dateNotFuture')
-])
+// 驗證錯誤訊息
+const dateError = computed(() => {
+  if (!form.value.date) return t('validation.requiredField')
+  if (new Date(form.value.date) > new Date()) return t('validation.dateNotFuture')
+  return ''
+})
 
-const durationRules = computed(() => [
-  (v: any) => !!v || t('validation.requiredField'),
-  (v: any) => v >= 1 || t('workout.durationMinError'),
-  (v: any) => v <= 480 || t('workout.durationMaxError')
-])
+const durationError = computed(() => {
+  if (!form.value.durationMinutes) return t('validation.requiredField')
+  if (form.value.durationMinutes < 1) return t('workout.durationMinError')
+  if (form.value.durationMinutes > 480) return t('workout.durationMaxError')
+  return ''
+})
 
-const caloriesRules = computed(() => [
-  (v: any) => !v || v >= 1 || t('workout.caloriesMinError'),
-  (v: any) => !v || v <= 5000 || t('workout.caloriesMaxError')
-])
+const caloriesError = computed(() => {
+  if (form.value.caloriesBurned) {
+    if (form.value.caloriesBurned < 1) return t('workout.caloriesMinError')
+    if (form.value.caloriesBurned > 5000) return t('workout.caloriesMaxError')
+  }
+  return ''
+})
 
-const weightRules = computed(() => [
-  (v: any) => !v || v > 0 || t('validation.weightPositive')
-])
+const weightError = computed(() => {
+  if (form.value.weight && form.value.weight <= 0) return t('validation.weightPositive')
+  return ''
+})
 
-const notesRules = computed(() => [
-  (v: any) => !v || v.length <= 500 || t('common.maxLength', { max: 500 })
-])
+const notesError = computed(() => {
+  if (form.value.notes && form.value.notes.length > 500) {
+    return t('common.maxLength', { max: 500 })
+  }
+  return ''
+})
 
 const handleExerciseSelect = (exercise: any) => {
   selectedExerciseName.value = exercise?.name || ''
@@ -229,9 +215,5 @@ onMounted(() => {
 <style scoped>
 .workout-record-form {
   width: 100%;
-}
-
-.gap-2 {
-  gap: 8px;
 }
 </style>

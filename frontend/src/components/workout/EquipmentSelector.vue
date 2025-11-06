@@ -1,23 +1,21 @@
 <template>
   <div class="equipment-selector">
-    <v-select
+    <Select
       v-model="selectedEquipment"
       :items="activeEquipment"
       :label="$t('workout.equipment')"
       item-title="name"
       item-value="id"
-      clearable
-      variant="outlined"
-      density="comfortable"
-      rounded="lg"
+      :placeholder="$t('workout.selectEquipment')"
       @update:model-value="handleSelect"
-    ></v-select>
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, defineProps, defineEmits } from 'vue'
 import { api } from '@/services/api'
+import Select from '@/components/common/Select.vue'
 
 interface Equipment {
   id: string

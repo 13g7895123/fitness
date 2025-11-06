@@ -1,30 +1,22 @@
 <template>
-  <v-dialog v-model="isOpen" width="600">
-    <v-card>
-      <v-card-title>
-        {{ $t('workout.editRecord') }}
-        <v-spacer />
-        <v-btn icon size="small" @click="closeDialog">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
-
-      <v-divider />
-
-      <v-card-text class="pa-6">
-        <WorkoutRecordForm
-          :initial-data="record"
-          is-editing
-          @submit="handleSubmit"
-          @cancel="closeDialog"
-        />
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+  <Dialog
+    v-model="isOpen"
+    :title="$t('workout.editRecord')"
+    max-width="lg"
+    @close="closeDialog"
+  >
+    <WorkoutRecordForm
+      :initial-data="record"
+      is-editing
+      @submit="handleSubmit"
+      @cancel="closeDialog"
+    />
+  </Dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, computed } from 'vue'
+import Dialog from '@/components/common/Dialog.vue'
 import WorkoutRecordForm from './WorkoutRecordForm.vue'
 import { useWorkoutService } from '@/services/workoutService'
 import { useWorkoutsStore } from '@/stores/workouts'
@@ -77,7 +69,5 @@ defineExpose({
 </script>
 
 <style scoped>
-v-divider {
-  margin-bottom: 16px;
-}
+/* Tailwind handles all styling */
 </style>

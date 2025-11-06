@@ -1,53 +1,61 @@
 <template>
   <div class="exercise-type-selector">
-    <v-text-field
+    <Input
       v-model="searchQuery"
       :label="$t('workout.exercise')"
       placeholder="搜尋運動項目..."
-      variant="outlined"
-      density="comfortable"
-      rounded="lg"
-      clearable
       @update:model-value="handleSearch"
-    ></v-text-field>
+    />
 
-    <v-card v-if="showDropdown" class="mt-2" rounded="lg">
-      <v-list>
-        <v-list-item
+    <div
+      v-if="showDropdown"
+      class="card mt-2 max-h-[300px] overflow-y-auto"
+    >
+      <div class="space-y-1 p-2">
+        <div
           v-for="exercise in filteredExercises"
           :key="exercise.id"
+          class="list-item flex items-center justify-between"
           @click="selectExercise(exercise)"
-          rounded="lg"
         >
-          <v-list-item-title>{{ exercise.name }}</v-list-item-title>
-          <template v-if="!exercise.isActive" #append>
-            <v-chip size="small" color="warning">{{ $t('common.inactive') }}</v-chip>
-          </template>
-        </v-list-item>
+          <span>{{ exercise.name }}</span>
+          <span
+            v-if="!exercise.isActive"
+            class="chip chip-warning text-xs"
+          >
+            {{ $t('common.inactive') }}
+          </span>
+        </div>
 
-        <v-list-item v-if="filteredExercises.length === 0">
-          <v-list-item-title class="text-center">
-            {{ $t('workout.noExerciseFound') }}
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-card>
+        <div v-if="filteredExercises.length === 0" class="p-4 text-center text-gray-500">
+          {{ $t('workout.noExerciseFound') }}
+        </div>
+      </div>
+    </div>
 
     <!-- 顯示已選擇項目 -->
-    <v-chip
+    <div
       v-if="selectedExercise"
-      class="mt-2"
-      closable
-      @click:close="clearSelection"
+      class="chip chip-primary mt-2 inline-flex items-center gap-2"
     >
-      {{ selectedExercise.name }}
-    </v-chip>
+      <span>{{ selectedExercise.name }}</span>
+      <button
+        type="button"
+        class="hover:bg-black/10 rounded-full p-0.5"
+        @click="clearSelection"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, defineProps, defineEmits } from 'vue'
 import { api } from '@/services/api'
+import Input from '@/components/common/Input.vue'
 
 interface ExerciseType {
   id: string
@@ -123,10 +131,6 @@ onMounted(() => {
 <style scoped>
 .exercise-type-selector {
   position: relative;
-}
-
-v-card {
-  max-height: 300px;
-  overflow-y: auto;
+  width: 100%;
 }
 </style>

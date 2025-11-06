@@ -1,25 +1,27 @@
 <template>
-  <v-card class="time-range-selector">
-    <v-card-item>
-      <div class="selector-label">{{ $t('statistics.timeRange') }}</div>
-      <div class="selector-buttons">
-        <v-btn
-          v-for="option in options"
-          :key="option.value"
-          :variant="selectedRange === option.value ? 'elevated' : 'outlined'"
-          :color="selectedRange === option.value ? 'primary' : 'default'"
-          size="small"
-          @click="handleSelectRange(option.value)"
-        >
-          {{ option.label }}
-        </v-btn>
-      </div>
-    </v-card-item>
-  </v-card>
+  <Card>
+    <div class="text-xs font-semibold text-gray-600 uppercase mb-2">{{ $t('statistics.timeRange') }}</div>
+    <div class="flex gap-2">
+      <button
+        v-for="option in options"
+        :key="option.value"
+        :class="[
+          'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+          selectedRange === option.value
+            ? 'bg-primary text-white'
+            : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
+        ]"
+        @click="handleSelectRange(option.value)"
+      >
+        {{ option.label }}
+      </button>
+    </div>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import Card from '@/components/common/Card.vue'
 
 export type TimeRange = '4weeks' | '12months' | 'alltime'
 
@@ -56,20 +58,5 @@ const handleSelectRange = (range: TimeRange) => {
 </script>
 
 <style scoped>
-.time-range-selector {
-  margin-bottom: 16px;
-}
-
-.selector-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.6);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.selector-buttons {
-  display: flex;
-  gap: 8px;
-}
+/* Tailwind handles all styling */
 </style>

@@ -1,107 +1,96 @@
 <template>
-  <div class="trends-container">
-    <v-container fluid style="max-width: 1280px; margin: 0 auto;">
-      <h1 class="page-title">{{ $t('navigation.trends') }}</h1>
+  <div class="min-h-screen p-6 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="max-w-content mx-auto">
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ $t('navigation.trends') }}</h1>
 
-      <v-row class="mb-4">
-        <v-col cols="12">
-          <TimeRangeSelector v-model="selectedTimeRange" />
-        </v-col>
-      </v-row>
+      <div class="mb-4">
+        <TimeRangeSelector v-model="selectedTimeRange" />
+      </div>
 
-      <v-row class="mb-4">
-        <v-col cols="12">
-          <ChartTypeToggle v-model="selectedChartType" />
-        </v-col>
-      </v-row>
+      <div class="mb-4">
+        <ChartTypeToggle v-model="selectedChartType" />
+      </div>
 
       <!-- 資料不足提示 -->
-      <v-row v-if="isDataInsufficient" class="mb-4">
-        <v-col cols="12">
-          <v-alert
-            type="warning"
-            variant="tonal"
-            :title="$t('statistics.insufficientData')"
-            :text="$t('statistics.insufficientDataMessage')"
-            closable
-          ></v-alert>
-        </v-col>
-      </v-row>
+      <Alert
+        v-if="isDataInsufficient"
+        type="warning"
+        :title="$t('statistics.insufficientData')"
+        :message="$t('statistics.insufficientDataMessage')"
+        :visible="isDataInsufficient"
+        closable
+        class="mb-4"
+      />
 
       <!-- 趨勢圖表 -->
-      <v-row v-if="!isLoading && !isDataInsufficient" class="mb-4">
-        <v-col cols="12">
-          <component
-            :is="getCurrentChartComponent"
-            :data="currentChartData"
-            :title="currentChartTitle"
-            :dataType="currentDataType"
-          />
-        </v-col>
-      </v-row>
+      <div v-if="!isLoading && !isDataInsufficient" class="mb-4">
+        <component
+          :is="getCurrentChartComponent"
+          :data="currentChartData"
+          :title="currentChartTitle"
+          :dataType="currentDataType"
+        />
+      </div>
 
       <!-- 加載狀態 -->
-      <v-row v-if="isLoading">
-        <v-col cols="12" class="text-center">
-          <v-progress-circular indeterminate color="primary"></v-progress-circular>
-        </v-col>
-      </v-row>
+      <Loading v-if="isLoading" :visible="isLoading" text="載入中..." />
 
       <!-- 每週摘要 -->
-      <v-row v-if="!isLoading && weeklySummary">
-        <v-col cols="12" md="6">
-          <v-card class="summary-card">
-            <v-card-item>
-              <div class="summary-header">{{ $t('statistics.weeklySummary') }}</div>
-              <div class="summary-content">
-                <div class="summary-row">
-                  <span class="summary-label">{{ $t('statistics.totalDuration') }}</span>
-                  <span class="summary-value">{{ weeklySummary.totalDurationMinutes }} 分鐘</span>
-                </div>
-                <div class="summary-row">
-                  <span class="summary-label">{{ $t('statistics.totalCalories') }}</span>
-                  <span class="summary-value">{{ weeklySummary.totalCaloriesBurned.toFixed(0) }} kcal</span>
-                </div>
-                <div class="summary-row">
-                  <span class="summary-label">{{ $t('statistics.workoutDays') }}</span>
-                  <span class="summary-value">{{ weeklySummary.workoutDays }} 天</span>
-                </div>
-              </div>
-            </v-card-item>
-          </v-card>
-        </v-col>
+      <div v-if="!isLoading && weeklySummary" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card>
+          <div class="text-base font-semibold text-gray-900 mb-4">{{ $t('statistics.weeklySummary') }}</div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+              <span class="text-sm text-gray-600">{{ $t('statistics.totalDuration') }}</span>
+              <span class="text-base font-semibold text-gray-900">{{ weeklySummary.totalDurationMinutes }} 分鐘</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+              <span class="text-sm text-gray-600">{{ $t('statistics.totalCalories') }}</span>
+              <span class="text-base font-semibold text-gray-900">{{ weeklySummary.totalCaloriesBurned.toFixed(0) }} kcal</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+              <span class="text-sm text-gray-600">{{ $t('statistics.workoutDays') }}</span>
+              <span class="text-base font-semibold text-gray-900">{{ weeklySummary.workoutDays }} 天</span>
+            </div>
+          </div>
+        </Card>
 
-        <v-col cols="12" md="6">
-          <v-card class="summary-card">
-            <v-card-item>
-              <div class="summary-header">{{ $t('statistics.comparison') }}</div>
-              <div class="summary-content">
-                <div class="summary-row">
-                  <span class="summary-label">{{ $t('statistics.durationChange') }}</span>
-                  <span class="summary-value" :class="getDurationChangeClass">
-                    {{ weeklySummary.durationChangePercentage > 0 ? '+' : '' }}
-                    {{ weeklySummary.durationChangePercentage.toFixed(1) }}%
-                  </span>
-                </div>
-                <div class="summary-row">
-                  <span class="summary-label">{{ $t('statistics.caloriesChange') }}</span>
-                  <span class="summary-value" :class="getCaloriesChangeClass">
-                    {{ weeklySummary.caloriesChangePercentage > 0 ? '+' : '' }}
-                    {{ weeklySummary.caloriesChangePercentage.toFixed(1) }}%
-                  </span>
-                </div>
-              </div>
-            </v-card-item>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+        <Card>
+          <div class="text-base font-semibold text-gray-900 mb-4">{{ $t('statistics.comparison') }}</div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+              <span class="text-sm text-gray-600">{{ $t('statistics.durationChange') }}</span>
+              <span
+                class="text-base font-semibold"
+                :class="weeklySummary.durationChangePercentage >= 0 ? 'text-green-600' : 'text-red-600'"
+              >
+                {{ weeklySummary.durationChangePercentage > 0 ? '+' : '' }}
+                {{ weeklySummary.durationChangePercentage.toFixed(1) }}%
+              </span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+              <span class="text-sm text-gray-600">{{ $t('statistics.caloriesChange') }}</span>
+              <span
+                class="text-base font-semibold"
+                :class="weeklySummary.caloriesChangePercentage >= 0 ? 'text-green-600' : 'text-red-600'"
+              >
+                {{ weeklySummary.caloriesChangePercentage > 0 ? '+' : '' }}
+                {{ weeklySummary.caloriesChangePercentage.toFixed(1) }}%
+              </span>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Card from '@/components/common/Card.vue'
+import Alert from '@/components/common/Alert.vue'
+import Loading from '@/components/common/Loading.vue'
 import TimeRangeSelector from '@/components/charts/TimeRangeSelector.vue'
 import ChartTypeToggle from '@/components/charts/ChartTypeToggle.vue'
 import LineChart from '@/components/charts/LineChart.vue'
@@ -173,16 +162,6 @@ const currentDataType = computed(() => {
   return selectedChartType.value === 'bar' ? 'calories' : 'duration'
 })
 
-const getDurationChangeClass = computed(() => {
-  if (!weeklySummary.value) return ''
-  return weeklySummary.value.durationChangePercentage >= 0 ? 'positive' : 'negative'
-})
-
-const getCaloriesChangeClass = computed(() => {
-  if (!weeklySummary.value) return ''
-  return weeklySummary.value.caloriesChangePercentage >= 0 ? 'positive' : 'negative'
-})
-
 const loadData = async () => {
   isLoading.value = true
   try {
@@ -208,66 +187,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.trends-container {
-  padding-top: 20px;
-  padding-bottom: 40px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  min-height: 100vh;
-}
-
-.page-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 24px;
-  color: #1f2937;
-}
-
-.summary-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.summary-header {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1f2937;
-}
-
-.summary-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.summary-row:last-child {
-  border-bottom: none;
-}
-
-.summary-label {
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.summary-value {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.summary-value.positive {
-  color: #10b981;
-}
-
-.summary-value.negative {
-  color: #ef4444;
-}
+/* Tailwind handles all styling */
 </style>

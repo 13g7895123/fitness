@@ -1,34 +1,36 @@
 <template>
-  <v-card class="goal-progress-bar">
-    <v-card-item>
-      <div class="progress-container">
-        <div class="progress-label">
-          <span class="label-text">{{ label }}</span>
-          <span class="progress-value">{{ currentValue }} / {{ goalValue }}</span>
-        </div>
-        <v-progress-linear
-          :value="achievementPercent"
-          :color="getColor(achievementPercent)"
-          height="24"
-          rounded
-          class="progress-bar"
-        >
-          <template #default="{ value }">
-            <span class="progress-text">{{ Math.round(value) }}%</span>
-          </template>
-        </v-progress-linear>
-        <div v-if="isAchieved" class="achievement-badge">
-          <v-icon small color="success">mdi-check-circle</v-icon>
-          <span class="badge-text">{{ $t('goals.achieved') }}</span>
-        </div>
+  <Card class="mb-4">
+    <div class="space-y-3">
+      <div class="flex justify-between items-center">
+        <span class="text-sm font-medium text-gray-900">{{ label }}</span>
+        <span class="text-xs text-gray-500">{{ currentValue }} / {{ goalValue }}</span>
       </div>
-    </v-card-item>
-  </v-card>
+      
+      <div class="relative h-6 bg-gray-200 rounded-full overflow-hidden">
+        <div
+          class="absolute top-0 left-0 h-full transition-all duration-300"
+          :class="getProgressColor(achievementPercent)"
+          :style="{ width: achievementPercent + '%' }"
+        ></div>
+        <span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-white drop-shadow">
+          {{ Math.round(achievementPercent) }}%
+        </span>
+      </div>
+      
+      <div v-if="isAchieved" class="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
+        <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-xs font-semibold text-green-600">{{ $t('goals.achieved') }}</span>
+      </div>
+    </div>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Card from '@/components/common/Card.vue'
 
 interface Props {
   label: string
@@ -48,67 +50,14 @@ const achievementPercent = computed(() => {
   return Math.min((props.currentValue / props.goalValue) * 100, 100)
 })
 
-const getColor = (percent: number): string => {
-  if (percent >= 100) return 'success'
-  if (percent >= 75) return 'info'
-  if (percent >= 50) return 'warning'
-  return 'error'
+const getProgressColor = (percent: number): string => {
+  if (percent >= 100) return 'bg-green-500'
+  if (percent >= 75) return 'bg-blue-500'
+  if (percent >= 50) return 'bg-yellow-500'
+  return 'bg-red-500'
 }
 </script>
 
 <style scoped>
-.goal-progress-bar {
-  margin-bottom: 16px;
-}
-
-.progress-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.label-text {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.progress-value {
-  font-size: 12px;
-  color: #999;
-}
-
-.progress-bar {
-  position: relative;
-  min-height: 24px;
-}
-
-.progress-text {
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.achievement-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: rgba(76, 175, 80, 0.1);
-  border-radius: 8px;
-  color: #4caf50;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.badge-text {
-  margin-left: 4px;
-}
+/* Tailwind handles all styling */
 </style>

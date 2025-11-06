@@ -1,31 +1,20 @@
 <template>
-  <v-dialog v-model="isOpen" max-width="600">
-    <v-card rounded="xl">
-      <v-card-title class="d-flex align-center pa-6">
-        <span class="text-h5 font-weight-bold">{{ $t('workout.addRecord') }}</span>
-        <v-spacer />
-        <v-btn 
-          icon="mdi-close" 
-          variant="text" 
-          size="small" 
-          @click="closeDialog"
-        ></v-btn>
-      </v-card-title>
-
-      <v-divider></v-divider>
-
-      <v-card-text class="pa-6">
-        <WorkoutRecordForm
-          @submit="handleSubmit"
-          @cancel="closeDialog"
-        />
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+  <Dialog
+    v-model="isOpen"
+    :title="$t('workout.addRecord')"
+    max-width="lg"
+    @close="closeDialog"
+  >
+    <WorkoutRecordForm
+      @submit="handleSubmit"
+      @cancel="closeDialog"
+    />
+  </Dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from 'vue'
+import Dialog from '@/components/common/Dialog.vue'
 import WorkoutRecordForm from './WorkoutRecordForm.vue'
 import { useWorkoutService } from '@/services/workoutService'
 import { useWorkoutsStore } from '@/stores/workouts'
@@ -79,7 +68,5 @@ const closeDialog = () => {
 </script>
 
 <style scoped>
-v-divider {
-  margin-bottom: 16px;
-}
+/* Styles handled by Tailwind */
 </style>

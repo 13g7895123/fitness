@@ -1,52 +1,50 @@
 <template>
-  <v-container class="goals-page" fluid style="max-width: 1280px; margin: 0 auto;">
-    <div class="page-header">
-      <h1>{{ $t('goals.weeklyGoal') }}</h1>
-      <p>{{ $t('goals.progress') }}</p>
-    </div>
+  <div class="min-h-screen p-6 bg-gray-50">
+    <div class="max-w-content mx-auto">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold">{{ $t('goals.weeklyGoal') }}</h1>
+        <p class="text-gray-600">{{ $t('goals.progress') }}</p>
+      </div>
 
-    <!-- Loading State -->
-    <v-row v-if="isLoading" class="mb-6">
-      <v-col cols="12">
-        <v-skeleton-loader type="card-heading, image" />
-      </v-col>
-    </v-row>
+      <!-- Loading State -->
+      <div v-if="isLoading" class="mb-6">
+        <div class="card p-6 animate-pulse">
+          <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div class="h-32 bg-gray-200 rounded"></div>
+        </div>
+      </div>
 
-    <!-- Error State -->
-    <v-row v-else-if="error" class="mb-6">
-      <v-col cols="12">
-        <v-alert type="error" :title="$t('common.error')">
-          {{ error }}
-        </v-alert>
-      </v-col>
-    </v-row>
+      <!-- Error State -->
+      <Alert
+        v-else-if="error"
+        type="error"
+        :title="$t('common.error')"
+        :message="error"
+        class="mb-6"
+      />
 
-    <!-- Active Goal Display -->
-    <v-row v-else-if="activeGoal" class="mb-6">
-      <v-col cols="12">
-        <v-card class="active-goal-card">
-          <v-card-item>
-            <div class="active-goal-header">
-              <div>
-                <h2>{{ $t('goals.progress') }}</h2>
-                <p class="goal-date">
-                  {{ formatDate(activeGoal.StartDate) }} ~ 
-                  {{ activeGoal.EndDate ? formatDate(activeGoal.EndDate) : '無結束日期' }}
-                </p>
-              </div>
-              <v-btn
-                icon
-                variant="text"
-                @click="showEditDialog = true"
-              >
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
+      <!-- Active Goal Display -->
+      <div v-else-if="activeGoal" class="mb-6">
+        <Card class="bg-gradient-to-br from-blue-50 to-green-50">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900">{{ $t('goals.progress') }}</h2>
+              <p class="text-xs text-gray-500 mt-1">
+                {{ formatDate(activeGoal.StartDate) }} ~ 
+                {{ activeGoal.EndDate ? formatDate(activeGoal.EndDate) : '無結束日期' }}
+              </p>
             </div>
-          </v-card-item>
+            <button
+              @click="showEditDialog = true"
+              class="p-2 hover:bg-white/50 rounded-lg transition-colors"
+            >
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+          </div>
 
-          <v-divider></v-divider>
-
-          <v-card-text>
+          <div class="border-t border-gray-200 pt-4">
             <!-- Achievement Badges -->
             <AchievementBadge
               v-if="activeGoal.IsMinutesAchieved"
@@ -76,73 +74,73 @@
               :goal-value="activeGoal.WeeklyCaloriesGoal"
               :is-achieved="activeGoal.IsCaloriesAchieved"
             />
-          </v-card-text>
+          </div>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
+          <div class="flex justify-end gap-2 mt-4 pt-4 border-t border-gray-200">
+            <Button
               variant="text"
               @click="showEditDialog = true"
             >
               {{ $t('goals.editGoal') }}
-            </v-btn>
-            <v-btn
-              color="error"
-              variant="text"
+            </Button>
+            <Button
+              class="bg-red-600 hover:bg-red-700 text-white"
               @click="handleDeactivate"
             >
               {{ $t('common.close') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+            </Button>
+          </div>
+        </Card>
+      </div>
 
-    <!-- No Active Goal -->
-    <v-row v-else class="mb-6">
-      <v-col cols="12">
-        <v-card class="text-center py-8">
-          <v-icon size="x-large" class="mb-2 text-medium-emphasis">mdi-target</v-icon>
-          <div class="text-subtitle1">{{ $t('goals.notAchieved') }}</div>
-          <div class="text-caption text-medium-emphasis">
+      <!-- No Active Goal -->
+      <div v-else class="mb-6">
+        <Card class="text-center py-12">
+          <svg class="w-16 h-16 mx-auto mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+          </svg>
+          <div class="text-base font-medium text-gray-700">{{ $t('goals.notAchieved') }}</div>
+          <div class="text-sm text-gray-500 mt-1">
             {{ $t('goals.setGoal') }}
           </div>
-        </v-card>
-      </v-col>
-    </v-row>
+        </Card>
+      </div>
 
-    <!-- Create New Goal Button -->
-    <v-row v-if="!activeGoal" class="mb-6">
-      <v-col cols="12">
-        <v-btn
+      <!-- Create New Goal Button -->
+      <div v-if="!activeGoal" class="mb-6">
+        <Button
+          variant="primary"
           block
-          color="primary"
-          prepend-icon="mdi-plus"
-          size="large"
+          class="py-3"
           @click="showCreateDialog = true"
         >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
           {{ $t('goals.setGoal') }}
-        </v-btn>
-      </v-col>
-    </v-row>
+        </Button>
+      </div>
 
-    <!-- Past Goals List -->
-    <v-row v-if="goals.length > 0" class="mb-6">
-      <v-col cols="12">
-        <h3 class="text-subtitle2 mb-3">{{ $t('goals.weeklyGoal') }} 歷史</h3>
-        <v-timeline>
-          <v-timeline-item
+      <!-- Past Goals List -->
+      <div v-if="goals.length > 0" class="mb-6">
+        <h3 class="text-base font-semibold text-gray-900 mb-4">{{ $t('goals.weeklyGoal') }} 歷史</h3>
+        <div class="space-y-4">
+          <div
             v-for="goal in goals"
             :key="goal.Id"
-            :dot-color="goal.IsActive ? 'primary' : 'grey'"
+            class="relative pl-6 pb-4 border-l-2"
+            :class="goal.IsActive ? 'border-primary' : 'border-gray-300'"
           >
-            <div class="goal-item">
-              <div class="goal-title">
+            <div
+              class="absolute left-0 top-0 w-3 h-3 rounded-full border-2 border-white -translate-x-[7px]"
+              :class="goal.IsActive ? 'bg-primary' : 'bg-gray-400'"
+            ></div>
+            <Card>
+              <div class="font-semibold text-gray-900 mb-2">
                 {{ formatDate(goal.StartDate) }} ~ 
                 {{ goal.EndDate ? formatDate(goal.EndDate) : '無結束日期' }}
               </div>
-              <div class="goal-stats">
+              <div class="flex gap-4 text-xs text-gray-600">
                 <span v-if="goal.WeeklyMinutesGoal">
                   時間: {{ goal.CurrentWeekMinutes }} / {{ goal.WeeklyMinutesGoal }} 分
                 </span>
@@ -150,43 +148,41 @@
                   卡路里: {{ goal.CurrentWeekCalories }} / {{ goal.WeeklyCaloriesGoal }} 卡
                 </span>
               </div>
-            </div>
-          </v-timeline-item>
-        </v-timeline>
-      </v-col>
-    </v-row>
+            </Card>
+          </div>
+        </div>
+      </div>
 
-    <!-- Create Goal Dialog -->
-    <v-dialog v-model="showCreateDialog" max-width="500">
-      <v-card>
-        <v-card-title>{{ $t('goals.setGoal') }}</v-card-title>
-        <v-card-text>
-          <GoalForm
-            @save="handleCreateGoal"
-            @cancel="showCreateDialog = false"
-          />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+      <!-- Create Goal Dialog -->
+      <Dialog
+        v-model="showCreateDialog"
+        :title="$t('goals.setGoal')"
+        max-width="md"
+      >
+        <GoalForm
+          @save="handleCreateGoal"
+          @cancel="showCreateDialog = false"
+        />
+      </Dialog>
 
-    <!-- Edit Goal Dialog -->
-    <v-dialog v-model="showEditDialog" max-width="500">
-      <v-card>
-        <v-card-title>{{ $t('goals.editGoal') }}</v-card-title>
-        <v-card-text>
-          <GoalForm
-            v-if="activeGoal"
-            :initial-data="getInitialData(activeGoal)"
-            @save="handleUpdateGoal"
-            @cancel="showEditDialog = false"
-          />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+      <!-- Edit Goal Dialog -->
+      <Dialog
+        v-model="showEditDialog"
+        :title="$t('goals.editGoal')"
+        max-width="md"
+      >
+        <GoalForm
+          v-if="activeGoal"
+          :initial-data="getInitialData(activeGoal)"
+          @save="handleUpdateGoal"
+          @cancel="showEditDialog = false"
+        />
+      </Dialog>
 
-    <!-- Notifications -->
-    <NotificationPanel />
-  </v-container>
+      <!-- Notifications -->
+      <NotificationPanel />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -194,6 +190,10 @@ import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useGoalsStore } from '@/stores/goals'
 import { useGoalService } from '@/services/goalService'
+import Card from '@/components/common/Card.vue'
+import Button from '@/components/common/Button.vue'
+import Dialog from '@/components/common/Dialog.vue'
+import Alert from '@/components/common/Alert.vue'
 import GoalForm from '@/components/goals/GoalForm.vue'
 import GoalProgressBar from '@/components/goals/GoalProgressBar.vue'
 import AchievementBadge from '@/components/goals/AchievementBadge.vue'
@@ -270,66 +270,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.goals-page {
-  padding: 24px;
-}
-
-.page-header {
-  margin-bottom: 32px;
-}
-
-.page-header h1 {
-  margin: 0 0 8px 0;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.page-header p {
-  margin: 0;
-  color: #999;
-}
-
-.active-goal-card {
-  background: linear-gradient(135deg, rgba(25, 118, 210, 0.05) 0%, rgba(76, 175, 80, 0.05) 100%);
-}
-
-.active-goal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.goal-date {
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  color: #999;
-}
-
-.goal-item {
-  padding: 8px 0;
-}
-
-.goal-title {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.goal-stats {
-  font-size: 12px;
-  color: #999;
-  display: flex;
-  gap: 16px;
-}
-
-.mb-3 {
-  margin-bottom: 1rem;
-}
-
-.mb-6 {
-  margin-bottom: 1.5rem;
-}
-
-.py-8 {
-  padding: 32px 16px;
-}
+/* Tailwind handles all styling */
 </style>

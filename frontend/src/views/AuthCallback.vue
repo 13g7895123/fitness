@@ -1,28 +1,24 @@
 <template>
-  <v-container class="auth-callback-page fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4" class="text-center">
-        <v-progress-circular
-          v-if="isProcessing"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-        />
-        <v-icon v-else-if="hasError" size="70" color="error">mdi-alert-circle</v-icon>
-        <v-icon v-else size="70" color="success">mdi-check-circle</v-icon>
+  <div class="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-primary-600 to-purple-700">
+    <div class="text-center max-w-md text-white">
+      <div v-if="isProcessing" class="w-20 h-20 mx-auto mb-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      <svg v-else-if="hasError" class="w-20 h-20 mx-auto mb-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <svg v-else class="w-20 h-20 mx-auto mb-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
 
-        <div class="mt-6">
-          <h2 v-if="isProcessing">{{ $t('auth.processing') }}</h2>
-          <h2 v-else-if="hasError">{{ $t('common.error') }}</h2>
-          <h2 v-else>{{ $t('auth.success') }}</h2>
+      <div class="mt-6">
+        <h2 v-if="isProcessing" class="text-2xl font-bold">{{ $t('auth.processing') }}</h2>
+        <h2 v-else-if="hasError" class="text-2xl font-bold">{{ $t('common.error') }}</h2>
+        <h2 v-else class="text-2xl font-bold">{{ $t('auth.success') }}</h2>
 
-          <p v-if="errorMessage" class="mt-4 text-error">{{ errorMessage }}</p>
-          <p v-else-if="!isProcessing" class="mt-4">{{ $t('auth.redirecting') }}</p>
-        </div>
-      </v-col>
-    </v-row>
-  </v-container>
+        <p v-if="errorMessage" class="mt-4 text-red-200">{{ errorMessage }}</p>
+        <p v-else-if="!isProcessing" class="mt-4">{{ $t('auth.redirecting') }}</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -69,8 +65,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.auth-callback-page {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-}
+/* Tailwind handles all styling */
 </style>

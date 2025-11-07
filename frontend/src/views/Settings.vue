@@ -1,34 +1,56 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-6">設定</h1>
+  <div class="min-h-screen py-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Header -->
+      <div class="mb-8 animate-fade-in-up">
+        <div class="flex items-center space-x-3 mb-2">
+          <div class="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold gradient-text">系統設定</h1>
+            <p class="text-sm text-gray-600 mt-0.5">管理運動類型與器材設備</p>
+          </div>
+        </div>
+      </div>
 
       <!-- Tabs -->
-      <div class="border-b border-gray-200 mb-6">
-        <nav class="-mb-px flex space-x-8">
-          <button
-            @click="activeTab = 'exerciseTypes'"
-            :class="[
-              activeTab === 'exerciseTypes'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors'
-            ]"
-          >
-            運動類型
-          </button>
-          <button
-            @click="activeTab = 'equipments'"
-            :class="[
-              activeTab === 'equipments'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors'
-            ]"
-          >
-            器材設備
-          </button>
-        </nav>
+      <div class="glass rounded-2xl p-2 mb-6 inline-flex space-x-2 animate-fade-in shadow-soft">
+        <button
+          @click="activeTab = 'exerciseTypes'"
+          :class="[
+            'px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 relative overflow-hidden',
+            activeTab === 'exerciseTypes'
+              ? 'bg-gradient-primary text-white shadow-medium'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+          ]"
+        >
+          <span class="relative z-10 flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/>
+            </svg>
+            <span>運動類型</span>
+          </span>
+        </button>
+        <button
+          @click="activeTab = 'equipments'"
+          :class="[
+            'px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 relative overflow-hidden',
+            activeTab === 'equipments'
+              ? 'bg-gradient-primary text-white shadow-medium'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+          ]"
+        >
+          <span class="relative z-10 flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+            <span>器材設備</span>
+          </span>
+        </button>
       </div>
 
       <!-- Tab Content -->

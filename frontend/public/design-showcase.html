@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Tracker - 設計系統展示</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    }
+    .gradient-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .gradient-secondary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    .gradient-accent {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    .gradient-success {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+    .gradient-warm {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+    .gradient-cool {
+      background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 min-h-screen p-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-12">
+      <div class="inline-flex items-center justify-center w-20 h-20 gradient-primary rounded-3xl mb-4 shadow-lg">
+        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+      </div>
+      <h1 class="text-5xl font-bold mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        Fitness Tracker
+      </h1>
+      <p class="text-xl text-gray-600">UI/UX 設計系統展示 v2.0</p>
+    </header>
+
+    <!-- Color System -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6">色彩系統</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="glass rounded-3xl p-6 card-hover">
+          <div class="gradient-primary h-24 rounded-2xl mb-4 shadow-lg"></div>
+          <h3 class="font-bold text-lg mb-1">Primary</h3>
+          <p class="text-sm text-gray-600">#667eea → #764ba2</p>
+        </div>
+        <div class="glass rounded-3xl p-6 card-hover">
+          <div class="gradient-secondary h-24 rounded-2xl mb-4 shadow-lg"></div>
+          <h3 class="font-bold text-lg mb-1">Secondary</h3>
+          <p class="text-sm text-gray-600">#f093fb → #f5576c</p>
+        </div>
+        <div class="glass rounded-3xl p-6 card-hover">
+          <div class="gradient-accent h-24 rounded-2xl mb-4 shadow-lg"></div>
+          <h3 class="font-bold text-lg mb-1">Accent</h3>
+          <p class="text-sm text-gray-600">#4facfe → #00f2fe</p>
+        </div>
+        <div class="glass rounded-3xl p-6 card-hover">
+          <div class="gradient-success h-24 rounded-2xl mb-4 shadow-lg"></div>
+          <h3 class="font-bold text-lg mb-1">Success</h3>
+          <p class="text-sm text-gray-600">#43e97b → #38f9d7</p>
+        </div>
+        <div class="glass rounded-3xl p-6 card-hover">
+          <div class="gradient-warm h-24 rounded-2xl mb-4 shadow-lg"></div>
+          <h3 class="font-bold text-lg mb-1">Warm</h3>
+          <p class="text-sm text-gray-600">#fa709a → #fee140</p>
+        </div>
+        <div class="glass rounded-3xl p-6 card-hover">
+          <div class="gradient-cool h-24 rounded-2xl mb-4 shadow-lg"></div>
+          <h3 class="font-bold text-lg mb-1">Cool</h3>
+          <p class="text-sm text-gray-600">#30cfd0 → #330867</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6">按鈕系統</h2>
+      <div class="glass rounded-3xl p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button class="gradient-primary text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all">
+            Primary Button
+          </button>
+          <button class="gradient-secondary text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all">
+            Secondary Button
+          </button>
+          <button class="gradient-accent text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all">
+            Accent Button
+          </button>
+          <button class="bg-white border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-xl font-medium hover:bg-indigo-600 hover:text-white transition-all">
+            Outline Button
+          </button>
+          <button class="bg-transparent text-gray-700 px-6 py-3 rounded-xl font-medium hover:bg-gray-100 transition-all">
+            Ghost Button
+          </button>
+          <button class="gradient-success text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all">
+            Success Button
+          </button>
+        </div>
+        
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <h3 class="font-bold mb-4">尺寸變化</h3>
+          <div class="flex flex-wrap gap-4 items-center">
+            <button class="gradient-primary text-white px-4 py-2 rounded-lg text-sm font-medium">Small</button>
+            <button class="gradient-primary text-white px-6 py-3 rounded-xl text-base font-medium">Medium</button>
+            <button class="gradient-primary text-white px-8 py-4 rounded-2xl text-lg font-medium">Large</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6">卡片系統</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Stats Card 1 -->
+        <div class="gradient-primary rounded-3xl p-6 text-white shadow-lg card-hover relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-2xl opacity-10 transform translate-x-1/2 -translate-y-1/2"></div>
+          <div class="relative z-10">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-2xl mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <div class="text-4xl font-bold mb-2">1,234</div>
+            <div class="text-sm text-white/90 mb-3">總訓練次數</div>
+            <div class="flex items-center space-x-1 text-xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+              </svg>
+              <span>+12% vs 上週</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Card 2 -->
+        <div class="gradient-secondary rounded-3xl p-6 text-white shadow-lg card-hover relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-2xl opacity-10 transform translate-x-1/2 -translate-y-1/2"></div>
+          <div class="relative z-10">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-2xl mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+              </svg>
+            </div>
+            <div class="text-4xl font-bold mb-2">3,456</div>
+            <div class="text-sm text-white/90 mb-3">消耗卡路里</div>
+            <div class="flex items-center space-x-1 text-xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+              </svg>
+              <span>+8% vs 上週</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glass Card -->
+        <div class="glass rounded-3xl p-6 shadow-lg card-hover">
+          <div class="inline-flex items-center justify-center w-12 h-12 gradient-primary rounded-2xl mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="text-4xl font-bold text-gray-900 mb-2">24.5</div>
+          <div class="text-sm text-gray-600 mb-3">運動時數</div>
+          <div class="flex items-center space-x-1 text-xs text-green-600">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+            <span>+15% vs 上週</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6">標籤系統</h2>
+      <div class="glass rounded-3xl p-8">
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-bold mb-3">實心標籤</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="gradient-primary text-white px-4 py-1.5 rounded-lg text-sm font-medium">Primary</span>
+              <span class="gradient-secondary text-white px-4 py-1.5 rounded-lg text-sm font-medium">Secondary</span>
+              <span class="bg-green-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium">Success</span>
+              <span class="bg-yellow-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium">Warning</span>
+              <span class="bg-red-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium">Error</span>
+              <span class="bg-blue-500 text-white px-4 py-1.5 rounded-lg text-sm font-medium">Info</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-bold mb-3">外框標籤</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="bg-indigo-50 text-indigo-700 border border-indigo-300 px-4 py-1.5 rounded-lg text-sm font-medium">Primary</span>
+              <span class="bg-pink-50 text-pink-700 border border-pink-300 px-4 py-1.5 rounded-lg text-sm font-medium">Secondary</span>
+              <span class="bg-green-50 text-green-700 border border-green-300 px-4 py-1.5 rounded-lg text-sm font-medium">Success</span>
+              <span class="bg-yellow-50 text-yellow-700 border border-yellow-300 px-4 py-1.5 rounded-lg text-sm font-medium">Warning</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-bold mb-3">圓形標籤</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="gradient-primary text-white px-4 py-1.5 rounded-full text-sm font-medium">完成</span>
+              <span class="bg-green-500 text-white px-4 py-1.5 rounded-full text-sm font-medium">進行中</span>
+              <span class="bg-gray-200 text-gray-700 px-4 py-1.5 rounded-full text-sm font-medium">待處理</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6">字體系統</h2>
+      <div class="glass rounded-3xl p-8 space-y-6">
+        <div>
+          <p class="text-5xl font-bold mb-2" style="font-family: 'Poppins', sans-serif;">Display 1</p>
+          <p class="text-sm text-gray-600">text-5xl / 48px / Poppins Bold</p>
+        </div>
+        <div>
+          <p class="text-4xl font-bold mb-2">Heading 1</p>
+          <p class="text-sm text-gray-600">text-4xl / 36px / Inter Bold</p>
+        </div>
+        <div>
+          <p class="text-3xl font-semibold mb-2">Heading 2</p>
+          <p class="text-sm text-gray-600">text-3xl / 30px / Inter Semibold</p>
+        </div>
+        <div>
+          <p class="text-2xl font-semibold mb-2">Heading 3</p>
+          <p class="text-sm text-gray-600">text-2xl / 24px / Inter Semibold</p>
+        </div>
+        <div>
+          <p class="text-base mb-2">這是標準內文文字，適合用於一般段落和說明文字。</p>
+          <p class="text-sm text-gray-600">text-base / 16px / Inter Regular</p>
+        </div>
+        <div>
+          <p class="text-sm mb-2">這是小型文字，適合用於次要資訊和輔助說明。</p>
+          <p class="text-sm text-gray-600">text-sm / 14px / Inter Regular</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-8">
+      <div class="glass rounded-2xl p-6 inline-block">
+        <p class="text-gray-600 mb-2">Fitness Tracker Design System v2.0</p>
+        <p class="text-sm text-gray-500">最後更新：2025-11-06</p>
+        <p class="text-sm text-gray-500 mt-2">
+          開發伺服器：<a href="http://localhost:5178" class="text-indigo-600 hover:text-indigo-800">http://localhost:5178</a>
+        </p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

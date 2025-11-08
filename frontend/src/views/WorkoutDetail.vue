@@ -63,7 +63,7 @@
       <!-- Empty State -->
       <div v-else-if="!dailyWorkout || dailyWorkout.records.length === 0" class="text-center py-20 animate-fade-in-up">
         <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-primary rounded-3xl mb-6 shadow-glow">
-          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-12 h-12 text-[#555]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/>
           </svg>
         </div>
@@ -73,7 +73,7 @@
         </p>
         <button
           @click="onAddWorkout"
-          class="inline-flex items-center space-x-2 bg-gradient-primary text-white px-8 py-4 rounded-2xl font-semibold shadow-glow hover:shadow-2xl transition-all duration-300 hover:scale-105 btn-hover"
+          class="inline-flex items-center space-x-2 bg-gradient-primary text-[#555] px-8 py-4 rounded-2xl font-semibold shadow-glow hover:shadow-2xl transition-all duration-300 hover:scale-105 btn-hover"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -322,7 +322,17 @@ async function onDeleteConfirm() {
 
 onMounted(async () => {
   if (route.params.date) {
-    selectedDate.value = String(route.params.date)
+    let dateParam = String(route.params.date)
+
+    // 如果是 "today" 關鍵字，轉換為當天日期
+    if (dateParam.toLowerCase() === 'today') {
+      const today = new Date()
+      dateParam = formatDate(today)
+      // 更新路由到正確的日期格式
+      router.replace(`/workouts/detail/${dateParam}`)
+    }
+
+    selectedDate.value = dateParam
   }
   weekStartDate.value = getWeekStart(new Date(selectedDate.value))
   await loadDailyWorkout()

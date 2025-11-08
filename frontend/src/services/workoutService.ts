@@ -113,8 +113,30 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: DailyWorkoutDto }>(`/workout-records/daily/${date}`)
-      return response.data || { data: null as any }
+      // 後端返回 List<WorkoutRecordDto>，需要轉換為 DailyWorkoutDto
+      const response = await api.get<{ data: WorkoutRecordResponseDto[] }>(`/workout-records/daily/${date}`)
+      const records = response.data?.data || []
+
+      // 構建 DailyWorkoutDto
+      const dateObj = new Date(date)
+      const dayOfWeek = dateObj.getDay()
+      const dayNames = ['週日', '週一', '週二', '週三', '週四', '週五', '週六']
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      dateObj.setHours(0, 0, 0, 0)
+
+      const dailyWorkout: DailyWorkoutDto = {
+        date: date,
+        dayOfWeek: dayOfWeek,
+        dayName: dayNames[dayOfWeek],
+        records: records,
+        totalDurationMinutes: records.reduce((sum, r) => sum + r.durationMinutes, 0),
+        totalCaloriesBurned: records.reduce((sum, r) => sum + r.caloriesBurned, 0),
+        recordCount: records.length,
+        isToday: dateObj.getTime() === today.getTime()
+      }
+
+      return { data: dailyWorkout }
     } catch (err: any) {
       error.value = err.response?.data?.message || '查詢每日紀錄失敗'
       throw error.value

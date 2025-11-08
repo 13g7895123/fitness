@@ -6,8 +6,8 @@
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
         @click.self="handleBackdropClick"
       >
-        <div class="fixed inset-0 bg-black bg-opacity-50" @click="handleBackdropClick"></div>
-        <div :class="dialogClasses">
+        <div class="fixed inset-0 bg-white/10 backdrop-blur-sm" @click="handleBackdropClick"></div>
+        <div :class="dialogClasses" class="bg-white rounded-2xl shadow-2xl">
           <div v-if="title || $slots.header" class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
             <slot name="header">
               <h2 class="text-xl font-bold">{{ title }}</h2>

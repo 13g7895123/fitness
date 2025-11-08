@@ -2,15 +2,12 @@
   <div class="bg-white rounded-lg shadow">
     <div class="flex justify-between items-center p-6 border-b border-gray-200">
       <h3 class="text-lg font-semibold text-gray-900">運動類型列表</h3>
-      <button
-        @click="$emit('create')"
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-      >
+      <Button variant="primary" @click="$emit('create')">
         <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
         新增運動類型
-      </button>
+      </Button>
     </div>
 
     <div class="p-6">
@@ -106,6 +103,7 @@
 
 <script setup lang="ts">
 import type { ExerciseType } from '@/types/exercise-type'
+import Button from '@/components/common/Button.vue'
 
 defineProps<{
   exerciseTypes: ExerciseType[]

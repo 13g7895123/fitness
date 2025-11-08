@@ -69,6 +69,7 @@
     "weightUnit": "公斤",
     "notes": "備註",
     "addRecord": "新增紀錄",
+    "addWorkout": "新增訓練",
     "editRecord": "編輯紀錄",
     "deleteRecord": "刪除紀錄",
     "recordDeleted": "紀錄已刪除",

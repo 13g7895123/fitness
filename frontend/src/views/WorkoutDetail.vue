@@ -71,15 +71,16 @@
         <p class="text-gray-600 mb-8 text-lg max-w-md mx-auto">
           開始記錄你的第一次訓練，追蹤進度達成目標
         </p>
-        <button
+        <Button
+          variant="primary"
+          size="large"
           @click="onAddWorkout"
-          class="inline-flex items-center space-x-2 bg-gradient-primary text-[#555] px-8 py-4 rounded-2xl font-semibold shadow-glow hover:shadow-2xl transition-all duration-300 hover:scale-105 btn-hover"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>
           <span>{{ $t('workout.addWorkout') }}</span>
-        </button>
+        </Button>
       </div>
 
       <!-- Content -->
@@ -167,41 +168,35 @@
         </div>
 
         <!-- Add Workout Button -->
-        <button
-          @click="onAddWorkout"
-          class="w-full flex items-center justify-center space-x-2 bg-gradient-primary text-white p-5 rounded-2xl font-semibold shadow-medium hover:shadow-hard transition-all duration-300 btn-hover"
-        >
+        <Button variant="primary" size="large" block @click="onAddWorkout">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>
           <span>新增訓練記錄</span>
-        </button>
+        </Button>
       </div>
     </div>
 
     <!-- Edit Dialog -->
     <EditWorkoutDialog
       v-if="editingRecord"
-      :open="showEditDialog"
+      v-model="showEditDialog"
       :record="editingRecord"
-      @close="showEditDialog = false"
-      @save="onEditSave"
+      @success="onEditSave"
     />
 
     <!-- Delete Dialog -->
     <DeleteWorkoutDialog
       v-if="deletingRecord"
-      :open="showDeleteDialog"
+      v-model="showDeleteDialog"
       :record="deletingRecord"
-      @close="showDeleteDialog = false"
-      @confirm="onDeleteConfirm"
+      @success="onDeleteConfirm"
     />
 
     <!-- Add Dialog -->
     <AddWorkoutDialog
-      :open="showAddDialog"
-      @close="showAddDialog = false"
-      @save="onAddSave"
+      v-model="showAddDialog"
+      @success="onAddSave"
     />
 
     <!-- Notifications -->
@@ -214,6 +209,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useWorkoutsStore } from '@/stores/workouts'
+import Button from '@/components/common/Button.vue'
 import DailyTotalCard from '@/components/workout/DailyTotalCard.vue'
 import DailyWorkoutCard from '@/components/workout/DailyWorkoutCard.vue'
 import WeeklyCalendar from '@/components/workout/WeeklyCalendar.vue'

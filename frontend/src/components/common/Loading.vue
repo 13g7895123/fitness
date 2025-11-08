@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+  <div v-if="visible" class="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center z-[9999]">
     <div class="flex flex-col items-center gap-4">
       <div
         :class="spinnerClasses"

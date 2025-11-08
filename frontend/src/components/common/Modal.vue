@@ -11,8 +11,8 @@
       <div v-if="modelValue" class="fixed inset-0 z-50 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4">
           <!-- Backdrop -->
-          <div class="fixed inset-0 bg-black bg-opacity-30" @click="handleClose"></div>
-          
+          <div class="fixed inset-0 bg-white/10 backdrop-blur-sm" @click="handleClose"></div>
+
           <!-- Dialog -->
           <Transition
             enter-active-class="transition duration-300 ease-out"
@@ -24,7 +24,7 @@
           >
             <div
               v-if="modelValue"
-              class="relative bg-white rounded-xl shadow-xl transform transition-all w-full"
+              class="relative bg-white rounded-xl shadow-2xl transform transition-all w-full"
               :class="maxWidthClass"
             >
               <slot />

@@ -12,7 +12,7 @@
     >
       <div
         v-if="drawer"
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+        class="fixed inset-0 bg-white/10 backdrop-blur-sm z-40 lg:hidden"
         @click="drawer = false"
       ></div>
     </Transition>

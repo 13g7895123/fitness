@@ -36,6 +36,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<ICalorieCalculationService, CalorieCalculationService>();
 builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 builder.Services.AddScoped<IGoalService, GoalService>();
+builder.Services.AddScoped<IWorkoutGoalService, WorkoutGoalService>();
 builder.Services.AddScoped<IWorkoutRecordService, WorkoutRecordService>();
 builder.Services.AddScoped<ExerciseTypeService>();
 builder.Services.AddScoped<EquipmentService>();
@@ -81,7 +82,13 @@ authBuilder.AddJwtBearer("Bearer", options =>
 builder.Services.AddAuthorization();
 
 // Add services to the container
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // 統一使用 camelCase 命名，與前端 TypeScript 保持一致
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DictionaryKeyPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

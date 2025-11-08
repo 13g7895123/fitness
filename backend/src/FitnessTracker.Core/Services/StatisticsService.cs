@@ -16,44 +16,63 @@ namespace FitnessTracker.Core.Services
         public async Task<WeeklySummaryDto> GetWeeklySummaryAsync(Guid userId, DateTime? date = null)
         {
             var targetDate = date ?? DateTime.UtcNow;
-            var weekStart = targetDate.AddDays(-(int)targetDate.DayOfWeek);
-            var weekEnd = weekStart.AddDays(7);
 
-            var thisWeekRecords = await _workoutRecordRepository.GetAllAsync();
-            thisWeekRecords = thisWeekRecords
-                .Where(r => !r.IsDeleted && r.UserId == userId && r.ExerciseDate >= weekStart && r.ExerciseDate < weekEnd)
-                .ToList();
+            // 計算週一為起始日（而非週日）
+            var daysSinceMonday = ((int)targetDate.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+            var weekStart = targetDate.Date.AddDays(-daysSinceMonday);
+            var weekEnd = weekStart.AddDays(7);
 
             var previousWeekStart = weekStart.AddDays(-7);
             var previousWeekEnd = weekStart;
 
-            var previousWeekRecords = await _workoutRecordRepository.GetAllAsync();
-            previousWeekRecords = previousWeekRecords
-                .Where(r => !r.IsDeleted && r.UserId == userId && r.ExerciseDate >= previousWeekStart && r.ExerciseDate < previousWeekEnd)
-                .ToList();
+            // 優化：使用 GetByUserAndDateRangeAsync 避免載入全部資料
+            var thisWeekRecords = await _workoutRecordRepository.GetByUserAndDateRangeAsync(userId, weekStart, weekEnd);
+            var previousWeekRecords = await _workoutRecordRepository.GetByUserAndDateRangeAsync(userId, previousWeekStart, previousWeekEnd);
 
             var currentTotalDuration = thisWeekRecords.Sum(r => r.DurationMinutes);
             var currentTotalCalories = thisWeekRecords.Sum(r => r.CaloriesBurned);
             var currentWorkoutDays = thisWeekRecords.Select(r => r.ExerciseDate.Date).Distinct().Count();
+            var currentWorkoutCount = thisWeekRecords.Count;
 
             var previousTotalDuration = previousWeekRecords.Sum(r => r.DurationMinutes);
             var previousTotalCalories = previousWeekRecords.Sum(r => r.CaloriesBurned);
 
-            var durationChangePercent = previousTotalDuration > 0 
-                ? ((currentTotalDuration - previousTotalDuration) / (decimal)previousTotalDuration) * 100 
+            var durationChangePercent = previousTotalDuration > 0
+                ? ((currentTotalDuration - previousTotalDuration) / (decimal)previousTotalDuration) * 100
                 : 0;
 
-            var caloriesChangePercent = previousTotalCalories > 0 
-                ? ((currentTotalCalories - previousTotalCalories) / previousTotalCalories) * 100 
+            var caloriesChangePercent = previousTotalCalories > 0
+                ? ((currentTotalCalories - previousTotalCalories) / previousTotalCalories) * 100
                 : 0;
+
+            // 計算每日明細（週一到週日）
+            var dailyBreakdown = new List<DailyBreakdownDto>();
+            for (int i = 0; i < 7; i++)
+            {
+                var currentDay = weekStart.AddDays(i);
+                var dayRecords = thisWeekRecords.Where(r => r.ExerciseDate.Date == currentDay.Date).ToList();
+
+                dailyBreakdown.Add(new DailyBreakdownDto
+                {
+                    Date = currentDay.ToString("yyyy-MM-dd"),
+                    DurationMinutes = dayRecords.Sum(r => r.DurationMinutes),
+                    CaloriesBurned = dayRecords.Sum(r => r.CaloriesBurned),
+                    WorkoutCount = dayRecords.Count,
+                    HasWorkout = dayRecords.Any()
+                });
+            }
 
             return new WeeklySummaryDto
             {
+                WeekStartDate = weekStart,
+                WeekEndDate = weekEnd.AddDays(-1), // 週日為結束日
                 TotalDurationMinutes = currentTotalDuration,
                 TotalCaloriesBurned = currentTotalCalories,
                 WorkoutDays = currentWorkoutDays,
+                TotalWorkoutCount = currentWorkoutCount,
                 DurationChangePercentage = (decimal)durationChangePercent,
-                CaloriesChangePercentage = caloriesChangePercent
+                CaloriesChangePercentage = caloriesChangePercent,
+                DailyBreakdown = dailyBreakdown
             };
         }
 

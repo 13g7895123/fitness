@@ -24,8 +24,8 @@
         drawer ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       ]"
     >
-      <!-- 玻璃擬態背景 -->
-      <div class="absolute inset-0 glass shadow-2xl"></div>
+      <!-- 白底背景 -->
+      <div class="absolute inset-0 bg-white shadow-2xl border-r border-gray-200"></div>
       
       <div class="relative h-full flex flex-col">
         <!-- Logo & User Profile -->
@@ -38,8 +38,8 @@
               </svg>
             </div>
             <div>
-              <h2 class="text-xl font-bold gradient-text">{{ $t('app.title') }}</h2>
-              <p class="text-xs text-gray-500">健身生活，從這開始</p>
+              <h2 class="text-xl font-bold text-gray-900">{{ $t('app.title') }}</h2>
+              <p class="text-xs text-gray-600">健身生活，從這開始</p>
             </div>
           </div>
 
@@ -75,8 +75,8 @@
             exact-active-class="nav-active"
           >
             <span class="absolute inset-0 bg-gradient-primary opacity-0 group-[.nav-active]:opacity-100 transition-opacity duration-200"></span>
-            <component :is="item.icon" class="w-5 h-5 relative z-10 text-gray-600 group-[.nav-active]:text-white group-hover:scale-110 transition-transform" />
-            <span class="relative z-10 font-medium text-gray-700 group-[.nav-active]:text-white group-hover:text-gray-900">
+            <component :is="item.icon" class="w-5 h-5 relative z-10 text-gray-700 group-[.nav-active]:text-white group-hover:scale-110 transition-transform" />
+            <span class="relative z-10 font-medium text-gray-900 group-[.nav-active]:text-white group-hover:text-gray-900">
               {{ item.label }}
             </span>
             <div class="absolute right-3 w-1.5 h-8 bg-white rounded-full opacity-0 group-[.nav-active]:opacity-100 transition-opacity"></div>
@@ -230,8 +230,7 @@ const navItems = [
 ]
 
 const handleLogout = async () => {
-  // TODO: Implement proper logout
-  // await authStore.logout()
+  authStore.clearAuth()
   router.push('/login')
 }
 

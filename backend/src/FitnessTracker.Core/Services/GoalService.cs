@@ -1,4 +1,5 @@
 using FitnessTracker.Core.Entities;
+using FitnessTracker.Core.Exceptions;
 using FitnessTracker.Core.Interfaces;
 using FitnessTracker.Shared.Dtos.Goals;
 
@@ -44,7 +45,7 @@ namespace FitnessTracker.Core.Services
             var goal = goals.FirstOrDefault(g => !g.IsDeleted && g.Id == id && g.UserId == userId);
 
             if (goal == null)
-                throw new KeyNotFoundException($"Goal with id {id} not found");
+                throw new NotFoundException("目標", id);
 
             goal.Name = dto.Name;
             goal.Description = dto.Description;
@@ -63,7 +64,7 @@ namespace FitnessTracker.Core.Services
             var goal = goals.FirstOrDefault(g => !g.IsDeleted && g.Id == id && g.UserId == userId);
 
             if (goal == null)
-                throw new KeyNotFoundException($"Goal with id {id} not found");
+                throw new NotFoundException("目標", id);
 
             goal.IsDeleted = true;
             await _goalRepository.UpdateAsync(goal);
@@ -76,7 +77,7 @@ namespace FitnessTracker.Core.Services
             var goal = goals.FirstOrDefault(g => !g.IsDeleted && g.Id == id);
 
             if (goal == null)
-                throw new KeyNotFoundException($"Goal with id {id} not found");
+                throw new NotFoundException("目標", id);
 
             return MapToDto(goal);
         }
@@ -107,7 +108,7 @@ namespace FitnessTracker.Core.Services
             var goal = goals.FirstOrDefault(g => !g.IsDeleted && g.Id == goalId);
 
             if (goal == null)
-                throw new KeyNotFoundException($"Goal with id {goalId} not found");
+                throw new NotFoundException("目標", goalId);
 
             var records = await _workoutRecordRepository.GetAllAsync();
             

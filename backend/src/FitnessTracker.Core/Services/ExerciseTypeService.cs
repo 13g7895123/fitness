@@ -1,4 +1,5 @@
 using FitnessTracker.Core.Entities;
+using FitnessTracker.Core.Exceptions;
 using FitnessTracker.Core.Interfaces;
 using FitnessTracker.Shared.Dtos.ExerciseTypes;
 
@@ -61,11 +62,11 @@ namespace FitnessTracker.Core.Services
                 return null;
 
             if (exerciseType.IsSystemDefault)
-                throw new InvalidOperationException("系統預設運動類型無法修改");
+                throw new BusinessException("系統預設運動類型無法修改", "SYSTEM_DEFAULT_IMMUTABLE");
 
             // Check for duplicate name
             if (await _exerciseTypeRepository.IsNameExistsAsync(dto.Name, id))
-                throw new InvalidOperationException("運動類型名稱已存在");
+                throw new ValidationException("name", "運動類型名稱已存在");
 
             exerciseType.Name = dto.Name;
             exerciseType.Description = dto.Description;
@@ -81,16 +82,18 @@ namespace FitnessTracker.Core.Services
 
         public async Task DeleteAsync(int id)
         {
-            var exerciseType = await _exerciseTypeRepository.GetByIdAsync(Guid.Empty); // TODO: Fix this
+            var exerciseTypes = await _exerciseTypeRepository.GetAllAsync();
+            var exerciseType = exerciseTypes.FirstOrDefault(e => !e.IsDeleted && e.Id == id);
+
             if (exerciseType == null)
-                throw new KeyNotFoundException($"ExerciseType with id {id} not found");
+                throw new NotFoundException("運動類型", id);
 
             if (exerciseType.IsSystemDefault)
-                throw new InvalidOperationException("系統預設運動類型無法刪除");
+                throw new BusinessException("系統預設運動類型無法刪除", "SYSTEM_DEFAULT_IMMUTABLE");
 
             var workoutCount = await _exerciseTypeRepository.GetWorkoutRecordCountAsync(id);
             if (workoutCount > 0)
-                throw new InvalidOperationException("此運動類型已被使用，無法刪除");
+                throw new BusinessException("此運動類型已被使用，無法刪除", "RESOURCE_IN_USE");
 
             exerciseType.IsDeleted = true;
             await _exerciseTypeRepository.UpdateAsync(exerciseType);

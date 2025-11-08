@@ -9,7 +9,7 @@ namespace FitnessTracker.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/v1/workouts")]
+    [Route("api/v1/workout-records")]
     public class WorkoutRecordsController : ControllerBase
     {
         private readonly IWorkoutRecordService _workoutRecordService;
@@ -103,20 +103,22 @@ namespace FitnessTracker.Api.Controllers
         }
 
         /// <summary>
-        /// 獲取用戶所有運動紀錄
+        /// 獲取用戶所有運動紀錄（支援分頁）
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<List<WorkoutRecordDto>>>> GetAll()
+        public async Task<ActionResult<ApiResponse<PaginatedResponse<WorkoutRecordDto>>>> GetAll(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
         {
             try
             {
                 var userId = GetCurrentUserId();
-                var records = await _workoutRecordService.GetByUserAsync(userId);
-                return Ok(ApiResponse<List<WorkoutRecordDto>>.SuccessResponse(records));
+                var paginatedRecords = await _workoutRecordService.GetPagedByUserAsync(userId, pageNumber, pageSize);
+                return Ok(ApiResponse<PaginatedResponse<WorkoutRecordDto>>.SuccessResponse(paginatedRecords));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ApiResponse<List<WorkoutRecordDto>>.ErrorResponse($"獲取運動紀錄列表失敗: {ex.Message}"));
+                return StatusCode(500, ApiResponse<PaginatedResponse<WorkoutRecordDto>>.ErrorResponse($"獲取運動紀錄列表失敗: {ex.Message}"));
             }
         }
 

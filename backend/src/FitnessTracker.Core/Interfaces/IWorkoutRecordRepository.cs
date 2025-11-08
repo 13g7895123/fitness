@@ -5,6 +5,7 @@ namespace FitnessTracker.Core.Interfaces
     public interface IWorkoutRecordRepository : IRepository<WorkoutRecord>
     {
         Task<List<WorkoutRecord>> GetByUserAsync(Guid userId);
+        Task<(List<WorkoutRecord> Items, int Total)> GetPagedByUserAsync(Guid userId, int pageNumber, int pageSize);
         Task<List<WorkoutRecord>> GetByUserAndDateRangeAsync(Guid userId, DateTime startDate, DateTime endDate);
         Task<List<WorkoutRecord>> GetByUserAndExerciseTypeAsync(Guid userId, int exerciseTypeId);
     }

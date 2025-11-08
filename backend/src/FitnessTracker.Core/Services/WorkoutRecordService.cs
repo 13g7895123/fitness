@@ -1,5 +1,6 @@
 using FitnessTracker.Core.Entities;
 using FitnessTracker.Core.Interfaces;
+using FitnessTracker.Shared.Dtos.Common;
 using FitnessTracker.Shared.Dtos.WorkoutRecords;
 
 namespace FitnessTracker.Core.Services
@@ -103,6 +104,19 @@ namespace FitnessTracker.Core.Services
                 dtos.Add(await MapToDto(record));
             }
             return dtos;
+        }
+
+        public async Task<PaginatedResponse<WorkoutRecordDto>> GetPagedByUserAsync(Guid userId, int pageNumber, int pageSize)
+        {
+            var (items, total) = await _workoutRecordRepository.GetPagedByUserAsync(userId, pageNumber, pageSize);
+
+            var dtos = new List<WorkoutRecordDto>();
+            foreach (var record in items)
+            {
+                dtos.Add(await MapToDto(record));
+            }
+
+            return PaginatedResponse<WorkoutRecordDto>.Create(dtos, total, pageNumber, pageSize);
         }
 
         public async Task<List<WorkoutRecordDto>> GetByUserAndDateAsync(Guid userId, DateTime date)

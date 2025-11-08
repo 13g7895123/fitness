@@ -1,3 +1,4 @@
+using FitnessTracker.Shared.Dtos.Common;
 using FitnessTracker.Shared.Dtos.WorkoutRecords;
 
 namespace FitnessTracker.Core.Interfaces
@@ -9,6 +10,7 @@ namespace FitnessTracker.Core.Interfaces
         Task DeleteAsync(int id, Guid userId);
         Task<WorkoutRecordDto?> GetByIdAsync(int id);
         Task<List<WorkoutRecordDto>> GetByUserAsync(Guid userId);
+        Task<PaginatedResponse<WorkoutRecordDto>> GetPagedByUserAsync(Guid userId, int pageNumber, int pageSize);
         Task<List<WorkoutRecordDto>> GetByUserAndDateAsync(Guid userId, DateTime date);
         Task<List<WorkoutRecordDto>> GetByUserAndDateRangeAsync(Guid userId, DateTime startDate, DateTime endDate);
     }

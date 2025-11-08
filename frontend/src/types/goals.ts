@@ -1,26 +1,31 @@
 export interface WorkoutGoalDto {
-  Id: string
-  UserId: string
-  WeeklyMinutesGoal?: number
-  WeeklyCaloriesGoal?: number
-  StartDate: string
-  EndDate?: string
-  IsActive: boolean
-  CurrentWeekMinutes: number
-  CurrentWeekCalories: number
-  MinutesAchievementPercent: number
-  CaloriesAchievementPercent: number
-  IsMinutesAchieved: boolean
-  IsCaloriesAchieved: boolean
-  CreatedAt: string
-  UpdatedAt?: string
+  id: string
+  userId: string
+  weeklyMinutes?: number
+  weeklyCalories?: number
+  startDate: string
+  endDate?: string
+  isActive: boolean
+  currentWeekMinutes: number
+  currentWeekCalories: number
+  minutesAchievementPercent: number
+  caloriesAchievementPercent: number
+  isMinutesAchieved: boolean
+  isCaloriesAchieved: boolean
+  createdAt: string
+  updatedAt?: string
 }
 
 export interface CreateWorkoutGoalDto {
-  WeeklyMinutesGoal?: number
-  WeeklyCaloriesGoal?: number
-  StartDate: string
-  EndDate?: string
+  weeklyMinutes?: number
+  weeklyCalories?: number
+  startDate: string
+  endDate?: string
 }
 
-export interface UpdateWorkoutGoalDto extends CreateWorkoutGoalDto {}
+export interface UpdateWorkoutGoalDto {
+  weeklyMinutes?: number
+  weeklyCalories?: number
+  endDate?: string
+  isActive?: boolean
+}

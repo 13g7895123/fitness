@@ -9,6 +9,19 @@ namespace FitnessTracker.Shared.Dtos.WorkoutRecords
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsActive { get; set; }
+
+        // 當週進度（動態計算）
+        public int CurrentWeekMinutes { get; set; }
+        public decimal CurrentWeekCalories { get; set; }
+
+        // 達成百分比（動態計算）
+        public decimal MinutesAchievementPercent { get; set; }
+        public decimal CaloriesAchievementPercent { get; set; }
+
+        // 是否達成（動態計算）
+        public bool IsMinutesAchieved { get; set; }
+        public bool IsCaloriesAchieved { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

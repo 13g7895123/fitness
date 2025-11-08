@@ -8,29 +8,6 @@ import type {
   ExerciseDistributionDto
 } from '@/types/statistics'
 
-interface WeeklySummaryResponse {
-  success: boolean
-  message: string
-  data?: {
-    weekStartDate: string
-    weekEndDate: string
-    totalDurationMinutes: number
-    totalCaloriesBurned: number
-    workoutDays: number
-    totalWorkoutCount: number
-    dailyBreakdown: Array<{
-      date: string
-      dayOfWeek: number
-      durationMinutes: number
-      caloriesBurned: number
-      workoutCount: number
-    }>
-    durationChangePercent: number
-    caloriesChangePercent: number
-    workoutDaysChangePercent: number
-  }
-}
-
 export const useStatisticsService = () => {
   const statisticsStore = useStatisticsStore()
   const { showError } = useErrorHandler()
@@ -43,19 +20,14 @@ export const useStatisticsService = () => {
       const params = new URLSearchParams()
       if (date) params.append('date', date)
 
-      const response = await api.get<WeeklySummaryResponse>(
+      const response = await api.get<{ success: boolean; message: string; data: WeeklySummaryDto }>(
         `/statistics/weekly?${params.toString()}`
       )
 
       if (response.data.success && response.data.data) {
-        statisticsStore.setWeeklySummary(response.data.data)
-        return {
-          totalDurationMinutes: response.data.data.totalDurationMinutes,
-          totalCaloriesBurned: response.data.data.totalCaloriesBurned,
-          workoutDays: response.data.data.workoutDays,
-          durationChangePercentage: response.data.data.durationChangePercent,
-          caloriesChangePercentage: response.data.data.caloriesChangePercent
-        }
+        const weeklySummary = response.data.data
+        statisticsStore.setWeeklySummary(weeklySummary)
+        return weeklySummary
       } else {
         throw new Error(response.data.message || '取得週統計失敗')
       }

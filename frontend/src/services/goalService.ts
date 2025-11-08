@@ -12,7 +12,7 @@ export const useGoalService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.post<{ data: WorkoutGoalDto }>('/goals', data)
+      const response = await api.post<{ data: WorkoutGoalDto }>('/workout-goals', data)
       const goal = response.data?.data
       if (goal) {
         goalsStore.addGoal(goal)
@@ -30,7 +30,7 @@ export const useGoalService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: WorkoutGoalDto }>(`/goals/${id}`)
+      const response = await api.get<{ data: WorkoutGoalDto }>(`/workout-goals/${id}`)
       return response.data?.data || null
     } catch (err: any) {
       error.value = err.response?.data?.message || '查詢目標失敗'
@@ -44,7 +44,7 @@ export const useGoalService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: WorkoutGoalDto[] }>('/goals')
+      const response = await api.get<{ data: WorkoutGoalDto[] }>('/workout-goals')
       const goals = response.data?.data || []
       goalsStore.setGoals(goals)
       return goals
@@ -60,7 +60,7 @@ export const useGoalService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: WorkoutGoalDto }>('/goals/active')
+      const response = await api.get<{ data: WorkoutGoalDto }>('/workout-goals/active')
       const goal = response.data?.data || null
       goalsStore.setActiveGoal(goal)
       return goal
@@ -76,7 +76,7 @@ export const useGoalService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.put<{ data: WorkoutGoalDto }>(`/goals/${id}`, data)
+      const response = await api.put<{ data: WorkoutGoalDto }>(`/workout-goals/${id}`, data)
       const goal = response.data?.data
       if (goal) {
         goalsStore.updateGoal(goal)
@@ -94,7 +94,7 @@ export const useGoalService = () => {
     try {
       isLoading.value = true
       error.value = null
-      await api.delete(`/goals/${id}`)
+      await api.delete(`/workout-goals/${id}`)
       goalsStore.removeGoal(id)
       return true
     } catch (err: any) {
@@ -109,7 +109,7 @@ export const useGoalService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.patch<{ data: WorkoutGoalDto }>(`/goals/${id}/deactivate`, {})
+      const response = await api.patch<{ data: WorkoutGoalDto }>(`/workout-goals/${id}/deactivate`, {})
       const goal = response.data?.data
       if (goal) {
         goalsStore.updateGoal(goal)

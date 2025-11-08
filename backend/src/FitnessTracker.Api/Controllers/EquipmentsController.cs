@@ -71,7 +71,7 @@ namespace FitnessTracker.Api.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ApiResponse<EquipmentDto>>> Update(int id, [FromBody] UpdateEquipmentDto dto)
         {
             try

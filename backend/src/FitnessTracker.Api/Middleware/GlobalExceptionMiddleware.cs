@@ -1,4 +1,5 @@
 using System.Net;
+using FitnessTracker.Core.Exceptions;
 using FitnessTracker.Shared.Dtos.Common;
 using Microsoft.IdentityModel.Tokens;
 
@@ -36,6 +37,30 @@ public class GlobalExceptionMiddleware
 
         switch (exception)
         {
+            case NotFoundException nfe:
+                response.StatusCode = (int)HttpStatusCode.NotFound;
+                apiResponse = ApiResponse<object>.FailureResponse(nfe.Message);
+                break;
+
+            case ValidationException ve:
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                var errors = ve.Errors.Select(e => new ApiError
+                {
+                    Code = "VALIDATION_ERROR",
+                    Field = e.Key,
+                    Message = string.Join(", ", e.Value)
+                }).ToList();
+                apiResponse = ApiResponse<object>.ErrorResponse(ve.Message, errors);
+                break;
+
+            case BusinessException be:
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                apiResponse = ApiResponse<object>.ErrorResponse(be.Message, new List<ApiError>
+                {
+                    new ApiError { Code = be.ErrorCode, Message = be.Message }
+                });
+                break;
+
             case SecurityTokenException ste:
                 response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 apiResponse = ApiResponse<object>.FailureResponse("令牌無效或已過期");

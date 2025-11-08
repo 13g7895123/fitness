@@ -1,4 +1,5 @@
 using FitnessTracker.Core.Entities;
+using FitnessTracker.Core.Exceptions;
 using FitnessTracker.Core.Interfaces;
 using FitnessTracker.Shared.Dtos.Equipments;
 
@@ -54,7 +55,7 @@ namespace FitnessTracker.Core.Services
                 return null;
 
             if (equipment.IsSystemDefault)
-                throw new InvalidOperationException("系統預設器材無法修改");
+                throw new BusinessException("系統預設器材無法修改", "SYSTEM_DEFAULT_IMMUTABLE");
 
             equipment.Name = dto.Name;
             equipment.Description = dto.Description;
@@ -71,10 +72,10 @@ namespace FitnessTracker.Core.Services
             var equipment = equipments.FirstOrDefault(e => !e.IsDeleted && e.Id == id);
 
             if (equipment == null)
-                throw new KeyNotFoundException($"Equipment with id {id} not found");
+                throw new NotFoundException("器材", id);
 
             if (equipment.IsSystemDefault)
-                throw new InvalidOperationException("系統預設器材無法刪除");
+                throw new BusinessException("系統預設器材無法刪除", "SYSTEM_DEFAULT_IMMUTABLE");
 
             equipment.IsDeleted = true;
             await _equipmentRepository.UpdateAsync(equipment);

@@ -1,12 +1,25 @@
 namespace FitnessTracker.Shared.Dtos.Statistics
 {
+    public class DailyBreakdownDto
+    {
+        public string Date { get; set; } = string.Empty;
+        public int DurationMinutes { get; set; }
+        public decimal CaloriesBurned { get; set; }
+        public int WorkoutCount { get; set; }
+        public bool HasWorkout { get; set; }
+    }
+
     public class WeeklySummaryDto
     {
+        public DateTime WeekStartDate { get; set; }
+        public DateTime WeekEndDate { get; set; }
         public int TotalDurationMinutes { get; set; }
         public decimal TotalCaloriesBurned { get; set; }
         public int WorkoutDays { get; set; }
+        public int TotalWorkoutCount { get; set; }
         public decimal DurationChangePercentage { get; set; }
         public decimal CaloriesChangePercentage { get; set; }
+        public List<DailyBreakdownDto> DailyBreakdown { get; set; } = new();
     }
 
     public class TrendDataDto

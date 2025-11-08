@@ -11,7 +11,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.post<{ data: WorkoutRecordResponseDto }>('/workouts', data)
+      const response = await api.post<{ data: WorkoutRecordResponseDto }>('/workout-records', data)
       return response.data?.data || null
     } catch (err: any) {
       error.value = err.response?.data?.message || '新增紀錄失敗'
@@ -25,7 +25,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.put<{ data: WorkoutRecordResponseDto }>(`/workouts/${id}`, data)
+      const response = await api.put<{ data: WorkoutRecordResponseDto }>(`/workout-records/${id}`, data)
       return response.data?.data || null
     } catch (err: any) {
       error.value = err.response?.data?.message || '更新紀錄失敗'
@@ -39,7 +39,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      await api.delete(`/workouts/${id}`)
+      await api.delete(`/workout-records/${id}`)
       return true
     } catch (err: any) {
       error.value = err.response?.data?.message || '刪除紀錄失敗'
@@ -53,7 +53,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: WorkoutRecordResponseDto }>(`/workouts/${id}`)
+      const response = await api.get<{ data: WorkoutRecordResponseDto }>(`/workout-records/${id}`)
       return response.data?.data || null
     } catch (err: any) {
       error.value = err.response?.data?.message || '查詢紀錄失敗'
@@ -67,7 +67,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: WorkoutRecordResponseDto[] }>(`/workouts/date/${date}`)
+      const response = await api.get<{ data: WorkoutRecordResponseDto[] }>(`/workout-records/daily/${date}`)
       return response.data?.data || []
     } catch (err: any) {
       error.value = err.response?.data?.message || '查詢紀錄失敗'
@@ -81,7 +81,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: WorkoutRecordResponseDto[] }>('/workouts/range', {
+      const response = await api.get<{ data: WorkoutRecordResponseDto[] }>('/workout-records/range', {
         params: { startDate, endDate }
       })
       return response.data?.data || []
@@ -97,7 +97,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: PaginatedResponse<WorkoutRecordResponseDto> }>('/workouts', {
+      const response = await api.get<{ data: PaginatedResponse<WorkoutRecordResponseDto> }>('/workout-records', {
         params: { pageNumber, pageSize }
       })
       return response.data?.data || null
@@ -113,7 +113,7 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      const response = await api.get<{ data: DailyWorkoutDto }>(`/workouts/by-date/${date}`)
+      const response = await api.get<{ data: DailyWorkoutDto }>(`/workout-records/daily/${date}`)
       return response.data || { data: null as any }
     } catch (err: any) {
       error.value = err.response?.data?.message || '查詢每日紀錄失敗'

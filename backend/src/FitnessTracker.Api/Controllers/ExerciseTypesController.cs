@@ -91,57 +91,23 @@ namespace FitnessTracker.Api.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ApiResponse<ExerciseTypeDto>>> Update(int id, [FromBody] UpdateExerciseTypeDto dto)
         {
-            try
+            var exerciseType = await _exerciseTypeService.UpdateAsync(id, dto);
+            if (exerciseType == null)
             {
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
-                {
-                    return Unauthorized(ApiResponse<ExerciseTypeDto>.ErrorResponse("無效的用戶身份"));
-                }
+                return NotFound(ApiResponse<ExerciseTypeDto>.ErrorResponse("運動類型不存在"));
+            }
 
-                var exerciseType = await _exerciseTypeService.UpdateAsync(id, dto);
-                if (exerciseType == null)
-                {
-                    return NotFound(ApiResponse<ExerciseTypeDto>.ErrorResponse("運動類型不存在"));
-                }
-
-                return Ok(ApiResponse<ExerciseTypeDto>.SuccessResponse(exerciseType));
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ApiResponse<ExerciseTypeDto>.ErrorResponse(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ApiResponse<ExerciseTypeDto>.ErrorResponse($"更新運動類型失敗: {ex.Message}"));
-            }
+            return Ok(ApiResponse<ExerciseTypeDto>.SuccessResponse(exerciseType, "運動類型更新成功"));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<ApiResponse<object>>> Delete(int id)
         {
-            try
-            {
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
-                {
-                    return Unauthorized(ApiResponse<object>.ErrorResponse("無效的用戶身份"));
-                }
-
-                await _exerciseTypeService.DeleteAsync(id);
-                return Ok(ApiResponse<object>.SuccessResponse(null, "運動類型已刪除"));
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ApiResponse<object>.ErrorResponse(ex.Message));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ApiResponse<object>.ErrorResponse($"刪除運動類型失敗: {ex.Message}"));
-            }
+            await _exerciseTypeService.DeleteAsync(id);
+            return Ok(ApiResponse<object>.SuccessResponse(null, "運動類型已刪除"));
         }
     }
 }

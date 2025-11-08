@@ -17,15 +17,35 @@ namespace FitnessTracker.Infrastructure.Repositories
         public async Task<List<WorkoutRecord>> GetByUserAsync(Guid userId)
         {
             return await _context.WorkoutRecords
+                .AsNoTracking()
                 .Where(r => !r.IsDeleted && r.UserId == userId)
                 .Include(r => r.ExerciseType)
                 .OrderByDescending(r => r.ExerciseDate)
                 .ToListAsync();
         }
 
+        public async Task<(List<WorkoutRecord> Items, int Total)> GetPagedByUserAsync(Guid userId, int pageNumber, int pageSize)
+        {
+            var query = _context.WorkoutRecords
+                .AsNoTracking()
+                .Where(r => !r.IsDeleted && r.UserId == userId)
+                .Include(r => r.ExerciseType)
+                .OrderByDescending(r => r.ExerciseDate);
+
+            var total = await query.CountAsync();
+
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (items, total);
+        }
+
         public async Task<List<WorkoutRecord>> GetByUserAndDateRangeAsync(Guid userId, DateTime startDate, DateTime endDate)
         {
             return await _context.WorkoutRecords
+                .AsNoTracking()
                 .Where(r => !r.IsDeleted && r.UserId == userId && r.ExerciseDate >= startDate && r.ExerciseDate < endDate)
                 .Include(r => r.ExerciseType)
                 .OrderByDescending(r => r.ExerciseDate)
@@ -35,6 +55,7 @@ namespace FitnessTracker.Infrastructure.Repositories
         public async Task<List<WorkoutRecord>> GetByUserAndExerciseTypeAsync(Guid userId, int exerciseTypeId)
         {
             return await _context.WorkoutRecords
+                .AsNoTracking()
                 .Where(r => !r.IsDeleted && r.UserId == userId && r.ExerciseTypeId == exerciseTypeId)
                 .Include(r => r.ExerciseType)
                 .OrderByDescending(r => r.ExerciseDate)

@@ -1,3 +1,23 @@
+export interface DailyBreakdownDto {
+  date: string
+  durationMinutes: number
+  caloriesBurned: number
+  workoutCount: number
+  hasWorkout: boolean
+}
+
+export interface WeeklySummaryDto {
+  weekStartDate: string
+  weekEndDate: string
+  totalDurationMinutes: number
+  totalCaloriesBurned: number
+  workoutDays: number
+  totalWorkoutCount: number
+  durationChangePercentage: number
+  caloriesChangePercentage: number
+  dailyBreakdown: DailyBreakdownDto[]
+}
+
 export interface TrendDataDto {
   date: string
   durationMinutes: number

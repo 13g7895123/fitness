@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, computed } from 'vue'
+import { ref, watch, defineProps, defineEmits, computed } from 'vue'
 import Dialog from '@/components/common/Dialog.vue'
 import WorkoutRecordForm from './WorkoutRecordForm.vue'
 import { useWorkoutService } from '@/services/workoutService'
@@ -41,6 +41,16 @@ const workoutsStore = useWorkoutsStore()
 const { showSuccess, showError } = useErrorHandler()
 
 const isOpen = ref(props.modelValue)
+
+// 監聽 props.modelValue 變化
+watch(() => props.modelValue, (newVal) => {
+  isOpen.value = newVal
+})
+
+// 監聽 isOpen 變化並同步回 parent
+watch(isOpen, (newVal) => {
+  emit('update:modelValue', newVal)
+})
 
 const handleSubmit = async (formData: UpdateWorkoutRecordDto) => {
   try {

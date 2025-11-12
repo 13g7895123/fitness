@@ -8,13 +8,27 @@ interface User {
   pictureUrl: string
 }
 
+// 初始化時從 localStorage 恢復資料
+const initUser = (): User | null => {
+  const savedUser = localStorage.getItem('authUser')
+  if (savedUser) {
+    try {
+      return JSON.parse(savedUser)
+    } catch (e) {
+      console.error('Failed to parse saved user data:', e)
+      return null
+    }
+  }
+  return null
+}
+
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | null>(null)
+  const user = ref<User | null>(initUser())
   const token = ref<string | null>(localStorage.getItem('authToken'))
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
-  const isAuthenticated = computed(() => !!token.value)
+  const isAuthenticated = computed(() => !!token.value && !!user.value)
 
   // 從 localStorage 恢復 token 和 user
   const restoreToken = () => {
@@ -73,7 +87,7 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     user,
     token,
-    isLoading,
+    loading: isLoading,  // 將 isLoading 導出為 loading
     error,
     isAuthenticated,
     restoreToken,

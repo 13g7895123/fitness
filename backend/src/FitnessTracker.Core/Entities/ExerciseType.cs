@@ -9,8 +9,9 @@ public class ExerciseType
     public bool IsSystemDefault { get; set; }
     public Guid? CreatedByUserId { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public bool IsDeleted { get; set; }
-    
+
     // Navigation properties
     public ICollection<Equipment> Equipments { get; set; } = new List<Equipment>();
     public ICollection<WorkoutRecord> WorkoutRecords { get; set; } = new List<WorkoutRecord>();

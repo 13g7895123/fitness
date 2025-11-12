@@ -1,10 +1,10 @@
 export interface WorkoutRecordResponseDto {
-  id: string
+  id: number
   userId: string
-  date: string
-  exerciseTypeId: string
+  exerciseDate: string
+  exerciseTypeId: number
   exerciseTypeName: string
-  equipmentId?: string
+  equipmentId?: number
   equipmentName?: string
   durationMinutes: number
   caloriesBurned: number
@@ -15,22 +15,16 @@ export interface WorkoutRecordResponseDto {
 }
 
 export interface CreateWorkoutRecordDto {
-  date: string
-  exerciseTypeId: string
-  equipmentId?: string
-  durationMinutes: number
-  caloriesBurned?: number
-  weight?: number
+  exerciseDate: string
+  exerciseTypeId: number | string
+  equipmentId?: number | string
   notes?: string
 }
 
 export interface UpdateWorkoutRecordDto {
-  date?: string
-  exerciseTypeId?: string
-  equipmentId?: string
-  durationMinutes?: number
-  caloriesBurned?: number
-  weight?: number
+  exerciseDate?: string
+  exerciseTypeId?: number | string
+  equipmentId?: number | string
   notes?: string
 }
 

@@ -14,6 +14,12 @@ public class WorkoutRecord
     public decimal CaloriesBurned { get; set; }
     public decimal? Weight { get; set; }
     public string? Notes { get; set; }
+
+    /// <summary>
+    /// 訓練組數列表
+    /// </summary>
+    public ICollection<WorkoutSet> Sets { get; set; } = new List<WorkoutSet>();
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public bool IsDeleted { get; set; }

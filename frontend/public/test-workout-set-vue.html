@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkoutSetList 組件測試</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .shadow-glow {
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .text-error {
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 p-8">
+  <div id="app" class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">WorkoutSetList 組件渲染測試</h1>
+
+    <!-- 測試區域 -->
+    <div class="glass rounded-2xl p-5 shadow-soft mb-6">
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex-1">
+          <h4 class="text-lg font-semibold text-gray-900 mb-1">深蹲</h4>
+        </div>
+        <div class="flex space-x-2">
+          <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="編輯">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 組數列表區塊 - 這應該出現 -->
+      <div class="mt-3 border-t border-gray-200 pt-3" style="background-color: #f0f9ff;">
+        <div class="workout-set-list">
+          <!-- 標題和新增按鈕 -->
+          <div class="flex items-center justify-between mb-4" style="background-color: #fef3c7;">
+            <h3 class="text-lg font-bold text-gray-900">訓練組數 (重量單位: lbs)</h3>
+            <button
+              @click="addSet"
+              class="p-2 rounded-lg bg-gradient-primary text-[#555] hover:shadow-glow transition-all"
+              title="新增組數"
+              style="min-width: 40px; min-height: 40px;"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- 組數列表 -->
+          <div v-if="sets.length > 0" class="space-y-2">
+            <div
+              v-for="set in sets"
+              :key="set.id"
+              class="flex items-center justify-between glass rounded-xl p-3"
+            >
+              <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-primary text-white font-bold text-sm">
+                  {{ set.setNumber }}
+                </div>
+                <div>
+                  <div class="font-semibold text-gray-900">
+                    {{ set.repetitions }} 次
+                    <span v-if="set.weight" class="text-gray-600 text-sm ml-2">
+                      {{ set.weight }} lbs
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 空狀態 -->
+          <div v-else class="text-center py-8 glass rounded-xl">
+            <svg class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <p class="text-gray-500 text-sm">尚未記錄組數</p>
+            <p class="text-gray-400 text-xs mt-1">點擊上方 + 按鈕新增第一組</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 測試結果 -->
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+      <p class="font-bold">渲染狀態：</p>
+      <ul class="list-disc list-inside mt-2">
+        <li>Vue 應用已載入: {{ mounted ? '是' : '否' }}</li>
+        <li>組數數量: {{ sets.length }}</li>
+        <li>點擊計數: {{ clickCount }}</li>
+      </ul>
+    </div>
+
+    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+      <p class="font-bold">測試說明：</p>
+      <ul class="list-disc list-inside mt-2">
+        <li>黃色背景區域應該顯示「訓練組數」標題</li>
+        <li>標題右側應該有紫色漸層的 + 按鈕（min-width: 40px）</li>
+        <li>淺藍色背景標示整個組數列表區塊</li>
+        <li>點擊 + 按鈕會增加點擊計數</li>
+        <li>如果看不到任何黃色或藍色背景，代表整個區塊沒有渲染</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          mounted: false,
+          clickCount: 0,
+          sets: []
+        }
+      },
+      methods: {
+        addSet() {
+          this.clickCount++;
+          this.sets.push({
+            id: this.sets.length + 1,
+            setNumber: this.sets.length + 1,
+            repetitions: 12,
+            weight: 100
+          });
+          alert(`+ 按鈕被點擊了！目前有 ${this.sets.length} 組`);
+        }
+      },
+      mounted() {
+        this.mounted = true;
+        console.log('Vue app mounted successfully');
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

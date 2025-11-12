@@ -71,12 +71,19 @@ public class JwtTokenService : IJwtTokenService
                 ClockSkew = TimeSpan.Zero
             }, out SecurityToken validatedToken);
 
-            var userIdClaim = principal.FindFirst("sub");
+            // 記錄所有的 claims 以便調試
+            _logger.LogInformation("Token claims: {Claims}", string.Join(", ", principal.Claims.Select(c => $"{c.Type}={c.Value}")));
+
+            var userIdClaim = principal.FindFirst("sub") ?? principal.FindFirst(ClaimTypes.NameIdentifier);
             var lineUserIdClaim = principal.FindFirst("line_user_id");
-            var displayNameClaim = principal.FindFirst("display_name");
+            var displayNameClaim = principal.FindFirst("display_name") ?? principal.FindFirst(ClaimTypes.Name);
 
             if (userIdClaim?.Value == null || lineUserIdClaim?.Value == null || displayNameClaim?.Value == null)
+            {
+                _logger.LogError("Missing claims - sub: {Sub}, line_user_id: {LineUserId}, display_name: {DisplayName}",
+                    userIdClaim?.Value, lineUserIdClaim?.Value, displayNameClaim?.Value);
                 throw new SecurityTokenException("Token is missing required claims");
+            }
 
             return (
                 Guid.Parse(userIdClaim.Value),

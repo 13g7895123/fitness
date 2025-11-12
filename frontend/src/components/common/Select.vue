@@ -11,7 +11,7 @@
         :disabled="disabled"
         :required="required"
         :class="selectClasses"
-        @change="$emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
+        @change="handleChange"
       >
         <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
         <option
@@ -100,7 +100,23 @@ const props = defineProps({
   }
 })
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
+
+const handleChange = (event: Event) => {
+  const target = event.target as HTMLSelectElement
+  const value = target.value
+
+  // 如果 itemValue 對應的項目值是數字，則轉換為數字
+  if (value && props.itemValue) {
+    const selectedItem = props.items.find(item => String(item[props.itemValue]) === value)
+    if (selectedItem && typeof selectedItem[props.itemValue] === 'number') {
+      emit('update:modelValue', Number(value))
+      return
+    }
+  }
+
+  emit('update:modelValue', value || null)
+}
 
 const selectClasses = computed(() => {
   const baseClasses = [

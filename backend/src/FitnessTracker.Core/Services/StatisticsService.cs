@@ -6,9 +6,9 @@ namespace FitnessTracker.Core.Services
 {
     public class StatisticsService : IStatisticsService
     {
-        private readonly IRepository<WorkoutRecord> _workoutRecordRepository;
+        private readonly IWorkoutRecordRepository _workoutRecordRepository;
 
-        public StatisticsService(IRepository<WorkoutRecord> workoutRecordRepository)
+        public StatisticsService(IWorkoutRecordRepository workoutRecordRepository)
         {
             _workoutRecordRepository = workoutRecordRepository;
         }

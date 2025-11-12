@@ -29,9 +29,9 @@ namespace FitnessTracker.Core.Services
                 ExerciseDate = dto.ExerciseDate,
                 ExerciseTypeId = dto.ExerciseTypeId,
                 EquipmentId = dto.EquipmentId,
-                DurationMinutes = dto.DurationMinutes,
-                CaloriesBurned = dto.CaloriesBurned,
-                Weight = dto.Weight,
+                DurationMinutes = 0,
+                CaloriesBurned = 0,
+                Weight = null,
                 Notes = dto.Notes,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -55,9 +55,6 @@ namespace FitnessTracker.Core.Services
             record.ExerciseDate = dto.ExerciseDate;
             record.ExerciseTypeId = dto.ExerciseTypeId;
             record.EquipmentId = dto.EquipmentId;
-            record.DurationMinutes = dto.DurationMinutes;
-            record.CaloriesBurned = dto.CaloriesBurned;
-            record.Weight = dto.Weight;
             record.Notes = dto.Notes;
             record.UpdatedAt = DateTime.UtcNow;
 

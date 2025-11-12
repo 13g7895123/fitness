@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/stores/auth'
-import { useErrorHandler } from '@/utils/errorHandler'
+import { useErrorHandler, showSuccess } from '@/utils/errorHandler'
 
 interface LineTokenResponse {
   access_token: string
@@ -69,8 +69,10 @@ export const useLineLoginService = () => {
         throw new Error('State 驗證失敗，可能是跨站請求偽造攻擊')
       }
 
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
       // 向後端交換 token
-      const response = await fetch('/api/v1/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -101,6 +103,9 @@ export const useLineLoginService = () => {
       // 清除臨時 state
       sessionStorage.removeItem('line_oauth_state')
 
+      // 顯示成功訊息
+      showSuccess(`歡迎回來，${data.data.user.displayName}！`)
+
       return true
     } catch (error) {
       const message = error instanceof Error ? error.message : '登入過程中出現錯誤'
@@ -129,7 +134,8 @@ export const useLineLoginService = () => {
    */
   const validateToken = async (token: string): Promise<boolean> => {
     try {
-      const response = await fetch('/api/v1/auth/validate', {
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+      const response = await fetch(`${API_BASE_URL}/auth/validate`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -140,6 +146,51 @@ export const useLineLoginService = () => {
       return response.ok
     } catch (error) {
       return false
+    }
+  }
+
+  /**
+   * 測試帳號登入
+   */
+  const testLogin = async (): Promise<boolean> => {
+    try {
+      authStore.setLoading(true)
+      authStore.setError(null)
+
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+      const response = await fetch(`${API_BASE_URL}/auth/test-login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `測試登入失敗: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+
+      // 保存認證資訊
+      authStore.setAuth(data.accessToken, {
+        id: data.user.id,
+        lineUserId: data.user.lineUserId,
+        displayName: data.user.displayName,
+        pictureUrl: data.user.pictureUrl
+      })
+
+      // 顯示成功訊息
+      showSuccess(`歡迎回來，${data.user.displayName}！`)
+
+      return true
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '測試登入失敗'
+      authStore.setError(message)
+      showError(message)
+      return false
+    } finally {
+      authStore.setLoading(false)
     }
   }
 
@@ -155,6 +206,7 @@ export const useLineLoginService = () => {
     getLineLoginUrl,
     handleCallback,
     logout,
-    validateToken
+    validateToken,
+    testLogin
   }
 }

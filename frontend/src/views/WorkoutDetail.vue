@@ -160,8 +160,16 @@
                   </button>
                 </div>
               </div>
-              <div v-if="record.notes" class="text-sm text-gray-600 bg-gray-50 rounded-lg p-3">
+              <div v-if="record.notes" class="text-sm text-gray-600 bg-gray-50 rounded-lg p-3 mb-3">
                 {{ record.notes }}
+              </div>
+
+              <!-- 組數列表 -->
+              <div class="mt-3 border-t border-gray-200 pt-3">
+                <WorkoutSetList
+                  :workout-record-id="record.id"
+                  @changed="loadDailyWorkout"
+                />
               </div>
             </div>
           </div>
@@ -216,6 +224,7 @@ import WeeklyCalendar from '@/components/workout/WeeklyCalendar.vue'
 import EditWorkoutDialog from '@/components/workout/EditWorkoutDialog.vue'
 import DeleteWorkoutDialog from '@/components/workout/DeleteWorkoutDialog.vue'
 import AddWorkoutDialog from '@/components/workout/AddWorkoutDialog.vue'
+import WorkoutSetList from '@/components/workout/WorkoutSetList.vue'
 import ErrorMessage from '@/components/common/ErrorMessage.vue'
 import NotificationPanel from '@/components/common/NotificationPanel.vue'
 import { useWorkoutService } from '@/services/workoutService'

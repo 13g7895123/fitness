@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTracker.Infrastructure.Repositories
 {
-    public class WorkoutGoalRepository : Repository<Goal>, IWorkoutGoalRepository
+    public class WorkoutGoalRepository : Repository<WorkoutGoal>, IWorkoutGoalRepository
     {
         private readonly FitnessTrackerDbContext _context;
 
@@ -14,26 +14,26 @@ namespace FitnessTracker.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<Goal>> GetByUserAsync(Guid userId)
+        public async Task<List<WorkoutGoal>> GetByUserAsync(Guid userId)
         {
-            return await _context.Goals
-                .Where(g => !g.IsDeleted && g.UserId == userId)
+            return await _context.WorkoutGoals
+                .Where(g => g.UserId == userId)
                 .OrderByDescending(g => g.CreatedAt)
                 .ToListAsync();
         }
 
-        public async Task<List<Goal>> GetActiveByUserAsync(Guid userId)
+        public async Task<List<WorkoutGoal>> GetActiveByUserAsync(Guid userId)
         {
-            return await _context.Goals
-                .Where(g => !g.IsDeleted && g.UserId == userId && !g.IsCompleted)
+            return await _context.WorkoutGoals
+                .Where(g => g.UserId == userId && g.IsActive)
                 .OrderByDescending(g => g.CreatedAt)
                 .ToListAsync();
         }
 
-        public async Task<List<Goal>> GetCompletedByUserAsync(Guid userId)
+        public async Task<List<WorkoutGoal>> GetCompletedByUserAsync(Guid userId)
         {
-            return await _context.Goals
-                .Where(g => !g.IsDeleted && g.UserId == userId && g.IsCompleted)
+            return await _context.WorkoutGoals
+                .Where(g => g.UserId == userId && !g.IsActive && g.EndDate < DateTime.UtcNow)
                 .OrderByDescending(g => g.CreatedAt)
                 .ToListAsync();
         }

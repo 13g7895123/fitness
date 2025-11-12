@@ -2,7 +2,7 @@
   <form @submit.prevent="submitForm" class="workout-record-form space-y-4">
     <div>
       <Input
-        v-model="form.date"
+        v-model="form.exerciseDate"
         type="date"
         :label="$t('workout.date')"
         :error="dateError"
@@ -18,41 +18,6 @@
 
       <EquipmentSelector
         v-model="form.equipmentId"
-      />
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <Input
-        v-model.number="form.durationMinutes"
-        type="number"
-        :label="$t('workout.duration')"
-        :hint="$t('workout.durationHint')"
-        :error="durationError"
-        min="1"
-        max="480"
-        required
-      />
-
-      <Input
-        v-model.number="form.caloriesBurned"
-        type="number"
-        :label="$t('workout.calories')"
-        :hint="$t('common.optional')"
-        :error="caloriesError"
-        min="1"
-        max="5000"
-      />
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <Input
-        v-model.number="form.weight"
-        type="number"
-        :label="$t('workout.weight')"
-        :hint="$t('common.optional')"
-        :error="weightError"
-        min="0.1"
-        step="0.1"
       />
     </div>
 
@@ -120,13 +85,10 @@ const props = defineProps({
 
 const emit = defineEmits(['submit', 'cancel'])
 
-const form = ref<CreateWorkoutRecordDto | UpdateWorkoutRecordDto>({
-  date: new Date().toISOString().split('T')[0],
+const form = ref<CreateWorkoutRecordDto>({
+  exerciseDate: new Date().toISOString().split('T')[0],
   exerciseTypeId: '',
   equipmentId: undefined,
-  durationMinutes: 30,
-  caloriesBurned: undefined,
-  weight: undefined,
   notes: ''
 })
 
@@ -139,28 +101,8 @@ const submitButtonText = computed(() => {
 
 // 驗證錯誤訊息
 const dateError = computed(() => {
-  if (!form.value.date) return t('validation.requiredField')
-  if (new Date(form.value.date) > new Date()) return t('validation.dateNotFuture')
-  return ''
-})
-
-const durationError = computed(() => {
-  if (!form.value.durationMinutes) return t('validation.requiredField')
-  if (form.value.durationMinutes < 1) return t('workout.durationMinError')
-  if (form.value.durationMinutes > 480) return t('workout.durationMaxError')
-  return ''
-})
-
-const caloriesError = computed(() => {
-  if (form.value.caloriesBurned) {
-    if (form.value.caloriesBurned < 1) return t('workout.caloriesMinError')
-    if (form.value.caloriesBurned > 5000) return t('workout.caloriesMaxError')
-  }
-  return ''
-})
-
-const weightError = computed(() => {
-  if (form.value.weight && form.value.weight <= 0) return t('validation.weightPositive')
+  if (!form.value.exerciseDate) return t('validation.requiredField')
+  if (new Date(form.value.exerciseDate) > new Date()) return t('validation.dateNotFuture')
   return ''
 })
 
@@ -186,12 +128,9 @@ const submitForm = async () => {
 
 const resetForm = () => {
   form.value = {
-    date: new Date().toISOString().split('T')[0],
+    exerciseDate: new Date().toISOString().split('T')[0],
     exerciseTypeId: '',
     equipmentId: undefined,
-    durationMinutes: 30,
-    caloriesBurned: undefined,
-    weight: undefined,
     notes: ''
   }
   selectedExerciseName.value = ''
@@ -200,12 +139,9 @@ const resetForm = () => {
 onMounted(() => {
   if (props.initialData && props.isEditing) {
     form.value = {
-      date: props.initialData.date,
+      exerciseDate: props.initialData.exerciseDate,
       exerciseTypeId: props.initialData.exerciseTypeId,
       equipmentId: props.initialData.equipmentId,
-      durationMinutes: props.initialData.durationMinutes,
-      caloriesBurned: props.initialData.caloriesBurned,
-      weight: props.initialData.weight,
       notes: props.initialData.notes
     }
   }

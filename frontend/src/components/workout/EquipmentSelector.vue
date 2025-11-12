@@ -18,14 +18,16 @@ import { api } from '@/services/api'
 import Select from '@/components/common/Select.vue'
 
 interface Equipment {
-  id: string
+  id: number
   name: string
-  isActive: boolean
+  description?: string
+  isSystemDefault: boolean
+  isDisabled: boolean
 }
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: ''
   }
 })
@@ -33,14 +35,14 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'select'])
 
 const equipmentList = ref<Equipment[]>([])
-const selectedEquipment = ref<string>('')
+const selectedEquipment = ref<number | string>('')
 const isLoading = ref(false)
 
 const activeEquipment = computed(() => {
-  return equipmentList.value.filter(eq => eq.isActive)
+  return equipmentList.value.filter(eq => !eq.isDisabled)
 })
 
-const handleSelect = (id: string | null) => {
+const handleSelect = (id: number | string | null) => {
   if (id) {
     const selected = activeEquipment.value.find(eq => eq.id === id)
     emit('select', selected)
@@ -51,7 +53,7 @@ const handleSelect = (id: string | null) => {
 const loadEquipment = async () => {
   try {
     isLoading.value = true
-    const response = await api.get('/equipment')
+    const response = await api.get('/equipments')
     equipmentList.value = response.data?.data || []
   } catch (error) {
     console.error('Failed to load equipment:', error)

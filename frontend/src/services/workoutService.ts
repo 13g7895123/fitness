@@ -113,12 +113,21 @@ export const useWorkoutService = () => {
     try {
       isLoading.value = true
       error.value = null
-      // 後端返回 List<WorkoutRecordDto>，需要轉換為 DailyWorkoutDto
-      const response = await api.get<{ data: WorkoutRecordResponseDto[] }>(`/workout-records/daily/${date}`)
+
+      // 使用 range API 獲取當天的紀錄
+      // 計算當天的起始和結束時間
+      const startDate = `${date}T00:00:00`
+      const dateObj = new Date(date)
+      const nextDay = new Date(dateObj)
+      nextDay.setDate(nextDay.getDate() + 1)
+      const endDate = `${nextDay.getFullYear()}-${String(nextDay.getMonth() + 1).padStart(2, '0')}-${String(nextDay.getDate()).padStart(2, '0')}T00:00:00`
+
+      const response = await api.get<{ data: WorkoutRecordResponseDto[] }>('/workout-records/range', {
+        params: { startDate, endDate }
+      })
       const records = response.data?.data || []
 
       // 構建 DailyWorkoutDto
-      const dateObj = new Date(date)
       const dayOfWeek = dateObj.getDay()
       const dayNames = ['週日', '週一', '週二', '週三', '週四', '週五', '週六']
       const today = new Date()

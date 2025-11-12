@@ -10,10 +10,18 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 讀取資料庫 Port 環境變數
+var postgresPort = builder.Configuration["POSTGRES_PORT"] ?? "5432";
+var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// 如果連線字串中沒有指定 Port，或需要覆蓋 Port，可以在這裡處理
+// 這裡保持原本的連線字串，因為容器內部使用標準 Port 5432
+// 環境變數 POSTGRES_PORT 主要用於 Docker Compose 的對外 Port mapping
+
 // Add DbContext
 builder.Services.AddDbContext<FitnessTrackerDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
+        defaultConnection,
         npgsqlOptions => npgsqlOptions.MigrationsAssembly("FitnessTracker.Infrastructure")
     ));
 
@@ -26,6 +34,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 // Add repositories
 builder.Services.AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>();
 builder.Services.AddScoped<IWorkoutRecordRepository, WorkoutRecordRepository>();
+builder.Services.AddScoped<IWorkoutSetRepository, WorkoutSetRepository>();
 builder.Services.AddScoped<IWorkoutGoalRepository, WorkoutGoalRepository>();
 
 // Add authentication services
@@ -38,6 +47,7 @@ builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 builder.Services.AddScoped<IGoalService, GoalService>();
 builder.Services.AddScoped<IWorkoutGoalService, WorkoutGoalService>();
 builder.Services.AddScoped<IWorkoutRecordService, WorkoutRecordService>();
+builder.Services.AddScoped<IWorkoutSetService, WorkoutSetService>();
 builder.Services.AddScoped<ExerciseTypeService>();
 builder.Services.AddScoped<EquipmentService>();
 
@@ -93,17 +103,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add CORS
+var corsOrigins = builder.Configuration["Cors:AllowedOrigins"]?.Split(',')
+    ?? new[] { "http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:3000" };
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins(
-                "http://localhost:5173",
-                "http://localhost:5174", 
-                "http://localhost:5175",
-                "http://localhost:3000"
-            )
+            .WithOrigins(corsOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();

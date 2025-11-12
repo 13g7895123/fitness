@@ -156,6 +156,9 @@
         </router-view>
       </main>
     </div>
+
+    <!-- Notification Panel -->
+    <NotificationPanel />
   </div>
 </template>
 
@@ -164,6 +167,7 @@ import { ref, computed, h } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/auth'
+import NotificationPanel from '@/components/common/NotificationPanel.vue'
 
 const { t } = useI18n()
 const router = useRouter()

@@ -15,6 +15,7 @@ public class FitnessTrackerDbContext : DbContext
     public DbSet<ExerciseType> ExerciseTypes => Set<ExerciseType>();
     public DbSet<Equipment> Equipments => Set<Equipment>();
     public DbSet<WorkoutRecord> WorkoutRecords => Set<WorkoutRecord>();
+    public DbSet<WorkoutSet> WorkoutSets => Set<WorkoutSet>();
     public DbSet<WorkoutGoal> WorkoutGoals => Set<WorkoutGoal>();
     public DbSet<Goal> Goals => Set<Goal>();
 
@@ -27,6 +28,7 @@ public class FitnessTrackerDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ExerciseTypeConfiguration());
         modelBuilder.ApplyConfiguration(new EquipmentConfiguration());
         modelBuilder.ApplyConfiguration(new WorkoutRecordConfiguration());
+        modelBuilder.ApplyConfiguration(new WorkoutSetConfiguration());
         modelBuilder.ApplyConfiguration(new WorkoutGoalConfiguration());
 
         // Seed data

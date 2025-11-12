@@ -56,8 +56,10 @@ namespace FitnessTracker.Api.Controllers
         {
             try
             {
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                  ?? User.FindFirst("sub")?.Value;
+
+                if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
                 {
                     return Unauthorized(ApiResponse<EquipmentDto>.ErrorResponse("無效的用戶身份"));
                 }
@@ -71,13 +73,16 @@ namespace FitnessTracker.Api.Controllers
             }
         }
 
+        [HttpPatch("{id}")]
         [HttpPut("{id}")]
         public async Task<ActionResult<ApiResponse<EquipmentDto>>> Update(int id, [FromBody] UpdateEquipmentDto dto)
         {
             try
             {
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                  ?? User.FindFirst("sub")?.Value;
+
+                if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
                 {
                     return Unauthorized(ApiResponse<EquipmentDto>.ErrorResponse("無效的用戶身份"));
                 }
@@ -105,8 +110,10 @@ namespace FitnessTracker.Api.Controllers
         {
             try
             {
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                  ?? User.FindFirst("sub")?.Value;
+
+                if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out Guid userId))
                 {
                     return Unauthorized(ApiResponse<object>.ErrorResponse("無效的用戶身份"));
                 }

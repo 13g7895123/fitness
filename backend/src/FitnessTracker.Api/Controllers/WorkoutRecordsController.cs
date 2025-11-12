@@ -126,12 +126,19 @@ namespace FitnessTracker.Api.Controllers
         /// 獲取指定日期的運動紀錄
         /// </summary>
         [HttpGet("daily/{date}")]
-        public async Task<ActionResult<ApiResponse<List<WorkoutRecordDto>>>> GetByDate(DateTime date)
+        public async Task<ActionResult<ApiResponse<List<WorkoutRecordDto>>>> GetByDate(string date)
         {
             try
             {
                 var userId = GetCurrentUserId();
-                var records = await _workoutRecordService.GetByUserAndDateAsync(userId, date);
+
+                // 解析日期字串
+                if (!DateTime.TryParse(date, out DateTime parsedDate))
+                {
+                    return BadRequest(ApiResponse<List<WorkoutRecordDto>>.ErrorResponse("無效的日期格式"));
+                }
+
+                var records = await _workoutRecordService.GetByUserAndDateAsync(userId, parsedDate.Date);
                 return Ok(ApiResponse<List<WorkoutRecordDto>>.SuccessResponse(records));
             }
             catch (Exception ex)

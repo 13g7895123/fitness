@@ -22,9 +22,6 @@ namespace FitnessTracker.Shared.Dtos.WorkoutRecords
         public DateTime ExerciseDate { get; set; }
         public int ExerciseTypeId { get; set; }
         public int? EquipmentId { get; set; }
-        public int DurationMinutes { get; set; }
-        public decimal CaloriesBurned { get; set; }
-        public decimal? Weight { get; set; }
         public string? Notes { get; set; }
     }
 
@@ -33,9 +30,6 @@ namespace FitnessTracker.Shared.Dtos.WorkoutRecords
         public DateTime ExerciseDate { get; set; }
         public int ExerciseTypeId { get; set; }
         public int? EquipmentId { get; set; }
-        public int DurationMinutes { get; set; }
-        public decimal CaloriesBurned { get; set; }
-        public decimal? Weight { get; set; }
         public string? Notes { get; set; }
     }
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>組數按鈕測試頁面</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .shadow-glow {
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 p-8">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">組數按鈕測試</h1>
+
+    <!-- 訓練記錄卡片 -->
+    <div class="glass rounded-2xl p-5 shadow-soft mb-6">
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex-1">
+          <h4 class="text-lg font-semibold text-gray-900 mb-1">深蹲</h4>
+        </div>
+        <div class="flex space-x-2">
+          <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="編輯">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-red-50 transition-colors" title="刪除">
+            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 組數列表區塊 -->
+      <div class="mt-3 border-t border-gray-200 pt-3">
+        <div class="workout-set-list">
+          <!-- 標題和新增按鈕 -->
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-900">訓練組數 (重量單位: lbs)</h3>
+            <button
+              class="p-2 rounded-lg bg-gradient-primary text-white hover:shadow-glow transition-all"
+              title="新增組數"
+              onclick="alert('新增組數按鈕被點擊了！')"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- 空狀態 -->
+          <div class="text-center py-8 glass rounded-xl">
+            <svg class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <p class="text-gray-500 text-sm">尚未記錄組數</p>
+            <p class="text-gray-400 text-xs mt-1">點擊上方 + 按鈕新增第一組</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+      <p class="font-bold">測試說明：</p>
+      <ul class="list-disc list-inside mt-2">
+        <li>您應該可以看到「訓練組數」標題</li>
+        <li>標題右側有一個紫色漸層的 + 按鈕</li>
+        <li>點擊 + 按鈕會彈出提示</li>
+        <li>如果看不到按鈕，請檢查瀏覽器控制台錯誤</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

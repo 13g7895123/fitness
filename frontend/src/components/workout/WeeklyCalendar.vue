@@ -61,13 +61,14 @@ const weekDays = computed<DayInfo[]>(() => {
   }
 
   const days: DayInfo[] = []
-  const shortNames = ['一', '二', '三', '四', '五', '六', '日']
+  // JavaScript getDay(): 0=週日, 1=週一, ..., 6=週六
+  const shortNames = ['日', '一', '二', '三', '四', '五', '六']
 
   for (let i = 0; i < 7; i++) {
     const date = new Date(start)
     date.setDate(date.getDate() + i)
     const dateStr = date.toISOString().split('T')[0]
-    
+
     days.push({
       date: dateStr,
       dayNum: date.getDate(),

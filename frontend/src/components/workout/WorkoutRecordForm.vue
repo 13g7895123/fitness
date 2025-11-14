@@ -136,15 +136,30 @@ const resetForm = () => {
   selectedExerciseName.value = ''
 }
 
-onMounted(() => {
+// 初始化表單資料
+const initializeForm = () => {
   if (props.initialData && props.isEditing) {
     form.value = {
       exerciseDate: props.initialData.exerciseDate,
       exerciseTypeId: props.initialData.exerciseTypeId,
       equipmentId: props.initialData.equipmentId,
-      notes: props.initialData.notes
+      notes: props.initialData.notes || ''
     }
+    selectedExerciseName.value = props.initialData.exerciseTypeName || ''
+  } else {
+    resetForm()
   }
+}
+
+// 監聽 initialData 變化,確保編輯時資料正確載入
+watch(() => props.initialData, () => {
+  if (props.initialData && props.isEditing) {
+    initializeForm()
+  }
+}, { immediate: true, deep: true })
+
+onMounted(() => {
+  initializeForm()
 })
 </script>
 

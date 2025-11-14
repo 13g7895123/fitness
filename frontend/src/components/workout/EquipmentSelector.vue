@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, defineProps, defineEmits } from 'vue'
+import { ref, computed, onMounted, watch, defineProps, defineEmits } from 'vue'
 import { api } from '@/services/api'
 import Select from '@/components/common/Select.vue'
 
@@ -61,6 +61,13 @@ const loadEquipment = async () => {
     isLoading.value = false
   }
 }
+
+// 監聽 modelValue 變化以同步選中狀態
+watch(() => props.modelValue, (newValue) => {
+  if (newValue !== selectedEquipment.value) {
+    selectedEquipment.value = newValue || ''
+  }
+}, { immediate: true })
 
 onMounted(() => {
   loadEquipment()

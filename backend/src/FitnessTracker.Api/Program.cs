@@ -106,6 +106,9 @@ builder.Services.AddSwaggerGen();
 var corsOrigins = builder.Configuration["Cors:AllowedOrigins"]?.Split(',')
     ?? new[] { "http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:3000" };
 
+// Log CORS origins for debugging
+Console.WriteLine($"[CORS] Configured origins: {string.Join(", ", corsOrigins)}");
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -120,6 +123,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// CORS must be before other middleware
+app.UseCors("AllowFrontend");
+
 // Use global exception middleware
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
@@ -130,8 +136,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseCors("AllowFrontend");
+// Disable HTTPS redirection in development to avoid CORS issues
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // 在開發環境中，添加 Mock 認證的中介軟體
 if (app.Environment.IsDevelopment())

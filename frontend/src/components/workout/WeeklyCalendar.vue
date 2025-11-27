@@ -1,27 +1,28 @@
 <template>
-  <div class="glass rounded-2xl p-6 shadow-soft">
-    <div class="text-center">
-      <div class="text-sm text-gray-600 mb-4 font-medium">
-        {{ $t('workout.selectDate') }}
+  <v-card class="weekly-calendar-card">
+    <v-card-item>
+      <div class="text-center">
+        <div class="text-subtitle2 mb-3 text-medium-emphasis">
+          {{ $t('workout.selectDate') }}
+        </div>
+        <div class="d-flex gap-2 justify-center flex-wrap">
+          <v-btn
+            v-for="(day, index) in weekDays"
+            :key="index"
+            :variant="isSelectedDay(day) ? 'elevated' : 'outlined'"
+            :color="isSelectedDay(day) ? 'primary' : undefined"
+            size="small"
+            @click="$emit('select-date', day.date)"
+          >
+            <div class="d-flex flex-column align-center">
+              <span class="text-caption">{{ day.shortName }}</span>
+              <span class="text-subtitle2 font-weight-bold">{{ day.dayNum }}</span>
+            </div>
+          </v-btn>
+        </div>
       </div>
-      <div class="flex gap-2 justify-center flex-wrap">
-        <button
-          v-for="(day, index) in weekDays"
-          :key="index"
-          :class="[
-            'flex flex-col items-center px-4 py-3 rounded-xl transition-all duration-300 min-w-[60px]',
-            isSelectedDay(day)
-              ? 'bg-gradient-primary text-white shadow-glow scale-105'
-              : 'bg-white border-2 border-gray-200 hover:border-primary hover:scale-105 text-gray-700'
-          ]"
-          @click="$emit('select-date', day.date)"
-        >
-          <span class="text-xs font-medium mb-1">{{ day.shortName }}</span>
-          <span class="text-lg font-bold">{{ day.dayNum }}</span>
-        </button>
-      </div>
-    </div>
-  </div>
+    </v-card-item>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -61,14 +62,13 @@ const weekDays = computed<DayInfo[]>(() => {
   }
 
   const days: DayInfo[] = []
-  // JavaScript getDay(): 0=週日, 1=週一, ..., 6=週六
-  const shortNames = ['日', '一', '二', '三', '四', '五', '六']
+  const shortNames = ['一', '二', '三', '四', '五', '六', '日']
 
   for (let i = 0; i < 7; i++) {
     const date = new Date(start)
     date.setDate(date.getDate() + i)
     const dateStr = date.toISOString().split('T')[0]
-
+    
     days.push({
       date: dateStr,
       dayNum: date.getDate(),
@@ -86,5 +86,12 @@ const isSelectedDay = (day: DayInfo): boolean => {
 </script>
 
 <style scoped>
-/* 所有樣式已使用 Tailwind CSS */
+.weekly-calendar-card {
+  background: rgba(var(--v-theme-primary), 0.02);
+  border: 1px solid rgba(var(--v-theme-primary), 0.12);
+}
+
+.d-flex.gap-2 {
+  gap: 0.5rem;
+}
 </style>

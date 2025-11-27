@@ -12,7 +12,7 @@
     >
       <div
         v-if="drawer"
-        class="fixed inset-0 bg-white/10 backdrop-blur-sm z-40 lg:hidden"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
         @click="drawer = false"
       ></div>
     </Transition>
@@ -24,8 +24,8 @@
         drawer ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       ]"
     >
-      <!-- 白底背景 -->
-      <div class="absolute inset-0 bg-white shadow-2xl border-r border-gray-200"></div>
+      <!-- 玻璃擬態背景 -->
+      <div class="absolute inset-0 glass shadow-2xl"></div>
       
       <div class="relative h-full flex flex-col">
         <!-- Logo & User Profile -->
@@ -38,8 +38,8 @@
               </svg>
             </div>
             <div>
-              <h2 class="text-xl font-bold text-gray-900">{{ $t('app.title') }}</h2>
-              <p class="text-xs text-gray-600">健身生活，從這開始</p>
+              <h2 class="text-xl font-bold gradient-text">{{ $t('app.title') }}</h2>
+              <p class="text-xs text-gray-500">健身生活，從這開始</p>
             </div>
           </div>
 
@@ -75,8 +75,8 @@
             exact-active-class="nav-active"
           >
             <span class="absolute inset-0 bg-gradient-primary opacity-0 group-[.nav-active]:opacity-100 transition-opacity duration-200"></span>
-            <component :is="item.icon" class="w-5 h-5 relative z-10 text-gray-700 group-[.nav-active]:text-[#555] group-hover:scale-110 transition-transform" />
-            <span class="relative z-10 font-medium text-gray-900 group-[.nav-active]:text-[#555] group-hover:text-gray-900">
+            <component :is="item.icon" class="w-5 h-5 relative z-10 text-gray-600 group-[.nav-active]:text-white group-hover:scale-110 transition-transform" />
+            <span class="relative z-10 font-medium text-gray-700 group-[.nav-active]:text-white group-hover:text-gray-900">
               {{ item.label }}
             </span>
             <div class="absolute right-3 w-1.5 h-8 bg-white rounded-full opacity-0 group-[.nav-active]:opacity-100 transition-opacity"></div>
@@ -156,9 +156,6 @@
         </router-view>
       </main>
     </div>
-
-    <!-- Notification Panel -->
-    <NotificationPanel />
   </div>
 </template>
 
@@ -167,7 +164,6 @@ import { ref, computed, h } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/auth'
-import NotificationPanel from '@/components/common/NotificationPanel.vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -187,33 +183,21 @@ const userAvatar = computed(() => {
 const currentPageTitle = computed(() => {
   const titleMap: Record<string, string> = {
     '/': t('navigation.home'),
+    '/workouts/detail/today': t('navigation.workouts'),
     '/goals': t('navigation.goals'),
     '/trends': t('navigation.trends'),
     '/settings': t('navigation.settings'),
   }
-
-  // 檢查是否為運動紀錄詳情頁面（動態日期路徑）
-  if (route.path.startsWith('/workouts/detail/')) {
-    return t('navigation.workouts')
-  }
-
   return titleMap[route.path] || t('app.title')
 })
 
 const currentDate = computed(() => {
-  return new Date().toLocaleDateString('zh-TW', {
-    year: 'numeric',
-    month: 'long',
+  return new Date().toLocaleDateString('zh-TW', { 
+    year: 'numeric', 
+    month: 'long', 
     day: 'numeric',
     weekday: 'long'
   })
-})
-
-// 動態計算今日運動紀錄路徑
-const todayWorkoutPath = computed(() => {
-  const today = new Date()
-  const dateStr = today.toISOString().split('T')[0]
-  return `/workouts/detail/${dateStr}`
 })
 
 // 導航圖標組件
@@ -237,16 +221,17 @@ const SettingsIcon = () => h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'c
   h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-width': '2', d: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' })
 )
 
-const navItems = computed(() => [
+const navItems = [
   { path: '/', label: t('navigation.home'), icon: HomeIcon },
-  { path: todayWorkoutPath.value, label: t('navigation.workouts'), icon: DumbbellIcon },
+  { path: '/workouts/detail/today', label: t('navigation.workouts'), icon: DumbbellIcon },
   { path: '/goals', label: t('navigation.goals'), icon: TargetIcon },
   { path: '/trends', label: t('navigation.trends'), icon: ChartIcon },
   { path: '/settings', label: t('navigation.settings'), icon: SettingsIcon }
-])
+]
 
 const handleLogout = async () => {
-  authStore.clearAuth()
+  // TODO: Implement proper logout
+  // await authStore.logout()
   router.push('/login')
 }
 

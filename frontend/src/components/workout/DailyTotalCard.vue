@@ -1,46 +1,43 @@
 <template>
-  <v-card class="daily-total-card">
-    <v-card-item>
-      <div class="text-center">
-        <div class="text-h6 mb-4">{{ $t('workout.dayTotal') }}</div>
-        <v-row dense>
-          <v-col cols="6">
-            <div class="stat-item">
-              <div class="stat-icon text-primary">
-                <v-icon size="large">mdi-clock</v-icon>
-              </div>
-              <div class="stat-value font-weight-bold">
-                {{ totalDurationMinutes }}
-              </div>
-              <div class="stat-label text-caption">
-                {{ $t('common.minuteAbbr') }}
-              </div>
-            </div>
-          </v-col>
-          <v-col cols="6">
-            <div class="stat-item">
-              <div class="stat-icon text-success">
-                <v-icon size="large">mdi-fire</v-icon>
-              </div>
-              <div class="stat-value font-weight-bold">
-                {{ totalCaloriesBurned }}
-              </div>
-              <div class="stat-label text-caption">
-                {{ $t('workout.caloriesShort') }}
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row dense class="mt-2">
-          <v-col cols="12">
-            <div class="text-caption text-medium-emphasis">
-              {{ recordCount }} {{ $t('workout.records') }}
-            </div>
-          </v-col>
-        </v-row>
+  <div class="glass rounded-2xl p-6 border border-primary/20 bg-gradient-to-br from-primary-50/50 to-success-50/50">
+    <div class="text-center">
+      <div class="text-lg font-semibold mb-4 text-gray-800">{{ $t('workout.dayTotal') }}</div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col items-center gap-2">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="text-2xl font-bold text-gray-900">
+            {{ totalDurationMinutes }}
+          </div>
+          <div class="text-xs text-gray-500">
+            {{ $t('common.minuteAbbr') }}
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center text-success">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+            </svg>
+          </div>
+          <div class="text-2xl font-bold text-gray-900">
+            {{ totalCaloriesBurned }}
+          </div>
+          <div class="text-xs text-gray-500">
+            {{ $t('workout.caloriesShort') }}
+          </div>
+        </div>
       </div>
-    </v-card-item>
-  </v-card>
+      <div class="mt-4 pt-4 border-t border-gray-200/50">
+        <div class="text-xs text-gray-500">
+          {{ recordCount }} {{ $t('workout.records') }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -56,40 +53,3 @@ defineProps<Props>()
 
 const { t } = useI18n()
 </script>
-
-<style scoped>
-.daily-total-card {
-  background: linear-gradient(135deg, rgba(var(--v-theme-primary), 0.05) 0%, rgba(var(--v-theme-success), 0.05) 100%);
-  border: 1px solid rgba(var(--v-theme-primary), 0.2);
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.stat-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  background-color: rgba(var(--v-theme-primary), 0.1);
-}
-
-.stat-icon.text-success {
-  background-color: rgba(var(--v-theme-success), 0.1);
-}
-
-.stat-value {
-  font-size: 1.5rem;
-  line-height: 1;
-}
-
-.stat-label {
-  color: rgb(var(--v-theme-on-surface-variant));
-}
-</style>

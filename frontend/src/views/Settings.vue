@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen py-8">
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="w-full px-6 lg:px-12">
       <!-- Header -->
       <div class="mb-8 animate-fade-in-up">
         <div class="flex items-center space-x-3 mb-2">
